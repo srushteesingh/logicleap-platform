@@ -92,7 +92,7 @@ export default function Home() {
         real-world projects.
       </p>
 
-      <button className="bg-white text-black px-10 py-5 rounded-full font-semibold text-lg hover:scale-110 transition duration-300 shadow-lg">
+      <button className="bg-purple-600 hover:bg-purple-700 text-white px-10 py-5 rounded-full font-semibold text-lg transition duration-300 shadow-lg hover:shadow-purple-500/40">
         Book a Free Trial
       </button>
 
