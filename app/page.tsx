@@ -83,28 +83,33 @@ export default function Home() {
         LogicLeap Coding Academy
       </p>
       {/* Hero Section */}
-      <div className="bg-purple-50 rounded-3xl p-12 text-center">
-        <h1 className="text-4xl md:text-7xl font-extrabold mb-6 leading-tight">
-          Build. Create. Innovate.
-        </h1>
+      <div className="mt-10 max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+        {/* Left Side */}
+        <div>
+          <h1 className="text-5xl md:text-7xl font-extrabold leading-tight mb-6">
+            Build. Create. <span className="text-purple-600">Innovate.</span>
+          </h1>
 
-        <p className="text-lg md:text-2xl mb-10 max-w-3xl mx-auto text-gray-600">
-          Personalized coding classes for kids to build games, animations, and
-          real-world projects.
-        </p>
+          <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-xl">
+            Personalized coding programs where kids build real games,
+            intelligent systems, and creative digital projects.
+          </p>
 
-        <button className="bg-purple-600 hover:bg-purple-700 text-white px-10 py-5 rounded-full font-semibold text-lg transition duration-300 shadow-lg hover:shadow-purple-500/40">
-          Book a Free Trial
-        </button>
-      </div>
+          <button className="bg-purple-600 hover:bg-purple-700 text-white px-10 py-5 rounded-full font-semibold text-lg transition duration-300 shadow-xl hover:shadow-purple-400/40">
+            Book a Free Trial
+          </button>
+        </div>
 
-      <div className="mt-20 max-w-6xl mx-auto text-center">
-        <div className="bg-white rounded-3xl shadow-xl p-6">
-          <img
-            src="/projects-preview.png"
-            alt="Student Projects Showcase"
-            className="rounded-2xl mx-auto"
-          />
+        {/* Right Side Visual */}
+        <div className="relative">
+          <div className="absolute -top-6 -left-6 w-32 h-32 bg-purple-200 rounded-full blur-3xl opacity-40"></div>
+          <div className="bg-white p-6 rounded-3xl shadow-2xl relative z-10">
+            <img
+              src="/projects-preview.png"
+              alt="Student Projects"
+              className="rounded-2xl"
+            />
+          </div>
         </div>
       </div>
 
