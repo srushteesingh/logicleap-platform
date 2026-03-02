@@ -13,7 +13,7 @@ export default function Home() {
         Personalized coding classes for kids to build games, animations, and real-world projects.
       </p>
 
-      <button className="bg-white text-black px-8 py-4 rounded-full font-semibold hover:scale-105 transition duration-300">
+      <button className="bg-white text-black px-10 py-5 rounded-full font-semibold text-lg hover:scale-110 transition duration-300 shadow-lg">
         Book a Free Trial
       </button>
 
