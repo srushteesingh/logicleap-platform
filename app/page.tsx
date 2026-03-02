@@ -7,8 +7,8 @@ export default function Home() {
       <p className="text-lg md:text-xl mb-8 max-w-2xl">
         Personalized coding classes for kids to build games, animations, and real-world projects.
       </p>
-      <button className="bg-white text-black px-6 py-3 rounded-full font-semibold hover:scale-105 transition">
-        Book a Free Trial
+      <button className="bg-white text-black px-8 py-4 rounded-full font-semibold hover:scale-105 transition duration-300">
+        Book a Free Trial →
       </button>
     </main>
   );
