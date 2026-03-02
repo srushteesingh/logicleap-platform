@@ -24,9 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-gradient-to-b from-black via-gray-950 to-black text-white antialiased">
-        {children}
-      </body>
+      <body className="bg-gray-50 text-gray-900 antialiased">{children}</body>
     </html>
   );
 }
