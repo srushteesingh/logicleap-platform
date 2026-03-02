@@ -125,33 +125,44 @@ export default function Home() {
           </div>
 
           {/* Right Side Content */}
-          <div className="md:col-span-2 p-8 border border-gray-800 rounded-2xl">
+          <div className="md:col-span-2 relative">
             {levels
               .filter((level) => level.id === activeLevel)
               .map((level) => (
-                <div key={level.id}>
-                  <span className="text-sm uppercase tracking-widest text-gray-500">
+                <div
+                  key={level.id}
+                  className="p-10 border border-gray-800 rounded-3xl bg-gradient-to-br from-gray-900 to-black transition-all duration-300"
+                >
+                  {/* Level Badge */}
+                  <span className="inline-block px-4 py-1 text-xs uppercase tracking-widest bg-white text-black rounded-full mb-4">
                     Level {level.id}
                   </span>
 
-                  <h3 className="text-3xl font-bold mt-2 mb-4">
-                    {level.title}
-                  </h3>
+                  {/* Title */}
+                  <h3 className="text-4xl font-bold mb-4">{level.title}</h3>
 
-                  <p className="text-gray-400 mb-6">{level.identity}</p>
+                  {/* Identity */}
+                  <p className="text-gray-400 text-lg mb-8">{level.identity}</p>
 
-                  <div className="mb-6">
-                    <h4 className="text-lg font-semibold mb-3">
+                  {/* Competencies */}
+                  <div className="mb-10">
+                    <h4 className="text-xl font-semibold mb-4">
                       Core Competencies
                     </h4>
-                    <ul className="space-y-2 text-gray-400">
+                    <div className="flex flex-wrap gap-3">
                       {level.competencies.map((skill, index) => (
-                        <li key={index}>• {skill}</li>
+                        <span
+                          key={index}
+                          className="px-4 py-2 text-sm bg-gray-800 rounded-full border border-gray-700"
+                        >
+                          {skill}
+                        </span>
                       ))}
-                    </ul>
+                    </div>
                   </div>
 
-                  <div className="border-t border-gray-800 pt-4 text-gray-400">
+                  {/* Mastery Requirement */}
+                  <div className="border-t border-gray-800 pt-6 text-gray-400">
                     <strong className="text-white">Mastery Requirement:</strong>{" "}
                     {level.outcome}
                   </div>
