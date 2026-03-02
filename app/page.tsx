@@ -114,7 +114,12 @@ export default function Home() {
                     : "border-gray-800 hover:border-gray-600"
                 }`}
               >
-                Level {level}
+                <div>
+                  <p className="font-semibold">Level {level}</p>
+                  <p className="text-sm text-gray-500">
+                    {levels.find((l) => l.id === level)?.title}
+                  </p>
+                </div>
               </button>
             ))}
           </div>
