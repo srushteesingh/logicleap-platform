@@ -83,27 +83,32 @@ export default function Home() {
         LogicLeap Coding Academy
       </p>
       {/* Hero Section */}
-      <div className="mt-10 max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+      <div className="relative mt-10 max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center py-20">
+        {/* Background Glow */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-10 left-10 w-72 h-72 bg-purple-300 rounded-full blur-3xl opacity-30"></div>
+          <div className="absolute bottom-10 right-10 w-72 h-72 bg-indigo-300 rounded-full blur-3xl opacity-30"></div>
+        </div>
+
         {/* Left Side */}
         <div>
           <h1 className="text-5xl md:text-7xl font-extrabold leading-tight mb-6">
-            Build. Create. <span className="text-purple-600">Innovate.</span>
+            Build. <span className="text-purple-600">Create.</span> Innovate.
           </h1>
 
           <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-xl">
-            Personalized coding programs where kids build real games,
-            intelligent systems, and creative digital projects.
+            Where kids turn imagination into real games, intelligent systems,
+            and powerful digital creations.
           </p>
 
           <button className="bg-purple-600 hover:bg-purple-700 text-white px-10 py-5 rounded-full font-semibold text-lg transition duration-300 shadow-xl hover:shadow-purple-400/40">
-            Book a Free Trial
+            Start Building Today
           </button>
         </div>
 
         {/* Right Side Visual */}
-        <div className="relative">
-          <div className="absolute -top-6 -left-6 w-32 h-32 bg-purple-200 rounded-full blur-3xl opacity-40"></div>
-          <div className="bg-white p-6 rounded-3xl shadow-2xl relative z-10">
+        <div className="relative transform hover:rotate-1 transition duration-500">
+          <div className="bg-white p-6 rounded-3xl shadow-2xl">
             <img
               src="/projects-preview.png"
               alt="Student Projects"
