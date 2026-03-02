@@ -128,8 +128,8 @@ export default function Home() {
                     <p
                       className={`font-semibold transition ${
                         activeLevel === level.id
-                          ? "text-white"
-                          : "text-gray-400"
+                          ? "text-white text-lg"
+                          : "text-gray-400 group-hover:text-white"
                       }`}
                     >
                       Level {level.id}
