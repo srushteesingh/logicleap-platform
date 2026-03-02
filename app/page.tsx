@@ -18,7 +18,7 @@ export default function Home() {
       </button>
 
       {/* Why Section */}
-      <div className="mt-24 max-w-4xl">
+      <div className="mt-32 max-w-4xl border-t border-gray-800 pt-16">
         <h2 className="text-3xl font-bold mb-6">
           Why LogicLeap?
         </h2>
