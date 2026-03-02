@@ -190,7 +190,7 @@ export default function Home() {
       </div>
 
       <div className="mt-32 max-w-4xl mx-auto text-center border-t border-gray-800 pt-16">
-        <h2 className="text-3xl md:text-4xl font-bold mb-6">
+        <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent mb-6">
           Designed for Every Starting Point
         </h2>
 
@@ -209,7 +209,9 @@ export default function Home() {
       </div>
 
       <div className="mt-32 max-w-6xl mx-auto border-t border-gray-800 pt-16 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12">How It Works</h2>
+        <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent mb-12">
+          How It Works
+        </h2>
 
         <div className="grid md:grid-cols-3 gap-12 text-left">
           <div>
