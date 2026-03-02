@@ -208,6 +208,42 @@ export default function Home() {
         </div>
       </div>
 
+      <div className="mt-32 max-w-6xl mx-auto border-t border-gray-800 pt-16 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold mb-12">How It Works</h2>
+
+        <div className="grid md:grid-cols-3 gap-12 text-left">
+          <div>
+            <div className="text-5xl font-bold text-gray-700 mb-4">01</div>
+            <h3 className="text-xl font-semibold mb-3">Book an Assessment</h3>
+            <p className="text-gray-400">
+              We understand your child’s current level through a short
+              interactive evaluation.
+            </p>
+          </div>
+
+          <div>
+            <div className="text-5xl font-bold text-gray-700 mb-4">02</div>
+            <h3 className="text-xl font-semibold mb-3">
+              Get Placed in the Right Level
+            </h3>
+            <p className="text-gray-400">
+              Placement is based on competency — not age or grade.
+            </p>
+          </div>
+
+          <div>
+            <div className="text-5xl font-bold text-gray-700 mb-4">03</div>
+            <h3 className="text-xl font-semibold mb-3">
+              Build & Progress with Mastery
+            </h3>
+            <p className="text-gray-400">
+              Students advance only after demonstrating real project-based
+              understanding.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Why Section */}
       <div className="mt-32 max-w-5xl border-t border-gray-800 pt-16">
         <h2 className="text-4xl font-bold mb-12">Why LogicLeap?</h2>
