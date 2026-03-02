@@ -18,6 +18,34 @@ export default function Home() {
         Book a Free Trial
       </button>
 
+      <div className="mt-32 max-w-5xl border-t border-gray-800 pt-16">
+        <h2 className="text-4xl font-bold mb-12">Our Programs</h2>
+
+        <div className="grid md:grid-cols-3 gap-10 text-left">
+          <div className="p-6 border border-gray-800 rounded-xl hover:border-white transition">
+            <h3 className="text-xl font-semibold mb-3">Scratch & Animation</h3>
+            <p className="text-gray-400">
+              Perfect for beginners to start their coding journey with
+              creativity.
+            </p>
+          </div>
+
+          <div className="p-6 border border-gray-800 rounded-xl hover:border-white transition">
+            <h3 className="text-xl font-semibold mb-3">Game Development</h3>
+            <p className="text-gray-400">
+              Build interactive games using Python and advanced logic concepts.
+            </p>
+          </div>
+
+          <div className="p-6 border border-gray-800 rounded-xl hover:border-white transition">
+            <h3 className="text-xl font-semibold mb-3">AI & Advanced Coding</h3>
+            <p className="text-gray-400">
+              Introduction to AI tools and real-world project development.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Why Section */}
       <div className="mt-32 max-w-5xl border-t border-gray-800 pt-16">
         <h2 className="text-4xl font-bold mb-12">Why LogicLeap?</h2>
