@@ -9,7 +9,7 @@ export default function Home() {
         Build. Create. Innovate.
       </h1>
 
-      <p className="text-lg md:text-xl mb-8 max-w-2xl text-gray-300">
+      <p className="text-lg md:text-2xl mb-10 max-w-3xl text-gray-400">
         Personalized coding classes for kids to build games, animations, and real-world projects.
       </p>
 
