@@ -99,14 +99,6 @@ export default function Home() {
       </div>
 
       <div className="mt-20 max-w-6xl mx-auto text-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-purple-700 bg-clip-text text-transparent">
-          See What Kids Can Create
-        </h2>
-
-        <p className="text-gray-600 mb-12 text-lg">
-          Our students build real games, animations, and AI projects.
-        </p>
-
         <div className="bg-white rounded-3xl shadow-xl p-6">
           <img
             src="/projects-preview.png"
