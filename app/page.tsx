@@ -118,7 +118,7 @@ export default function Home() {
                   <div
                     className={`absolute -left-[18px] top-1 w-4 h-4 rounded-full border-2 transition ${
                       activeLevel === level.id
-                        ? "bg-white border-white"
+                        ? "bg-purple-600 border-purple-600"
                         : "bg-black border-gray-600 group-hover:border-white"
                     }`}
                   ></div>
@@ -151,7 +151,7 @@ export default function Home() {
                   className="p-10 border border-gray-800 rounded-3xl bg-gradient-to-br from-gray-900 to-black transition-all duration-300"
                 >
                   {/* Level Badge */}
-                  <span className="inline-block px-4 py-1 text-xs uppercase tracking-widest bg-white text-black rounded-full mb-4">
+                  <span className="inline-block px-4 py-1 text-xs uppercase tracking-widest bg-purple-600 text-white rounded-full mb-4">
                     Level {level.id}
                   </span>
 
