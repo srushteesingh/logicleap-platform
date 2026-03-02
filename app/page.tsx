@@ -78,7 +78,7 @@ const levels = [
 export default function Home() {
   const [activeLevel, setActiveLevel] = useState(1);
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-black via-gray-900 to-black text-white text-center px-6 py-20">
+    <main className="min-h-screen bg-gray-50 text-gray-900 px-6 py-20">
       <p className="text-sm uppercase tracking-widest text-gray-500 mb-4">
         LogicLeap Coding Academy
       </p>
@@ -96,7 +96,7 @@ export default function Home() {
         Book a Free Trial
       </button>
 
-      <div className="mt-32 max-w-6xl border-t border-gray-800 pt-16">
+      <div className="mt-32 max-w-6xl border-t border-gray-200 pt-16">
         <h2 className="text-4xl font-bold mb-12 text-center">
           The Mastery Roadmap
         </h2>
@@ -119,7 +119,7 @@ export default function Home() {
                     className={`absolute -left-[18px] top-1 w-4 h-4 rounded-full border-2 transition ${
                       activeLevel === level.id
                         ? "bg-purple-600 border-purple-600"
-                        : "bg-black border-gray-600 group-hover:border-white"
+                        : "bg-black border-gray-300 group-hover:border-white"
                     }`}
                   ></div>
 
@@ -148,7 +148,7 @@ export default function Home() {
               .map((level) => (
                 <div
                   key={level.id}
-                  className="p-10 border border-gray-800 rounded-3xl bg-gradient-to-br from-gray-900 to-black transition-all duration-300"
+                  className="p-10 border border-gray-200 rounded-3xl bg-white shadow-xl transition-all duration-300"
                 >
                   {/* Level Badge */}
                   <span className="inline-block px-4 py-1 text-xs uppercase tracking-widest bg-purple-600 text-white rounded-full mb-4">
@@ -179,7 +179,7 @@ export default function Home() {
                   </div>
 
                   {/* Mastery Requirement */}
-                  <div className="border-t border-gray-800 pt-6 text-gray-400">
+                  <div className="border-t border-gray-200 pt-6 text-gray-400">
                     <strong className="text-white">Mastery Requirement:</strong>{" "}
                     {level.outcome}
                   </div>
@@ -189,7 +189,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mt-32 max-w-4xl mx-auto text-center border-t border-gray-800 pt-16">
+      <div className="mt-32 max-w-4xl mx-auto text-center border-t border-gray-200 pt-16">
         <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent mb-6">
           Designed for Every Starting Point
         </h2>
@@ -208,7 +208,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mt-32 max-w-6xl mx-auto border-t border-gray-800 pt-16 text-center">
+      <div className="mt-32 max-w-6xl mx-auto border-t border-gray-200 pt-16 text-center">
         <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent mb-12">
           How It Works
         </h2>
@@ -247,7 +247,7 @@ export default function Home() {
       </div>
 
       {/* Why Section */}
-      <div className="mt-32 max-w-5xl border-t border-gray-800 pt-16">
+      <div className="mt-32 max-w-5xl border-t border-gray-200 pt-16">
         <h2 className="text-4xl font-bold mb-12">Why LogicLeap?</h2>
 
         <div className="grid md:grid-cols-3 gap-10 text-left">
