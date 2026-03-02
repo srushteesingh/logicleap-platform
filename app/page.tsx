@@ -189,6 +189,25 @@ export default function Home() {
         </div>
       </div>
 
+      <div className="mt-32 max-w-4xl mx-auto text-center border-t border-gray-800 pt-16">
+        <h2 className="text-3xl md:text-4xl font-bold mb-6">
+          Designed for Every Starting Point
+        </h2>
+
+        <p className="text-gray-400 text-lg leading-relaxed">
+          Whether your child is just beginning their coding journey or already
+          exploring advanced concepts, our assessment-based placement ensures
+          they start at the right level — and progress only after demonstrating
+          true mastery.
+        </p>
+
+        <div className="mt-10 flex flex-col md:flex-row justify-center gap-8 text-gray-300">
+          <div>No prior experience required</div>
+          <div>Personalized placement</div>
+          <div>Progress at individual pace</div>
+        </div>
+      </div>
+
       {/* Why Section */}
       <div className="mt-32 max-w-5xl border-t border-gray-800 pt-16">
         <h2 className="text-4xl font-bold mb-12">Why LogicLeap?</h2>
