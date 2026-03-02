@@ -18,34 +18,6 @@ export default function Home() {
         Book a Free Trial
       </button>
 
-      <div className="mt-32 max-w-5xl border-t border-gray-800 pt-16">
-        <h2 className="text-4xl font-bold mb-12">Our Programs</h2>
-
-        <div className="grid md:grid-cols-3 gap-10 text-left">
-          <div className="p-6 border border-gray-800 rounded-xl hover:border-white transition">
-            <h3 className="text-xl font-semibold mb-3">Scratch & Animation</h3>
-            <p className="text-gray-400">
-              Perfect for beginners to start their coding journey with
-              creativity.
-            </p>
-          </div>
-
-          <div className="p-6 border border-gray-800 rounded-xl hover:border-white transition">
-            <h3 className="text-xl font-semibold mb-3">Game Development</h3>
-            <p className="text-gray-400">
-              Build interactive games using Python and advanced logic concepts.
-            </p>
-          </div>
-
-          <div className="p-6 border border-gray-800 rounded-xl hover:border-white transition">
-            <h3 className="text-xl font-semibold mb-3">AI & Advanced Coding</h3>
-            <p className="text-gray-400">
-              Introduction to AI tools and real-world project development.
-            </p>
-          </div>
-        </div>
-      </div>
-
       {/* Why Section */}
       <div className="mt-32 max-w-5xl border-t border-gray-800 pt-16">
         <h2 className="text-4xl font-bold mb-12">Why LogicLeap?</h2>
@@ -76,6 +48,75 @@ export default function Home() {
             <p className="text-gray-400">
               We teach logical thinking, creativity, and problem solving — not
               just coding.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-32 max-w-6xl border-t border-gray-800 pt-16">
+        <h2 className="text-4xl font-bold mb-6 text-center">
+          The Mastery Roadmap
+        </h2>
+
+        <p className="text-gray-400 text-center mb-16 max-w-2xl mx-auto">
+          Students level up only when they demonstrate true competency — not
+          based on age, but based on mastery.
+        </p>
+
+        <div className="grid md:grid-cols-2 gap-10">
+          <div className="p-8 border border-gray-800 rounded-2xl hover:border-white transition">
+            <h3 className="text-2xl font-semibold mb-3">
+              Level 1 — Digital Explorers
+            </h3>
+            <p className="text-gray-400">
+              Foundations of logic through animations, storytelling, and
+              mini-games.
+            </p>
+          </div>
+
+          <div className="p-8 border border-gray-800 rounded-2xl hover:border-white transition">
+            <h3 className="text-2xl font-semibold mb-3">
+              Level 2 — Logic Builders
+            </h3>
+            <p className="text-gray-400">
+              Variables, conditions, structured thinking, and multi-level game
+              design.
+            </p>
+          </div>
+
+          <div className="p-8 border border-gray-800 rounded-2xl hover:border-white transition">
+            <h3 className="text-2xl font-semibold mb-3">
+              Level 3 — Tech Creators
+            </h3>
+            <p className="text-gray-400">
+              Transition to Python and real coding environments.
+            </p>
+          </div>
+
+          <div className="p-8 border border-gray-800 rounded-2xl hover:border-white transition">
+            <h3 className="text-2xl font-semibold mb-3">
+              Level 4 — Game & App Devs
+            </h3>
+            <p className="text-gray-400">
+              Engineering mindset. Real software projects and advanced logic.
+            </p>
+          </div>
+
+          <div className="p-8 border border-gray-800 rounded-2xl hover:border-white transition">
+            <h3 className="text-2xl font-semibold mb-3">
+              Level 5 — AI Innovators
+            </h3>
+            <p className="text-gray-400">
+              Machine learning foundations and AI mini-projects.
+            </p>
+          </div>
+
+          <div className="p-8 border border-gray-800 rounded-2xl hover:border-white transition">
+            <h3 className="text-2xl font-semibold mb-3">
+              Level 6 — Advanced Builders
+            </h3>
+            <p className="text-gray-400">
+              Capstone portfolio projects for real-world readiness.
             </p>
           </div>
         </div>
