@@ -68,9 +68,11 @@ export default function Home() {
             <h3 className="text-2xl font-semibold mb-3">
               Level 1 — Digital Explorers
             </h3>
-            <p className="text-gray-400">
-              Foundations of logic through animations, storytelling, and
-              mini-games.
+            <p className="text-gray-400 mt-3">
+              <span className="block mb-2 text-white font-medium">
+                Core Skills:
+              </span>
+              Sequencing • Creative Logic • Events • Basic Debugging
             </p>
           </div>
 
