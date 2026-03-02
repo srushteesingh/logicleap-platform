@@ -103,25 +103,42 @@ export default function Home() {
 
         <div className="grid md:grid-cols-3 gap-12">
           {/* Left Side Levels */}
-          <div className="space-y-4">
-            {[1, 2, 3, 4, 5, 6].map((level) => (
-              <button
-                key={level}
-                onClick={() => setActiveLevel(level)}
-                className={`w-full text-left p-4 rounded-xl border transition ${
-                  activeLevel === level
-                    ? "border-white bg-gray-900"
-                    : "border-gray-800 hover:border-gray-600"
-                }`}
-              >
-                <div>
-                  <p className="font-semibold">Level {level}</p>
-                  <p className="text-sm text-gray-500">
-                    {levels.find((l) => l.id === level)?.title}
-                  </p>
+          <div className="relative pl-8">
+            {/* Vertical Line */}
+            <div className="absolute left-3 top-0 bottom-0 w-[2px] bg-gray-800"></div>
+
+            <div className="space-y-10">
+              {levels.map((level) => (
+                <div
+                  key={level.id}
+                  onClick={() => setActiveLevel(level.id)}
+                  className="relative cursor-pointer group"
+                >
+                  {/* Circle */}
+                  <div
+                    className={`absolute -left-[18px] top-1 w-4 h-4 rounded-full border-2 transition ${
+                      activeLevel === level.id
+                        ? "bg-white border-white"
+                        : "bg-black border-gray-600 group-hover:border-white"
+                    }`}
+                  ></div>
+
+                  {/* Text Content */}
+                  <div>
+                    <p
+                      className={`font-semibold transition ${
+                        activeLevel === level.id
+                          ? "text-white"
+                          : "text-gray-400"
+                      }`}
+                    >
+                      Level {level.id}
+                    </p>
+                    <p className="text-sm text-gray-500">{level.title}</p>
+                  </div>
                 </div>
-              </button>
-            ))}
+              ))}
+            </div>
           </div>
 
           {/* Right Side Content */}
