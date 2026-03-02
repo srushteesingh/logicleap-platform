@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center bg-black text-white text-center px-6 py-20">
+    <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-black via-gray-900 to-black text-white text-center px-6 py-20">
       <p className="text-sm uppercase tracking-widest text-gray-500 mb-4">
          LogicLeap Coding Academy
       </p>
