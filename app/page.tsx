@@ -5,7 +5,7 @@ export default function Home() {
          LogicLeap Coding Academy
       </p>
       {/* Hero Section */}
-      <h1 className="text-4xl md:text-6xl font-bold mb-6">
+      <h1 className="text-4xl md:text-7xl font-extrabold mb-6 leading-tight">
         Build. Create. Innovate.
       </h1>
 
