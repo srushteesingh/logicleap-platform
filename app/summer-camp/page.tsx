@@ -4,17 +4,21 @@ export default function SummerCamp() {
       {/* HERO */}
       <div className="max-w-5xl mx-auto text-center">
         <h1 className="text-5xl md:text-6xl font-extrabold mb-6">
-          LogicLeap Summer Innovation Camp 2026
+          LogicLeap Summer Innovation Bootcamp 2026
         </h1>
 
         <p className="text-xl text-gray-600 mb-8">
-          A structured yet exciting coding experience where kids build real
-          projects based on their age and skill level.
+          A 5-Day intensive coding experience where students build real projects
+          based on their age and skill level.
         </p>
 
         <button className="bg-purple-600 hover:bg-purple-700 text-white px-10 py-4 rounded-full font-semibold text-lg transition duration-300 shadow-lg">
           Reserve Your Seat
         </button>
+
+        <p className="mt-6 text-sm text-gray-600">
+          5 Days • Small Batches • New Batch Every Monday
+        </p>
       </div>
 
       {/* TRACKS */}
@@ -24,50 +28,77 @@ export default function SummerCamp() {
         </h2>
 
         <div className="grid md:grid-cols-3 gap-10">
-          {/* 6-9 */}
+          {/* Explorers */}
           <div className="bg-purple-50 p-8 rounded-3xl shadow-md">
             <h3 className="text-2xl font-bold mb-4">🌈 Explorers (6–9)</h3>
+
             <p className="text-gray-600 mb-6">
-              Fun, creative coding through games, animations, and storytelling.
+              Creative coding bootcamp using Scratch to build interactive games
+              and animated stories.
             </p>
-            <ul className="space-y-2 text-gray-700">
-              <li>• Scratch game creation</li>
+
+            <ul className="space-y-2 text-gray-700 mb-6">
+              <li>• Character animation</li>
               <li>• Interactive storytelling</li>
-              <li>• Basic logic building</li>
-              <li>• Creativity challenges</li>
+              <li>• Game with scoring system</li>
+              <li>• Add sounds & levels</li>
             </ul>
+
+            <div className="bg-white p-4 rounded-xl text-sm font-semibold text-purple-700">
+              Final Outcome: Build & present your own playable game.
+            </div>
           </div>
 
-          {/* 9-12 */}
+          {/* Builders */}
           <div className="bg-white p-8 rounded-3xl shadow-xl border border-gray-200">
             <h3 className="text-2xl font-bold mb-4">🚀 Builders (9–12)</h3>
+
             <p className="text-gray-600 mb-6">
-              Structured skill development through real game systems.
+              Structured logic development through advanced Scratch and intro
+              app design with Thunkable.
             </p>
-            <ul className="space-y-2 text-gray-700">
-              <li>• Advanced Scratch projects</li>
-              <li>• Intro to Python</li>
-              <li>• Game mechanics design</li>
-              <li>• Logical architecture</li>
+
+            <ul className="space-y-2 text-gray-700 mb-6">
+              <li>• Advanced game mechanics</li>
+              <li>• Variables & conditions</li>
+              <li>• Intro to mobile app UI</li>
+              <li>• Connect logic to real app features</li>
             </ul>
+
+            <div className="bg-purple-50 p-4 rounded-xl text-sm font-semibold text-purple-700">
+              Final Outcome: Create a multi-level game + simple mobile app.
+            </div>
           </div>
 
-          {/* 13-16 */}
+          {/* Innovators */}
           <div className="bg-indigo-50 p-8 rounded-3xl shadow-md">
             <h3 className="text-2xl font-bold mb-4">🧠 Innovators (13–16)</h3>
+
             <p className="text-gray-600 mb-6">
-              Premium engineering track focused on real-world coding.
+              Real coding bootcamp using Python to build structured applications
+              with engineering thinking.
             </p>
-            <ul className="space-y-2 text-gray-700">
-              <li>• Python application building</li>
-              <li>• Intro AI concepts</li>
-              <li>• Project architecture</li>
-              <li>• Portfolio-ready capstone</li>
+
+            <ul className="space-y-2 text-gray-700 mb-6">
+              <li>• Python fundamentals</li>
+              <li>• Functions & modular logic</li>
+              <li>• Build CLI mini application</li>
+              <li>• File handling basics</li>
             </ul>
+
+            <div className="bg-white p-4 rounded-xl text-sm font-semibold text-indigo-700">
+              Final Outcome: Develop a functional Python mini-project.
+            </div>
           </div>
         </div>
+
+        <div className="mt-10 text-center text-gray-600">
+          Each track ends with a live student showcase presentation.
+        </div>
       </div>
-      <div className="mt-24 max-w-6xl mx-auto">
+
+      {/* BOOTCAMP FORMAT */}
+      <div className="mt-32 max-w-6xl mx-auto">
         <div className="bg-white rounded-3xl shadow-xl p-12 border border-gray-200">
           <h2 className="text-3xl font-bold mb-12 text-center">
             Bootcamp Format
@@ -101,6 +132,21 @@ export default function SummerCamp() {
             Limited seats per batch. Early booking recommended.
           </div>
         </div>
+      </div>
+
+      {/* FINAL CTA */}
+      <div className="mt-32 max-w-4xl mx-auto text-center">
+        <h2 className="text-3xl font-bold mb-6">
+          Ready to Join the Innovation Bootcamp?
+        </h2>
+
+        <button className="bg-purple-600 hover:bg-purple-700 text-white px-12 py-5 rounded-full font-semibold text-lg transition duration-300 shadow-lg">
+          Book Your Spot Now
+        </button>
+
+        <p className="mt-4 text-gray-600 text-sm">
+          Seats are limited to maintain small batch quality.
+        </p>
       </div>
     </main>
   );
