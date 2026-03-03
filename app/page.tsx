@@ -265,7 +265,7 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Not Just Coding Classes.
           </h2>
-
+        </div>
         <div className="grid md:grid-cols-3 gap-10 text-left">
           <div className="bg-purple-50 p-6 rounded-2xl">
             <h3 className="text-xl font-semibold mb-3">
