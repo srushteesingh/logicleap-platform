@@ -67,37 +67,39 @@ export default function SummerCamp() {
           </div>
         </div>
       </div>
-      <div className="mt-32 max-w-4xl mx-auto bg-white rounded-3xl shadow-xl p-10 border border-gray-200">
-        <h2 className="text-3xl font-bold mb-8 text-center">Bootcamp Format</h2>
+      <div className="mt-24 max-w-6xl mx-auto">
+        <div className="bg-white rounded-3xl shadow-xl p-12 border border-gray-200">
+          <h2 className="text-3xl font-bold mb-12 text-center">
+            Bootcamp Format
+          </h2>
 
-        <div className="grid md:grid-cols-2 gap-8 text-gray-700">
-          <div>
-            <p>
-              <strong>Duration:</strong> 1 Week Intensive
-            </p>
-            <p>
-              <strong>Schedule:</strong> Monday – Friday
-            </p>
-            <p>
-              <strong>Session Length:</strong> 60 Minutes Daily
-            </p>
+          <div className="grid md:grid-cols-3 gap-10 text-center text-gray-700">
+            <div className="bg-purple-50 p-6 rounded-2xl">
+              <h3 className="font-semibold text-lg mb-2">Duration</h3>
+              <p>1 Week Intensive</p>
+              <p className="text-sm text-gray-500 mt-1">Monday – Friday</p>
+            </div>
+
+            <div className="bg-indigo-50 p-6 rounded-2xl">
+              <h3 className="font-semibold text-lg mb-2">Structure</h3>
+              <p>60 Minutes Daily</p>
+              <p className="text-sm text-gray-500 mt-1">
+                Live Online Interactive
+              </p>
+            </div>
+
+            <div className="bg-purple-50 p-6 rounded-2xl">
+              <h3 className="font-semibold text-lg mb-2">Batch Size</h3>
+              <p>Max 6 Students</p>
+              <p className="text-sm text-gray-500 mt-1">
+                New Batch Every Monday
+              </p>
+            </div>
           </div>
 
-          <div>
-            <p>
-              <strong>Batch Size:</strong> Max 6 Students
-            </p>
-            <p>
-              <strong>Mode:</strong> Live Online Interactive
-            </p>
-            <p>
-              <strong>New Batch:</strong> Every Monday
-            </p>
+          <div className="mt-10 text-center text-purple-700 font-semibold">
+            Limited seats per batch. Early booking recommended.
           </div>
-        </div>
-
-        <div className="mt-8 text-center text-purple-700 font-semibold">
-          Limited seats per batch. Early booking recommended.
         </div>
       </div>
     </main>
