@@ -135,17 +135,77 @@ export default function SummerCamp() {
       </div>
 
       {/* FINAL CTA */}
-      <div className="mt-32 max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl font-bold mb-6">
-          Ready to Join the Innovation Bootcamp?
+      <div className="mt-32 max-w-3xl mx-auto bg-white rounded-3xl shadow-xl p-10 border border-gray-200">
+        <h2 className="text-3xl font-bold mb-8 text-center">
+          Reserve Your Spot
         </h2>
 
-        <button className="bg-purple-600 hover:bg-purple-700 text-white px-12 py-5 rounded-full font-semibold text-lg transition duration-300 shadow-lg">
-          Book Your Spot Now
-        </button>
+        <form className="space-y-6">
+          <div>
+            <label className="block text-sm font-semibold mb-2">
+              Student Name
+            </label>
+            <input
+              type="text"
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              placeholder="Enter student's name"
+            />
+          </div>
 
-        <p className="mt-4 text-gray-600 text-sm">
-          Seats are limited to maintain small batch quality.
+          <div>
+            <label className="block text-sm font-semibold mb-2">
+              Age Group
+            </label>
+            <select className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500">
+              <option>6–9 (Explorers)</option>
+              <option>9–12 (Builders)</option>
+              <option>13–16 (Innovators)</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold mb-2">
+              Parent Name
+            </label>
+            <input
+              type="text"
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              placeholder="Enter parent's name"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold mb-2">
+              Contact Number
+            </label>
+            <input
+              type="tel"
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              placeholder="Enter contact number"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold mb-2">
+              Preferred Starting Monday
+            </label>
+            <input
+              type="date"
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-purple-600 hover:bg-purple-700 text-white py-4 rounded-xl font-semibold text-lg transition duration-300"
+          >
+            Submit Booking Request
+          </button>
+        </form>
+
+        <p className="mt-4 text-sm text-gray-600 text-center">
+          Our team will contact you within 24 hours to confirm batch
+          availability.
         </p>
       </div>
     </main>
