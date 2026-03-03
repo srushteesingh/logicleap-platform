@@ -218,7 +218,7 @@ export default function Home() {
       </div>
 
       {/* HOW IT WORKS */}
-      <div className="mt-32 max-w-6xl mx-auto border-t border-gray-200 pt-16 text-center">
+      <div className="mt-40 bg-purple-50 rounded-3xl px-10 py-20 max-w-6xl mx-auto text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-12">How It Works</h2>
 
         <div className="grid md:grid-cols-3 gap-12 text-left">
