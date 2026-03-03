@@ -255,11 +255,11 @@ export default function Home() {
       </div>
 
       {/* WHY */}
-      <div className="mt-32 max-w-5xl mx-auto border-t border-gray-200 pt-16">
+      <div className="mt-40 bg-white rounded-3xl shadow-xl px-10 py-20 max-w-5xl mx-auto">
         <h2 className="text-4xl font-bold mb-12 text-center">Why LogicLeap?</h2>
 
         <div className="grid md:grid-cols-3 gap-10 text-left">
-          <div>
+          <div className="bg-purple-50 p-6 rounded-2xl">
             <h3 className="text-xl font-semibold mb-3">
               Project-Based Learning
             </h3>
@@ -269,7 +269,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div>
+          <div className="bg-purple-50 p-6 rounded-2xl">
             <h3 className="text-xl font-semibold mb-3">
               Personalized Curriculum
             </h3>
@@ -279,7 +279,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div>
+          <div className="bg-purple-50 p-6 rounded-2xl">
             <h3 className="text-xl font-semibold mb-3">Future-Ready Skills</h3>
             <p className="text-gray-600">
               We teach logical thinking, creativity, and problem solving — not
