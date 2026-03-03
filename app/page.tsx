@@ -127,7 +127,7 @@ export default function Home() {
           {/* Left Side Levels */}
           <div className="relative pl-8">
             {/* Vertical Line */}
-            <div className="absolute left-3 top-0 bottom-0 w-[2px] bg-gray-800"></div>
+            <div className="absolute left-3 top-0 bottom-0 w-[2px] bg-gray-200"></div>
 
             <div className="space-y-10">
               {levels.map((level) => (
@@ -141,7 +141,7 @@ export default function Home() {
                     className={`absolute -left-[18px] top-1 w-4 h-4 rounded-full border-2 transition ${
                       activeLevel === level.id
                         ? "bg-purple-600 border-purple-600"
-                        : "bg-black border-gray-300 group-hover:border-white"
+                        : "bg-white border-gray-300 group-hover:border-white"
                     }`}
                   ></div>
 
