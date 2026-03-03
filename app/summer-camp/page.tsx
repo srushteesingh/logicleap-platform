@@ -24,7 +24,7 @@ export default function SummerCamp() {
     e.preventDefault();
     setLoading(true);
 
-    const { error } = await supabase.from("summer_camp_leads").insert([
+    const { data, error } = await supabase.from("summer_camp_leads").insert([
       {
         student_name: formData.student_name,
         age_group: formData.age_group,
@@ -34,8 +34,10 @@ export default function SummerCamp() {
       },
     ]);
 
-    setLoading(false);
+    console.log("DATA:", data);
+    console.log("ERROR:", error);
 
+    setLoading(false);
     if (error) {
       alert("Something went wrong. Please try again.");
     } else {
