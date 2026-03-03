@@ -191,7 +191,17 @@ export default function SummerCamp() {
             </label>
             <input
               type="date"
+              min={new Date().toISOString().split("T")[0]}
               className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              onChange={(e) => {
+                const selected = new Date(e.target.value);
+                if (selected.getDay() !== 1) {
+                  alert(
+                    "Please select a Monday. Bootcamp batches start only on Mondays.",
+                  );
+                  e.target.value = "";
+                }
+              }}
             />
           </div>
 
