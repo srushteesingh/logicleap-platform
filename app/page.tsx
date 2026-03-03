@@ -95,8 +95,9 @@ export default function Home() {
           </h1>
 
           <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-xl">
-            Where kids turn imagination into real games, intelligent systems,
-            and powerful digital creations.
+            A structured, competency-based coding program where kids build real
+            games, AI systems, and portfolio-ready projects — progressing only
+            after demonstrating true mastery.
           </p>
 
           <button className="bg-purple-600 hover:bg-purple-700 text-white px-10 py-5 rounded-full font-semibold text-lg transition duration-300 shadow-xl hover:shadow-purple-400/40">
