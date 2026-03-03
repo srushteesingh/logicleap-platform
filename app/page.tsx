@@ -266,12 +266,6 @@ export default function Home() {
             Not Just Coding Classes.
           </h2>
 
-          <p className="text-xl text-gray-700 leading-relaxed">
-            LogicLeap is a structured, competency-driven engineering program.
-            Students don't just attend sessions — they build, present, refine,
-            and progress through defined mastery checkpoints.
-          </p>
-        </div>
         <div className="grid md:grid-cols-3 gap-10 text-left">
           <div className="bg-purple-50 p-6 rounded-2xl">
             <h3 className="text-xl font-semibold mb-3">
