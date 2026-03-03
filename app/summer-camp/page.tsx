@@ -138,7 +138,7 @@ export default function SummerCamp() {
       {/* FINAL CTA */}
       <div className="mt-32 max-w-3xl mx-auto bg-white rounded-3xl shadow-xl p-10 border border-gray-200">
         <h2 className="text-3xl font-bold mb-8 text-center">
-          Reserve Your Spot
+          Ready to Join the Innovation Bootcamp?
         </h2>
 
         <form className="space-y-6">
