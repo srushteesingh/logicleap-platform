@@ -116,7 +116,7 @@ export default function Home() {
       </div>
 
       {/* MASTERY ROADMAP */}
-      <div className="mt-32 max-w-6xl mx-auto pt-16 border-t border-gray-200">
+      <div className="mt-40 bg-white rounded-3xl shadow-xl px-10 py-20 max-w-6xl mx-auto">
         <h2 className="text-4xl font-bold text-center mb-12">
           The Mastery Roadmap
         </h2>
