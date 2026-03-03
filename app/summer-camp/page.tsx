@@ -1,3 +1,4 @@
+"use client";
 export default function SummerCamp() {
   return (
     <main className="min-h-screen text-gray-900 px-6 py-20">
