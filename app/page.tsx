@@ -261,7 +261,17 @@ export default function Home() {
       {/* WHY */}
       <div className="mt-40 bg-white rounded-3xl shadow-xl px-10 py-20 max-w-5xl mx-auto">
         <h2 className="text-4xl font-bold mb-12 text-center">Why LogicLeap?</h2>
+        <div className="mt-32 max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            Not Just Coding Classes.
+          </h2>
 
+          <p className="text-xl text-gray-700 leading-relaxed">
+            LogicLeap is a structured, competency-driven engineering program.
+            Students don't just attend sessions — they build, present, refine,
+            and progress through defined mastery checkpoints.
+          </p>
+        </div>
         <div className="grid md:grid-cols-3 gap-10 text-left">
           <div className="bg-purple-50 p-6 rounded-2xl">
             <h3 className="text-xl font-semibold mb-3">
