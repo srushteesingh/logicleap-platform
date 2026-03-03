@@ -67,6 +67,39 @@ export default function SummerCamp() {
           </div>
         </div>
       </div>
+      <div className="mt-32 max-w-4xl mx-auto bg-white rounded-3xl shadow-xl p-10 border border-gray-200">
+        <h2 className="text-3xl font-bold mb-8 text-center">Bootcamp Format</h2>
+
+        <div className="grid md:grid-cols-2 gap-8 text-gray-700">
+          <div>
+            <p>
+              <strong>Duration:</strong> 1 Week Intensive
+            </p>
+            <p>
+              <strong>Schedule:</strong> Monday – Friday
+            </p>
+            <p>
+              <strong>Session Length:</strong> 60 Minutes Daily
+            </p>
+          </div>
+
+          <div>
+            <p>
+              <strong>Batch Size:</strong> Max 6 Students
+            </p>
+            <p>
+              <strong>Mode:</strong> Live Online Interactive
+            </p>
+            <p>
+              <strong>New Batch:</strong> Every Monday
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-8 text-center text-purple-700 font-semibold">
+          Limited seats per batch. Early booking recommended.
+        </div>
+      </div>
     </main>
   );
 }
