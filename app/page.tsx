@@ -78,7 +78,7 @@ const levels = [
 export default function Home() {
   const [activeLevel, setActiveLevel] = useState(1);
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-100 text-gray-900 px-6 py-20">
+    <main className="min-h-screen text-gray-900 px-6 py-20">
       <p className="text-sm uppercase tracking-widest text-gray-500 mb-4">
         LogicLeap Coding Academy
       </p>
