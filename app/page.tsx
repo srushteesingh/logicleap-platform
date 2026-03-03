@@ -100,8 +100,11 @@ export default function Home() {
           </p>
 
           <button className="bg-purple-600 hover:bg-purple-700 text-white px-10 py-5 rounded-full font-semibold text-lg transition duration-300 shadow-xl hover:shadow-purple-400/40">
-            Start Building Today
+            Book Demo Class
           </button>
+          <p className="mt-6 text-sm text-gray-600">
+            Structured • Assessment-Based • Personalized Learning
+          </p>
         </div>
 
         <div className="relative">
