@@ -24,13 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="relative bg-gradient-to-br from-purple-50 via-white to-indigo-50 text-gray-900 antialiased overflow-x-hidden">
+      <body className="relative min-h-screen bg-gradient-to-br from-purple-100 via-white to-indigo-100 text-gray-900 antialiased overflow-x-hidden">
         {children}
       </body>
-      <div className="fixed inset-0 -z-10">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-purple-200 rounded-full blur-3xl opacity-30"></div>
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-indigo-200 rounded-full blur-3xl opacity-30"></div>
-      </div>
     </html>
   );
 }
