@@ -1,5 +1,47 @@
 "use client";
+import { useState } from "react";
+import { supabase } from "../lib/supabase";
 export default function SummerCamp() {
+  const [formData, setFormData] = useState({
+    student_name: "",
+    age_group: "",
+    parent_name: "",
+    contact_number: "",
+    preferred_monday: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const handleChange = (e: any) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const { error } = await supabase.from("summer_camp_leads").insert([
+      {
+        student_name: formData.student_name,
+        age_group: formData.age_group,
+        parent_name: formData.parent_name,
+        contact_number: formData.contact_number,
+        preferred_monday: formData.preferred_monday,
+      },
+    ]);
+
+    setLoading(false);
+
+    if (error) {
+      alert("Something went wrong. Please try again.");
+    } else {
+      setSuccess(true);
+    }
+  };
   return (
     <main className="min-h-screen text-gray-900 px-6 py-20">
       {/* HERO */}
@@ -141,13 +183,17 @@ export default function SummerCamp() {
           Ready to Join the Innovation Bootcamp?
         </h2>
 
-        <form className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-semibold mb-2">
               Student Name
             </label>
             <input
               type="text"
+              name="student_name"
+              value={formData.student_name}
+              onChange={handleChange}
+              required
               className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
               placeholder="Enter student's name"
             />
@@ -157,10 +203,17 @@ export default function SummerCamp() {
             <label className="block text-sm font-semibold mb-2">
               Age Group
             </label>
-            <select className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500">
-              <option>6–9 (Explorers)</option>
-              <option>9–12 (Builders)</option>
-              <option>13–16 (Innovators)</option>
+            <select
+              name="age_group"
+              value={formData.age_group}
+              onChange={handleChange}
+              required
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+              <option value="">Select Age Group</option>
+              <option value="6-9 Explorers">6–9 (Explorers)</option>
+              <option value="9-12 Builders">9–12 (Builders)</option>
+              <option value="13-16 Innovators">13–16 (Innovators)</option>
             </select>
           </div>
 
@@ -170,6 +223,10 @@ export default function SummerCamp() {
             </label>
             <input
               type="text"
+              name="parent_name"
+              value={formData.parent_name}
+              onChange={handleChange}
+              required
               className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
               placeholder="Enter parent's name"
             />
@@ -181,6 +238,10 @@ export default function SummerCamp() {
             </label>
             <input
               type="tel"
+              name="contact_number"
+              value={formData.contact_number}
+              onChange={handleChange}
+              required
               className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
               placeholder="Enter contact number"
             />
@@ -192,27 +253,37 @@ export default function SummerCamp() {
             </label>
             <input
               type="date"
+              name="preferred_monday"
+              value={formData.preferred_monday}
+              required
               min={new Date().toISOString().split("T")[0]}
-              className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
               onChange={(e) => {
                 const selected = new Date(e.target.value);
                 if (selected.getDay() !== 1) {
                   alert(
                     "Please select a Monday. Bootcamp batches start only on Mondays.",
                   );
-                  e.target.value = "";
+                  return;
                 }
+                handleChange(e);
               }}
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-purple-600 hover:bg-purple-700 text-white py-4 rounded-xl font-semibold text-lg transition duration-300"
+            disabled={loading}
+            className="w-full bg-purple-600 hover:bg-purple-700 text-white py-4 rounded-xl font-semibold text-lg transition duration-300 disabled:opacity-50"
           >
-            Submit Booking Request
+            {loading ? "Submitting..." : "Submit Booking Request"}
           </button>
         </form>
+        {success && (
+          <p className="text-green-600 text-center mt-4">
+            Booking request submitted successfully. We will contact you soon.
+          </p>
+        )}
 
         <p className="mt-4 text-sm text-gray-600 text-center">
           Our team will contact you within 24 hours to confirm batch
