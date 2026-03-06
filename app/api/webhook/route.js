@@ -33,7 +33,15 @@ export async function POST(req) {
     const from = message.from;
     let reply = "";
 
-    if (text === "1" || text === "slots") {
+    // MENU
+    if (!text || text.toLowerCase() === "hi") {
+      reply =
+        "Welcome to LogicLeap Coding Academy 🚀\n\n" +
+        "1️⃣ View available classes\n" +
+        "2️⃣ My booked class";
+
+      // SHOW AVAILABLE SLOTS
+    } else if (text === "1" || text === "slots") {
       const { data } = await supabase
         .from("slots")
         .select("*")
@@ -50,7 +58,9 @@ export async function POST(req) {
 
         reply += "\nReply with slot number to book.";
       }
-    } else if (!isNaN(text) && text !== "1") {
+
+      // BOOK SLOT
+    } else if (!isNaN(text)) {
       const slotNumber = parseInt(text);
 
       const { data } = await supabase
@@ -71,11 +81,19 @@ export async function POST(req) {
           })
           .eq("id", slot.id);
 
-        reply = "✅ Slot booked successfully!";
+        reply =
+          "✅ Slot booked successfully!\n\n" +
+          `Date: ${slot.date}\n` +
+          `Time: ${slot.start_time}\n\n` +
+          "We will send the Zoom link before class 🚀";
       }
+
+      // FALLBACK
     } else {
       reply =
-        "Welcome to LogicLeap Coding Academy 🚀\n\n1️⃣ View available classes\n2️⃣ My booked class";
+        "Welcome to LogicLeap Coding Academy 🚀\n\n" +
+        "1️⃣ View available classes\n" +
+        "2️⃣ My booked class";
     }
     const response = await fetch(
       `https://graph.facebook.com/v18.0/989684764235868/messages`,
