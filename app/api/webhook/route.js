@@ -29,21 +29,59 @@ export async function POST(req) {
     }
 
     const from = message.from;
-    const text = message.text?.body?.toLowerCase() || "";
+    const text =
+      message.text?.body?.toLowerCase() ||
+      message.interactive?.button_reply?.id ||
+      "";
 
     let reply = "";
 
     // menu
     if (text === "hi" || text === "hello") {
-      reply =
-        "👋 Welcome to *LogicLeap Coding Academy* 🚀\n\n" +
-        "How can I help you today?\n\n" +
-        "Type\n" +
-        "📅 *slots* → View available classes\n" +
-        "📚 *myclass* → View your booked classes\n" +
-        "❌ *cancel <number>* → Cancel a booked class\n\n" +
-        "Example: cancel 1";
-
+      await fetch(`https://graph.facebook.com/v18.0/989684764235868/messages`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer EAAL83hjZBJGwBQ1G8jkuM3aOaBZADUk5HUibZCZA1Mf01wiMjpCAxfVDxJ7nYowAqzShsmMooO9ZBOsQz3IdVtffFAbkhj1rMhd8dkVJeBObfNOMvV4Kle5BJtPLQYUzLVhYJeoMZBKxVWE2VTSAZAHHxtWiAc7O4ZB3ZAtNCniPYAMwk93juG6HSOPWvr6m1ZC9NbGZBICzLBsp6ysECZCZAQjPKEfpuWE7mN6Jc63DehHmhrqJZCRa9ShAO7taj70AsOJrCUpUlkiQdVcRIQZBZCpmAwAKpKRZBdDNzsuDF2AZDZD`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          messaging_product: "whatsapp",
+          to: from,
+          type: "interactive",
+          interactive: {
+            type: "button",
+            body: {
+              text: "🚀 LogicLeap Coding Academy\n\nHow can I help you today?",
+            },
+            action: {
+              buttons: [
+                {
+                  type: "reply",
+                  reply: {
+                    id: "slots",
+                    title: "View Classes",
+                  },
+                },
+                {
+                  type: "reply",
+                  reply: {
+                    id: "myclass",
+                    title: "My Classes",
+                  },
+                },
+                {
+                  type: "reply",
+                  reply: {
+                    id: "cancel",
+                    title: "Cancel Class",
+                  },
+                },
+              ],
+            },
+          },
+        }),
+      });
+      return new Response("ok", { status: 200 });
       // show slots
     } else if (text === "slots") {
       const { data } = await supabase
