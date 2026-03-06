@@ -39,7 +39,7 @@ export async function POST(req) {
         .select("*")
         .eq("status", "available");
 
-      if (data.length === 0) {
+      if (!data || data.length === 0) {
         reply = "No slots available right now.";
       } else {
         reply = "Available LogicLeap Classes 🚀\n\n";
@@ -50,11 +50,11 @@ export async function POST(req) {
 
         reply += "\nReply with slot number to book.";
       }
-    } else if (!isNaN(text) && parseInt(text) <= 5) {
+    } else if (!isNaN(text)) {
       reply = "Booking your slot...";
     } else {
       reply =
-        "Welcome to LogicLeap Coding Academy 🚀\n\n1️⃣ Book a class\n2️⃣ Join class\n3️⃣ View schedule";
+        "Welcome to LogicLeap Coding Academy 🚀\n\nSend *slots* to see available classes.";
     }
     const response = await fetch(
       `https://graph.facebook.com/v18.0/989684764235868/messages`,
