@@ -165,6 +165,19 @@ export async function POST(req) {
 
         return new Response("ok", { status: 200 });
       }
+    } // cancel using button
+    else if (text.startsWith("cancel_")) {
+      const slotId = text.split("_")[1];
+
+      await supabase
+        .from("slots")
+        .update({
+          status: "available",
+          student_phone: null,
+        })
+        .eq("id", slotId);
+
+      reply = "✅ Class cancelled successfully.";
     } else if (text.startsWith("cancel ")) {
       const index = parseInt(text.split(" ")[1]);
 
