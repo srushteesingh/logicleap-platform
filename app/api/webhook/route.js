@@ -1,3 +1,10 @@
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY,
+);
+
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
 
@@ -27,7 +34,22 @@ export async function POST(req) {
     let reply = "";
 
     if (text === "1") {
-      reply = "Fetching available class slots...";
+      const { data } = await supabase
+        .from("slots")
+        .select("*")
+        .eq("status", "available");
+
+      if (data.length === 0) {
+        reply = "No slots available right now.";
+      } else {
+        reply = "Available LogicLeap Classes 🚀\n\n";
+
+        data.slice(0, 5).forEach((slot, index) => {
+          reply += `${index + 1}️⃣ ${slot.date} ${slot.start_time}\n`;
+        });
+
+        reply += "\nReply with slot number to book.";
+      }
     } else {
       reply =
         "Welcome to LogicLeap Coding Academy 🚀\n\n1️⃣ Book a class\n2️⃣ Join class\n3️⃣ View schedule";
