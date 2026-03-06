@@ -33,7 +33,7 @@ export async function POST(req) {
     const from = message.from;
     let reply = "";
 
-    if (text === "slots") {
+    if (text === "1" || text === "slots") {
       const { data } = await supabase
         .from("slots")
         .select("*")
