@@ -50,7 +50,7 @@ export async function POST(req) {
 
         reply += "\nReply with slot number to book.";
       }
-    } else if (!isNaN(text)) {
+    } else if (!isNaN(text) && parseInt(text) <= 5) {
       reply = "Booking your slot...";
     } else {
       reply =
