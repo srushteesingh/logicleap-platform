@@ -75,7 +75,7 @@ export async function POST(req) {
       }
     } else {
       reply =
-        "Welcome to LogicLeap Coding Academy 🚀\n\nSend *slots* to see available classes.";
+        "Welcome to LogicLeap Coding Academy 🚀\n\n1️⃣ View available classes\n2️⃣ My booked class";
     }
     const response = await fetch(
       `https://graph.facebook.com/v18.0/989684764235868/messages`,
