@@ -59,6 +59,24 @@ export async function POST(req) {
       }
 
       // book slot
+    } // show booked class
+    else if (text === "myclass") {
+      const { data } = await supabase
+        .from("slots")
+        .select("*")
+        .eq("student_phone", from)
+        .eq("status", "booked");
+
+      if (!data || data.length === 0) {
+        reply = "You do not have any booked class.";
+      } else {
+        const slot = data[0];
+
+        reply =
+          "Your LogicLeap class 🚀\n\n" +
+          `Date: ${slot.date}\n` +
+          `Time: ${slot.start_time}`;
+      }
     } else if (!isNaN(text)) {
       const slotNumber = parseInt(text);
 
