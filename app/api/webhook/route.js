@@ -5,8 +5,13 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY,
 );
 
+const PHONE_NUMBER_ID = "989684764235868";
+const ACCESS_TOKEN =
+  "EAAL83hjZBJGwBQ2QdKXEYk2sgDAkigfpaLbLYUoIytHvjFcj3XGTZBrZC8rArOjTkBIr0WBfmowMkU4ayWS08MZBVeXgL3CaiYTs7hBWcbZAi6ycyIa6TPY4Ub2llYflDtofbVkzBE6XSCBfAZCa75DMYhaUgnJQuany047VXAySVLZCUuWNFTMSXPWxDu7JCJCBnB0pQD6Qwa8nCWYIOrDVcWw4LjlXIW9TnehCjJuVUzEyNZC9Yft6bhiUNZCKX49p45kaPAiFYuHJY7eSZAxaUaAKGQZBh4TU3r1twZDZD";
+
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
+
   const mode = searchParams.get("hub.mode");
   const token = searchParams.get("hub.verify_token");
   const challenge = searchParams.get("hub.challenge");
@@ -20,7 +25,6 @@ export async function GET(req) {
 
 export async function POST(req) {
   const body = await req.json();
-  console.log("Incoming webhook:", JSON.stringify(body));
 
   try {
     const message = body.entry?.[0]?.changes?.[0]?.value?.messages?.[0];
@@ -30,36 +34,75 @@ export async function POST(req) {
     }
 
     const from = message.from;
-    const text = message.text?.body?.toLowerCase() || "";
-    await fetch(`https://graph.facebook.com/v18.0/989684764235868/messages`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer EAAL83hjZBJGwBQ2QdKXEYk2sgDAkigfpaLbLYUoIytHvjFcj3XGTZBrZC8rArOjTkBIr0WBfmowMkU4ayWS08MZBVeXgL3CaiYTs7hBWcbZAi6ycyIa6TPY4Ub2llYflDtofbVkzBE6XSCBfAZCa75DMYhaUgnJQuany047VXAySVLZCUuWNFTMSXPWxDu7JCJCBnB0pQD6Qwa8nCWYIOrDVcWw4LjlXIW9TnehCjJuVUzEyNZC9Yft6bhiUNZCKX49p45kaPAiFYuHJY7eSZAxaUaAKGQZBh4TU3r1twZDZD`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        messaging_product: "whatsapp",
-        to: message.from,
-        type: "text",
-        text: { body: "Test reply from LogicLeap bot" },
-      }),
-    });
+
+    const text =
+      message.text?.body?.toLowerCase() ||
+      message.interactive?.button_reply?.id ||
+      "";
+
     let reply = "";
 
+    // MENU BUTTONS
     if (text === "hi" || text === "hello") {
-      reply =
-        "🚀 LogicLeap Coding Academy\n\n" +
-        "Send *slots* to see available classes\n" +
-        "Send *myclass* to see your booked classes\n" +
-        "Send *cancel* to cancel a class";
-    } else if (text === "slots") {
+      await fetch(
+        `https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            messaging_product: "whatsapp",
+            to: from,
+            type: "interactive",
+            interactive: {
+              type: "button",
+              body: {
+                text: "🚀 LogicLeap Coding Academy\n\nHow can I help you today?",
+              },
+              action: {
+                buttons: [
+                  {
+                    type: "reply",
+                    reply: {
+                      id: "slots",
+                      title: "View Classes",
+                    },
+                  },
+                  {
+                    type: "reply",
+                    reply: {
+                      id: "myclass",
+                      title: "My Classes",
+                    },
+                  },
+                  {
+                    type: "reply",
+                    reply: {
+                      id: "cancel",
+                      title: "Cancel Class",
+                    },
+                  },
+                ],
+              },
+            },
+          }),
+        },
+      );
+
+      return new Response("ok", { status: 200 });
+    }
+
+    // VIEW AVAILABLE CLASSES
+    else if (text === "slots") {
       const { data } = await supabase
         .from("slots")
         .select("*")
         .eq("status", "available");
 
       if (!data || data.length === 0) {
-        reply = "No slots available right now.";
+        reply = "No classes available right now.";
       } else {
         reply = "📅 Available Classes\n\n";
 
@@ -69,7 +112,10 @@ export async function POST(req) {
 
         reply += "\nReply with class number to book.";
       }
-    } else if (text === "myclass") {
+    }
+
+    // MY CLASSES
+    else if (text === "myclass") {
       const { data } = await supabase
         .from("slots")
         .select("*")
@@ -85,7 +131,10 @@ export async function POST(req) {
           reply += `${index + 1}️⃣ ${slot.date} ${slot.start_time}\n`;
         });
       }
-    } else if (text === "cancel") {
+    }
+
+    // CANCEL MENU
+    else if (text === "cancel") {
       const { data } = await supabase
         .from("slots")
         .select("*")
@@ -103,7 +152,10 @@ export async function POST(req) {
 
         reply += "\nReply: cancel 1";
       }
-    } else if (text.startsWith("cancel ")) {
+    }
+
+    // CANCEL CLASS
+    else if (text.startsWith("cancel ")) {
       const index = parseInt(text.split(" ")[1]);
 
       const { data } = await supabase
@@ -127,7 +179,10 @@ export async function POST(req) {
 
         reply = "✅ Class cancelled successfully.";
       }
-    } else if (!isNaN(text)) {
+    }
+
+    // BOOK CLASS
+    else if (!isNaN(text)) {
       const slotNumber = parseInt(text);
 
       const { data } = await supabase
@@ -154,19 +209,22 @@ export async function POST(req) {
       reply = "Send *Hi* to see menu.";
     }
 
-    await fetch(`https://graph.facebook.com/v18.0/989684764235868/messages`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer EAAL83hjZBJGwBQ2QdKXEYk2sgDAkigfpaLbLYUoIytHvjFcj3XGTZBrZC8rArOjTkBIr0WBfmowMkU4ayWS08MZBVeXgL3CaiYTs7hBWcbZAi6ycyIa6TPY4Ub2llYflDtofbVkzBE6XSCBfAZCa75DMYhaUgnJQuany047VXAySVLZCUuWNFTMSXPWxDu7JCJCBnB0pQD6Qwa8nCWYIOrDVcWw4LjlXIW9TnehCjJuVUzEyNZC9Yft6bhiUNZCKX49p45kaPAiFYuHJY7eSZAxaUaAKGQZBh4TU3r1twZDZD`,
-        "Content-Type": "application/json",
+    await fetch(
+      `https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          messaging_product: "whatsapp",
+          to: from,
+          type: "text",
+          text: { body: reply },
+        }),
       },
-      body: JSON.stringify({
-        messaging_product: "whatsapp",
-        to: from,
-        type: "text",
-        text: { body: reply },
-      }),
-    });
+    );
   } catch (err) {
     console.error(err);
   }
