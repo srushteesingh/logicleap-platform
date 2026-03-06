@@ -51,7 +51,8 @@ export async function POST(req) {
         reply += "\nReply with slot number to book.";
       }
     } else if (!isNaN(text)) {
-      reply = "Booking your slot...";
+      reply =
+        "✅ Slot booked successfully! We will send the Zoom link before class.";
     } else {
       reply =
         "Welcome to LogicLeap Coding Academy 🚀\n\nSend *slots* to see available classes.";
