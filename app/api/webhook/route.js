@@ -121,9 +121,27 @@ export async function POST(req) {
         reply += "\nTo cancel a class, reply: cancel <number>";
       }
     } // cancel class
-    else if (text.startsWith("cancel")) {
-      const parts = text.split(" ");
-      const index = parseInt(parts[1]);
+    // cancel class
+    else if (text === "cancel") {
+      const { data } = await supabase
+        .from("slots")
+        .select("*")
+        .eq("student_phone", from)
+        .eq("status", "booked");
+
+      if (!data || data.length === 0) {
+        reply = "You do not have any booked classes.";
+      } else {
+        reply = "❌ Which class would you like to cancel?\n\n";
+
+        data.forEach((slot, index) => {
+          reply += `${index + 1}️⃣ ${slot.date} ${slot.start_time}\n`;
+        });
+
+        reply += "\nReply with: cancel <number>\nExample: cancel 1";
+      }
+    } else if (text.startsWith("cancel ")) {
+      const index = parseInt(text.split(" ")[1]);
 
       const { data } = await supabase
         .from("slots")
@@ -144,7 +162,7 @@ export async function POST(req) {
           })
           .eq("id", slot.id);
 
-        reply = "✅ Your class has been successfully cancelled.";
+        reply = "✅ Class cancelled successfully.";
       }
     } else if (!isNaN(text)) {
       const slotNumber = parseInt(text);
