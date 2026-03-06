@@ -50,6 +50,8 @@ export async function POST(req) {
 
         reply += "\nReply with slot number to book.";
       }
+    } else if (!isNaN(text)) {
+      reply = "Booking your slot...";
     } else {
       reply =
         "Welcome to LogicLeap Coding Academy 🚀\n\n1️⃣ Book a class\n2️⃣ Join class\n3️⃣ View schedule";
