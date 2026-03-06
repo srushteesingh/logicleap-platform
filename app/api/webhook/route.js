@@ -51,8 +51,28 @@ export async function POST(req) {
         reply += "\nReply with slot number to book.";
       }
     } else if (!isNaN(text)) {
-      reply =
-        "✅ Slot booked successfully! We will send the Zoom link before class.";
+      const slotNumber = parseInt(text);
+
+      const { data } = await supabase
+        .from("slots")
+        .select("*")
+        .eq("status", "available");
+
+      const slot = data[slotNumber - 1];
+
+      if (!slot) {
+        reply = "Invalid slot number.";
+      } else {
+        await supabase
+          .from("slots")
+          .update({
+            status: "booked",
+            student_phone: from,
+          })
+          .eq("id", slot.id);
+
+        reply = "✅ Slot booked successfully!";
+      }
     } else {
       reply =
         "Welcome to LogicLeap Coding Academy 🚀\n\nSend *slots* to see available classes.";
