@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-
+const userState = {};
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY,
@@ -35,14 +35,12 @@ export async function POST(req) {
 
     // show menu
     if (!text || text.toLowerCase() === "hi") {
-      userState[from] = "menu";
-
       reply =
         "Welcome to LogicLeap Coding Academy 🚀\n\n" +
-        "1️⃣ View available classes";
+        "Send *slots* to see available classes";
 
-      // show slots
-    } else if (text === "1" && userState[from] !== "choosing_slot") {
+      // show available slots
+    } else if (text === "slots") {
       const { data } = await supabase
         .from("slots")
         .select("*")
@@ -53,17 +51,15 @@ export async function POST(req) {
       } else {
         reply = "Available LogicLeap Classes 🚀\n\n";
 
-        data.slice(0, 5).forEach((slot, index) => {
+        data.forEach((slot, index) => {
           reply += `${index + 1}️⃣ ${slot.date} ${slot.start_time}\n`;
         });
 
         reply += "\nReply with slot number to book.";
-
-        userState[from] = "choosing_slot";
       }
 
       // book slot
-    } else if (!isNaN(text) && userState[from] === "choosing_slot") {
+    } else if (!isNaN(text)) {
       const slotNumber = parseInt(text);
 
       const { data } = await supabase
@@ -84,22 +80,12 @@ export async function POST(req) {
           })
           .eq("id", slot.id);
 
-        reply =
-          "✅ Slot booked successfully!\n\n" +
-          `Date: ${slot.date}\n` +
-          `Time: ${slot.start_time}\n\n` +
-          "We will send the Zoom link before class 🚀";
-
-        userState[from] = "menu";
+        reply = `✅ Slot booked successfully!\n\nDate: ${slot.date}\nTime: ${slot.start_time}`;
       }
 
       // fallback
     } else {
-      userState[from] = "menu";
-
-      reply =
-        "Welcome to LogicLeap Coding Academy 🚀\n\n" +
-        "1️⃣ View available classes";
+      reply = "Send *slots* to see available classes.";
     }
     const response = await fetch(
       `https://graph.facebook.com/v18.0/989684764235868/messages`,
