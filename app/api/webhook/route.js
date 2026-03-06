@@ -41,7 +41,7 @@ export async function POST(req) {
         "2️⃣ My booked class";
 
       // SHOW AVAILABLE SLOTS
-    } else if (text === "1" || text === "slots") {
+    } else if (text === "slots") {
       const { data } = await supabase
         .from("slots")
         .select("*")
