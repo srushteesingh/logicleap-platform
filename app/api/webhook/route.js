@@ -37,8 +37,9 @@ export async function POST(req) {
     if (text === "hi" || text === "hello") {
       reply =
         "Welcome to LogicLeap Coding Academy 🚀\n\n" +
-        "Send *slots* to see available classes\n" +
-        "Send *myclass* to see your booked class";
+        "Send *slots* → view available classes\n" +
+        "Send *myclass* → view your booked classes\n" +
+        "Send *cancel 1* → cancel a booked class";
 
       // show slots
     } else if (text === "slots") {
@@ -76,6 +77,32 @@ export async function POST(req) {
         data.forEach((slot, index) => {
           reply += `${index + 1}️⃣ ${slot.date} ${slot.start_time}\n`;
         });
+      }
+    } // cancel class
+    else if (text.startsWith("cancel")) {
+      const parts = text.split(" ");
+      const index = parseInt(parts[1]);
+
+      const { data } = await supabase
+        .from("slots")
+        .select("*")
+        .eq("student_phone", from)
+        .eq("status", "booked");
+
+      const slot = data?.[index - 1];
+
+      if (!slot) {
+        reply = "Invalid class number.";
+      } else {
+        await supabase
+          .from("slots")
+          .update({
+            status: "available",
+            student_phone: null,
+          })
+          .eq("id", slot.id);
+
+        reply = "✅ Class cancelled successfully.";
       }
     } else if (!isNaN(text)) {
       const slotNumber = parseInt(text);
