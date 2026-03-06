@@ -58,10 +58,9 @@ export async function POST(req) {
 
         data.forEach((slot, index) => {
           reply += `${index + 1}️⃣ ${slot.date} ${slot.start_time}\n`;
-          reply += "\nReply with the class number to book your slot.";
         });
 
-        reply += "\nReply with slot number to book.";
+        reply += "\nReply with the class number to book your slot.";
       }
 
       // book slot
@@ -80,8 +79,8 @@ export async function POST(req) {
 
         data.forEach((slot, index) => {
           reply += `${index + 1}️⃣ ${slot.date} ${slot.start_time}\n`;
-          reply += "\nTo cancel a class, reply: cancel <number>";
         });
+        reply += "\nTo cancel a class, reply: cancel <number>";
       }
     } // cancel class
     else if (text.startsWith("cancel")) {
