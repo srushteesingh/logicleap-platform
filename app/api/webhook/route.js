@@ -36,10 +36,12 @@ export async function POST(req) {
     // menu
     if (text === "hi" || text === "hello") {
       reply =
-        "Welcome to LogicLeap Coding Academy 🚀\n\n" +
-        "slots → view available classes\n" +
-        "myclass → view your booked classes\n" +
-        "cancel <number> → cancel a class\n\n" +
+        "👋 Welcome to *LogicLeap Coding Academy* 🚀\n\n" +
+        "How can I help you today?\n\n" +
+        "Type\n" +
+        "📅 *slots* → View available classes\n" +
+        "📚 *myclass* → View your booked classes\n" +
+        "❌ *cancel <number>* → Cancel a booked class\n\n" +
         "Example: cancel 1";
 
       // show slots
@@ -52,10 +54,11 @@ export async function POST(req) {
       if (!data || data.length === 0) {
         reply = "No slots available right now.";
       } else {
-        reply = "Available LogicLeap Classes 🚀\n\n";
+        reply = "📅 *Available LogicLeap Classes*\n\n";
 
         data.forEach((slot, index) => {
           reply += `${index + 1}️⃣ ${slot.date} ${slot.start_time}\n`;
+          reply += "\nReply with the class number to book your slot.";
         });
 
         reply += "\nReply with slot number to book.";
@@ -73,10 +76,11 @@ export async function POST(req) {
       if (!data || data.length === 0) {
         reply = "You do not have any booked class.";
       } else {
-        reply = "Your LogicLeap classes 🚀\n\n";
+        reply = "📚 *Your Booked LogicLeap Classes*\n\n";
 
         data.forEach((slot, index) => {
           reply += `${index + 1}️⃣ ${slot.date} ${slot.start_time}\n`;
+          reply += "\nTo cancel a class, reply: cancel <number>";
         });
       }
     } // cancel class
@@ -103,7 +107,7 @@ export async function POST(req) {
           })
           .eq("id", slot.id);
 
-        reply = "✅ Class cancelled successfully.";
+        reply = "✅ Your class has been successfully cancelled.";
       }
     } else if (!isNaN(text)) {
       const slotNumber = parseInt(text);
@@ -116,7 +120,7 @@ export async function POST(req) {
       const slot = data?.[slotNumber - 1];
 
       if (!slot) {
-        reply = "Invalid slot number.";
+        reply = "⚠️ Invalid class number. Please try again.";
       } else {
         await supabase
           .from("slots")
@@ -126,7 +130,11 @@ export async function POST(req) {
           })
           .eq("id", slot.id);
 
-        reply = `✅ Slot booked successfully!\n\nDate: ${slot.date}\nTime: ${slot.start_time}`;
+        reply =
+          "✅ *Class Booked Successfully!* 🎉\n\n" +
+          `📅 Date: ${slot.date}\n` +
+          `⏰ Time: ${slot.start_time}\n\n` +
+          "We look forward to seeing you in class!";
       }
     } else {
       reply = "Send *slots* to see available classes.";
