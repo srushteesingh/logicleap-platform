@@ -37,9 +37,10 @@ export async function POST(req) {
     if (text === "hi" || text === "hello") {
       reply =
         "Welcome to LogicLeap Coding Academy 🚀\n\n" +
-        "Send *slots* → view available classes\n" +
-        "Send *myclass* → view your booked classes\n" +
-        "Send *cancel 1* → cancel a booked class";
+        "slots → view available classes\n" +
+        "myclass → view your booked classes\n" +
+        "cancel <number> → cancel a class\n\n" +
+        "Example: cancel 1";
 
       // show slots
     } else if (text === "slots") {
