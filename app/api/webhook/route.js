@@ -37,6 +37,7 @@ export async function POST(req) {
     let reply = "";
 
     // menu
+    // menu buttons
     if (text === "hi" || text === "hello") {
       await fetch(`https://graph.facebook.com/v18.0/989684764235868/messages`, {
         method: "POST",
@@ -81,8 +82,8 @@ export async function POST(req) {
           },
         }),
       });
+
       return new Response("ok", { status: 200 });
-      // show slots
     } else if (text === "slots") {
       const { data } = await supabase
         .from("slots")
