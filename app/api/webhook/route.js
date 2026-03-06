@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-const userState = {};
+
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY,
@@ -7,7 +7,6 @@ const supabase = createClient(
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
-
   const mode = searchParams.get("hub.mode");
   const token = searchParams.get("hub.verify_token");
   const challenge = searchParams.get("hub.challenge");
@@ -24,17 +23,18 @@ export async function POST(req) {
 
   try {
     const message = body.entry?.[0]?.changes?.[0]?.value?.messages?.[0];
-    const text = message?.text?.body;
 
     if (!message) {
       return new Response("ok", { status: 200 });
     }
 
     const from = message.from;
+    const text = message.text?.body?.toLowerCase() || "";
+
     let reply = "";
 
-    // greeting
-    if (!text || text.toLowerCase() === "hi") {
+    // menu
+    if (text === "hi" || text === "hello") {
       reply =
         "Welcome to LogicLeap Coding Academy 🚀\n\n" +
         "Send *slots* to see available classes";
@@ -58,7 +58,7 @@ export async function POST(req) {
         reply += "\nReply with slot number to book.";
       }
 
-      // booking
+      // book slot
     } else if (!isNaN(text)) {
       const slotNumber = parseInt(text);
 
@@ -67,7 +67,7 @@ export async function POST(req) {
         .select("*")
         .eq("status", "available");
 
-      const slot = data[slotNumber - 1];
+      const slot = data?.[slotNumber - 1];
 
       if (!slot) {
         reply = "Invalid slot number.";
@@ -82,31 +82,23 @@ export async function POST(req) {
 
         reply = `✅ Slot booked successfully!\n\nDate: ${slot.date}\nTime: ${slot.start_time}`;
       }
-
-      // fallback
     } else {
       reply = "Send *slots* to see available classes.";
     }
-    const response = await fetch(
-      `https://graph.facebook.com/v18.0/989684764235868/messages`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer EAAL83hjZBJGwBQwPPJ7I0x77BnUVVz5hBo7RGGm1wQAOuAY7nXReXIjY3JD55iJ6TQgDcP8mny3kU6JGm5pVrSIejMUWI7fdEdZCzZCZBRuB5j6R7rfdhZAvFV2bjSIvTsD15Tpw4jZBr0ZACSYQnI2QdT8mDeb4NNm3RfWkh3KRZCcZBVBM5BX16cCyD5IPBsmglGfH89FQx52r2fcMr4vuG8c8G8NlE7ZBfZBjneHwWFHnE2fhMQCemUvfVOfnr6S8JXhu22DrKIqONid3hXZBjU2nT85Y7xKTAiqBrKIZD`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          messaging_product: "whatsapp",
-          to: from,
-          type: "text",
-          text: {
-            body: reply,
-          },
-        }),
-      },
-    );
 
-    console.log(await response.text());
+    await fetch(`https://graph.facebook.com/v18.0/989684764235868/messages`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer EAAL83hjZBJGwBQ1G8jkuM3aOaBZADUk5HUibZCZA1Mf01wiMjpCAxfVDxJ7nYowAqzShsmMooO9ZBOsQz3IdVtffFAbkhj1rMhd8dkVJeBObfNOMvV4Kle5BJtPLQYUzLVhYJeoMZBKxVWE2VTSAZAHHxtWiAc7O4ZB3ZAtNCniPYAMwk93juG6HSOPWvr6m1ZC9NbGZBICzLBsp6ysECZCZAQjPKEfpuWE7mN6Jc63DehHmhrqJZCRa9ShAO7taj70AsOJrCUpUlkiQdVcRIQZBZCpmAwAKpKRZBdDNzsuDF2AZDZD`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        messaging_product: "whatsapp",
+        to: from,
+        type: "text",
+        text: { body: reply },
+      }),
+    });
   } catch (err) {
     console.error(err);
   }
