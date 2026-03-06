@@ -37,7 +37,8 @@ export async function POST(req) {
     if (!text || text.toLowerCase() === "hi") {
       reply =
         "Welcome to LogicLeap Coding Academy 🚀\n\n" +
-        "Send *slots* to see available classes";
+        "1️⃣ View available classes\n" +
+        "2️⃣ My booked class";
 
       // show available slots
     } else if (text === "slots") {
@@ -59,6 +60,24 @@ export async function POST(req) {
       }
 
       // book slot
+    } // show my booked class
+    else if (text === "2") {
+      const { data } = await supabase
+        .from("slots")
+        .select("*")
+        .eq("student_phone", from)
+        .eq("status", "booked");
+
+      if (!data || data.length === 0) {
+        reply = "You do not have any booked class.";
+      } else {
+        const slot = data[0];
+
+        reply =
+          "Your LogicLeap class 🚀\n\n" +
+          `Date: ${slot.date}\n` +
+          `Time: ${slot.start_time}`;
+      }
     } else if (!isNaN(text)) {
       const slotNumber = parseInt(text);
 
