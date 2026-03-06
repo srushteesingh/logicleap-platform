@@ -17,13 +17,21 @@ export async function POST(req) {
 
   try {
     const message = body.entry?.[0]?.changes?.[0]?.value?.messages?.[0];
+    const text = message?.text?.body;
 
     if (!message) {
       return new Response("ok", { status: 200 });
     }
 
     const from = message.from;
+    let reply = "";
 
+    if (text === "1") {
+      reply = "Fetching available class slots...";
+    } else {
+      reply =
+        "Welcome to LogicLeap Coding Academy 🚀\n\n1️⃣ Book a class\n2️⃣ Join class\n3️⃣ View schedule";
+    }
     const response = await fetch(
       `https://graph.facebook.com/v18.0/989684764235868/messages`,
       {
@@ -37,7 +45,7 @@ export async function POST(req) {
           to: from,
           type: "text",
           text: {
-            body: "Welcome to LogicLeap Coding Academy 🚀\n\n1️⃣ Book a class\n2️⃣ Join class\n3️⃣ View schedule",
+            body: reply,
           },
         }),
       },
