@@ -71,12 +71,11 @@ export async function POST(req) {
       if (!data || data.length === 0) {
         reply = "You do not have any booked class.";
       } else {
-        const slot = data[0];
+        reply = "Your LogicLeap classes 🚀\n\n";
 
-        reply =
-          "Your LogicLeap class 🚀\n\n" +
-          `Date: ${slot.date}\n` +
-          `Time: ${slot.start_time}`;
+        data.forEach((slot, index) => {
+          reply += `${index + 1}️⃣ ${slot.date} ${slot.start_time}\n`;
+        });
       }
     } else if (!isNaN(text)) {
       const slotNumber = parseInt(text);
