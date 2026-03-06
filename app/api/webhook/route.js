@@ -15,7 +15,38 @@ export async function GET(req) {
 export async function POST(req) {
   const body = await req.json();
 
-  console.log("Incoming WhatsApp message:", body);
+  try {
+    const message = body.entry?.[0]?.changes?.[0]?.value?.messages?.[0];
+
+    if (!message) {
+      return new Response("ok", { status: 200 });
+    }
+
+    const from = message.from;
+
+    const response = await fetch(
+      `https://graph.facebook.com/v18.0/989684764235868/messages`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer EAAL83hjZBJGwBQwPPJ7I0x77BnUVVz5hBo7RGGm1wQAOuAY7nXReXIjY3JD55iJ6TQgDcP8mny3kU6JGm5pVrSIejMUWI7fdEdZCzZCZBRuB5j6R7rfdhZAvFV2bjSIvTsD15Tpw4jZBr0ZACSYQnI2QdT8mDeb4NNm3RfWkh3KRZCcZBVBM5BX16cCyD5IPBsmglGfH89FQx52r2fcMr4vuG8c8G8NlE7ZBfZBjneHwWFHnE2fhMQCemUvfVOfnr6S8JXhu22DrKIqONid3hXZBjU2nT85Y7xKTAiqBrKIZD`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          messaging_product: "whatsapp",
+          to: from,
+          type: "text",
+          text: {
+            body: "Welcome to LogicLeap Coding Academy 🚀\n\n1️⃣ Book a class\n2️⃣ Join class\n3️⃣ View schedule",
+          },
+        }),
+      },
+    );
+
+    console.log(await response.text());
+  } catch (err) {
+    console.error(err);
+  }
 
   return new Response("ok", { status: 200 });
 }
