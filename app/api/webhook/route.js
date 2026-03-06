@@ -29,61 +29,16 @@ export async function POST(req) {
     }
 
     const from = message.from;
-    const text =
-      message.text?.body?.toLowerCase() ||
-      message.interactive?.button_reply?.id ||
-      "";
+    const text = message.text?.body?.toLowerCase() || "";
 
     let reply = "";
 
-    // menu
-    // menu buttons
     if (text === "hi" || text === "hello") {
-      await fetch(`https://graph.facebook.com/v18.0/989684764235868/messages`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer EAAL83hjZBJGwBQ1G8jkuM3aOaBZADUk5HUibZCZA1Mf01wiMjpCAxfVDxJ7nYowAqzShsmMooO9ZBOsQz3IdVtffFAbkhj1rMhd8dkVJeBObfNOMvV4Kle5BJtPLQYUzLVhYJeoMZBKxVWE2VTSAZAHHxtWiAc7O4ZB3ZAtNCniPYAMwk93juG6HSOPWvr6m1ZC9NbGZBICzLBsp6ysECZCZAQjPKEfpuWE7mN6Jc63DehHmhrqJZCRa9ShAO7taj70AsOJrCUpUlkiQdVcRIQZBZCpmAwAKpKRZBdDNzsuDF2AZDZD`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          messaging_product: "whatsapp",
-          to: from,
-          type: "interactive",
-          interactive: {
-            type: "button",
-            body: {
-              text: "🚀 LogicLeap Coding Academy\n\nHow can I help you today?",
-            },
-            action: {
-              buttons: [
-                {
-                  type: "reply",
-                  reply: {
-                    id: "slots",
-                    title: "View Classes",
-                  },
-                },
-                {
-                  type: "reply",
-                  reply: {
-                    id: "myclass",
-                    title: "My Classes",
-                  },
-                },
-                {
-                  type: "reply",
-                  reply: {
-                    id: "cancel",
-                    title: "Cancel Class",
-                  },
-                },
-              ],
-            },
-          },
-        }),
-      });
-
-      return new Response("ok", { status: 200 });
+      reply =
+        "🚀 LogicLeap Coding Academy\n\n" +
+        "Send *slots* to see available classes\n" +
+        "Send *myclass* to see your booked classes\n" +
+        "Send *cancel* to cancel a class";
     } else if (text === "slots") {
       const { data } = await supabase
         .from("slots")
@@ -93,37 +48,15 @@ export async function POST(req) {
       if (!data || data.length === 0) {
         reply = "No slots available right now.";
       } else {
-        reply = "📅 *Available LogicLeap Classes*\n\n";
+        reply = "📅 Available Classes\n\n";
 
         data.forEach((slot, index) => {
           reply += `${index + 1}️⃣ ${slot.date} ${slot.start_time}\n`;
         });
 
-        reply += "\nReply with the class number to book your slot.";
+        reply += "\nReply with class number to book.";
       }
-
-      // book slot
-    } // show booked class
-    else if (text === "myclass") {
-      const { data } = await supabase
-        .from("slots")
-        .select("*")
-        .eq("student_phone", from)
-        .eq("status", "booked");
-
-      if (!data || data.length === 0) {
-        reply = "You do not have any booked class.";
-      } else {
-        reply = "📚 *Your Booked LogicLeap Classes*\n\n";
-
-        data.forEach((slot, index) => {
-          reply += `${index + 1}️⃣ ${slot.date} ${slot.start_time}\n`;
-        });
-        reply += "\nTo cancel a class, reply: cancel <number>";
-      }
-    } // cancel class
-    // cancel class
-    else if (text === "cancel") {
+    } else if (text === "myclass") {
       const { data } = await supabase
         .from("slots")
         .select("*")
@@ -133,66 +66,30 @@ export async function POST(req) {
       if (!data || data.length === 0) {
         reply = "You do not have any booked classes.";
       } else {
-        await fetch(
-          `https://graph.facebook.com/v18.0/989684764235868/messages`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer EAAL83hjZBJGwBQ1G8jkuM3aOaBZADUk5HUibZCZA1Mf01wiMjpCAxfVDxJ7nYowAqzShsmMooO9ZBOsQz3IdVtffFAbkhj1rMhd8dkVJeBObfNOMvV4Kle5BJtPLQYUzLVhYJeoMZBKxVWE2VTSAZAHHxtWiAc7O4ZB3ZAtNCniPYAMwk93juG6HSOPWvr6m1ZC9NbGZBICzLBsp6ysECZCZAQjPKEfpuWE7mN6Jc63DehHmhrqJZCRa9ShAO7taj70AsOJrCUpUlkiQdVcRIQZBZCpmAwAKpKRZBdDNzsuDF2AZDZD`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              messaging_product: "whatsapp",
-              to: from,
-              type: "interactive",
-              interactive: {
-                type: "button",
-                body: {
-                  text: "❌ Which class would you like to cancel?",
-                },
-                action: {
-                  buttons: data.slice(0, 3).map((slot, index) => ({
-                    type: "reply",
-                    reply: {
-                      id: `cancel_${slot.id}`,
-                      title: `${index + 1}️⃣ ${slot.start_time}`,
-                    },
-                  })),
-                },
-              },
-            }),
-          },
-        );
+        reply = "📚 Your Classes\n\n";
 
-        return new Response("ok", { status: 200 });
+        data.forEach((slot, index) => {
+          reply += `${index + 1}️⃣ ${slot.date} ${slot.start_time}\n`;
+        });
       }
-    } // cancel using button
-    else if (text.startsWith("cancel_")) {
-      const slotId = text.split("_")[1];
-
-      await supabase
+    } else if (text === "cancel") {
+      const { data } = await supabase
         .from("slots")
-        .update({
-          status: "available",
-          student_phone: null,
-        })
-        .eq("id", slotId);
+        .select("*")
+        .eq("student_phone", from)
+        .eq("status", "booked");
 
-      await fetch(`https://graph.facebook.com/v18.0/989684764235868/messages`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer EAAL83hjZBJGwBQ1G8jkuM3aOaBZADUk5HUibZCZA1Mf01wiMjpCAxfVDxJ7nYowAqzShsmMooO9ZBOsQz3IdVtffFAbkhj1rMhd8dkVJeBObfNOMvV4Kle5BJtPLQYUzLVhYJeoMZBKxVWE2VTSAZAHHxtWiAc7O4ZB3ZAtNCniPYAMwk93juG6HSOPWvr6m1ZC9NbGZBICzLBsp6ysECZCZAQjPKEfpuWE7mN6Jc63DehHmhrqJZCRa9ShAO7taj70AsOJrCUpUlkiQdVcRIQZBZCpmAwAKpKRZBdDNzsuDF2AZDZD`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          messaging_product: "whatsapp",
-          to: from,
-          type: "text",
-          text: { body: "✅ Class cancelled successfully." },
-        }),
-      });
+      if (!data || data.length === 0) {
+        reply = "You do not have any booked classes.";
+      } else {
+        reply = "❌ Which class do you want to cancel?\n\n";
 
-      return new Response("ok", { status: 200 });
+        data.forEach((slot, index) => {
+          reply += `${index + 1}️⃣ ${slot.date} ${slot.start_time}\n`;
+        });
+
+        reply += "\nReply: cancel 1";
+      }
     } else if (text.startsWith("cancel ")) {
       const index = parseInt(text.split(" ")[1]);
 
@@ -228,7 +125,7 @@ export async function POST(req) {
       const slot = data?.[slotNumber - 1];
 
       if (!slot) {
-        reply = "⚠️ Invalid class number. Please try again.";
+        reply = "Invalid class number.";
       } else {
         await supabase
           .from("slots")
@@ -238,14 +135,10 @@ export async function POST(req) {
           })
           .eq("id", slot.id);
 
-        reply =
-          "✅ *Class Booked Successfully!* 🎉\n\n" +
-          `📅 Date: ${slot.date}\n` +
-          `⏰ Time: ${slot.start_time}\n\n` +
-          "We look forward to seeing you in class!";
+        reply = `✅ Class booked!\n\nDate: ${slot.date}\nTime: ${slot.start_time}`;
       }
     } else {
-      reply = "Send *slots* to see available classes.";
+      reply = "Send *Hi* to see menu.";
     }
 
     await fetch(`https://graph.facebook.com/v18.0/989684764235868/messages`, {
