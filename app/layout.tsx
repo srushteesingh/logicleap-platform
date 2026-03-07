@@ -93,7 +93,9 @@ export default function RootLayout({
         <main>{children}</main>
 
         <footer className="mt-20 bg-gray-900 text-white">
-          <div className="bg-gradient-to-b from-indigo-50 to-white border-t border-purple-100 mt-24">
+          <div className="relative bg-gradient-to-b from-indigo-100 via-purple-50 to-white border-t border-purple-200 mt-24">
+            <div className="absolute top-0 left-1/4 w-72 h-72 bg-purple-300 opacity-20 blur-3xl rounded-full"></div>
+            <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-indigo-300 opacity-20 blur-3xl rounded-full"></div>
             <div className="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-4 gap-12">
               {/* Brand */}
               <div>
