@@ -276,7 +276,10 @@ export default function Home() {
         </div>
       </section>
       {/* MASTERY ROADMAP */}
-      <section id="roadmap" className="relative py-28 px-6 overflow-hidden">
+      <section
+        id="roadmap"
+        className="relative pt-24 pb-10 px-6 overflow-hidden"
+      >
         {/* Background gradient */}
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-indigo-100 via-purple-100 to-blue-100"></div>
 
@@ -370,55 +373,44 @@ export default function Home() {
       </section>
 
       {/* REASSURANCE */}
-      <div className="mt-32 max-w-4xl mx-auto text-center border-t border-gray-200 pt-16">
-        <h2 className="text-3xl md:text-4xl font-bold mb-6">
+      <section className="max-w-4xl mx-auto text-center py-20">
+        <h2 className="text-4xl font-bold mb-6">
           Designed for Every Starting Point
         </h2>
 
-        <p className="text-gray-600 text-lg leading-relaxed">
+        <p className="text-gray-600 text-lg leading-relaxed mb-12">
           Whether your child is just beginning their coding journey or already
           exploring advanced concepts, our assessment-based placement ensures
-          they start at the right level — and progress only after demonstrating
+          they start at the right level and progress only after demonstrating
           true mastery.
         </p>
-      </div>
 
-      {/* HOW IT WORKS */}
-      <div className="max-w-7xl mx-auto py-24 px-6">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12">How It Works</h2>
-
-        <div className="grid md:grid-cols-3 gap-12 text-left">
-          <div>
-            <div className="text-5xl font-bold text-purple-600 mb-4">01</div>
-            <h3 className="text-xl font-semibold mb-3">Book an Assessment</h3>
-            <p className="text-gray-600">
-              We understand your child’s current level through a short
-              interactive evaluation.
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="bg-white p-6 rounded-2xl shadow-md border border-purple-100">
+            <div className="text-3xl mb-3">🚀</div>
+            <h3 className="font-semibold mb-2">No Prior Experience</h3>
+            <p className="text-gray-500 text-sm">
+              Beginners start with visual creativity and logical thinking.
             </p>
           </div>
 
-          <div>
-            <div className="text-5xl font-bold text-purple-600 mb-4">02</div>
-            <h3 className="text-xl font-semibold mb-3">
-              Get Placed in the Right Level
-            </h3>
-            <p className="text-gray-600">
-              Placement is based on competency — not age or grade.
+          <div className="bg-white p-6 rounded-2xl shadow-md border border-purple-100">
+            <div className="text-3xl mb-3">🎯</div>
+            <h3 className="font-semibold mb-2">Personalized Placement</h3>
+            <p className="text-gray-500 text-sm">
+              Every child is assessed and placed at the right competency level.
             </p>
           </div>
 
-          <div>
-            <div className="text-5xl font-bold text-purple-600 mb-4">03</div>
-            <h3 className="text-xl font-semibold mb-3">
-              Build & Progress with Mastery
-            </h3>
-            <p className="text-gray-600">
-              Students advance only after demonstrating real project-based
-              understanding.
+          <div className="bg-white p-6 rounded-2xl shadow-md border border-purple-100">
+            <div className="text-3xl mb-3">🏆</div>
+            <h3 className="font-semibold mb-2">Mastery Based Progress</h3>
+            <p className="text-gray-500 text-sm">
+              Students advance only after demonstrating real understanding.
             </p>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* WHY */}
       <div className="max-w-7xl mx-auto py-24 px-6">
