@@ -82,37 +82,38 @@ export default function Home() {
 
   return (
     <main className="min-h-screen text-gray-900 px-6 py-20">
-      {/* HERO */}
-      <section className="relative w-full py-28 px-6 bg-gradient-to-br from-purple-200 via-indigo-100 to-blue-200 overflow-hidden">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 items-center gap-16">
-          {/* LEFT TEXT */}
-          <div className="max-w-xl">
-            <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.15] text-gray-900">
+      <section className="relative w-full py-28 px-6 bg-gradient-to-br from-purple-200 via-blue-200 to-indigo-300">
+        <div className="max-w-7xl mx-auto bg-white/30 backdrop-blur-md rounded-3xl p-14 grid md:grid-cols-2 gap-16 items-center shadow-xl">
+          {/* LEFT CONTENT */}
+          <div>
+            <h1 className="text-6xl md:text-7xl font-extrabold leading-[1.05] text-gray-900 tracking-tight">
               <span className="block">Choose Your Style.</span>
+
               <span className="block">Set Your Pace.</span>
-              <span className="block text-purple-600">
+
+              <span className="block mt-2 bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 bg-clip-text text-transparent drop-shadow-[0_6px_20px_rgba(168,85,247,0.45)]">
                 Master Future Skills.
               </span>
             </h1>
 
-            <p className="mt-6 text-lg text-gray-700">
+            <p className="mt-8 text-lg text-gray-700 max-w-xl">
               Personalized coding education for kids aged 6–16. Students build
               games, apps, and AI projects while learning the logic behind
               technology.
             </p>
 
-            {/* CTA */}
-            <div className="mt-8 flex flex-wrap gap-4">
+            {/* CTA Buttons */}
+            <div className="mt-10 flex gap-4 flex-wrap">
               <a
                 href="#learning-paths"
-                className="bg-purple-600 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:bg-purple-700 transition"
+                className="px-8 py-4 rounded-xl font-semibold text-white shadow-lg bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 hover:scale-105 transition"
               >
-                Start Your Journey
+                Start Your Journey 🚀
               </a>
 
               <a
                 href="#roadmap"
-                className="bg-white px-8 py-4 rounded-xl font-semibold border border-gray-200 shadow hover:bg-gray-50 transition"
+                className="px-8 py-4 rounded-xl font-semibold bg-white text-gray-800 shadow-md border border-gray-200 hover:bg-gray-50 transition"
               >
                 Explore Roadmap
               </a>
@@ -120,12 +121,12 @@ export default function Home() {
           </div>
 
           {/* RIGHT IMAGE */}
-          <div className="relative">
-            <div className="bg-white p-6 rounded-3xl shadow-2xl">
+          <div className="flex justify-center">
+            <div className="bg-white rounded-2xl p-6 shadow-2xl w-full max-w-md">
               <img
                 src="/hero-illustration.png"
                 alt="Coding illustration"
-                className="rounded-2xl"
+                className="rounded-xl w-full"
               />
             </div>
           </div>
