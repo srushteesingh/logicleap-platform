@@ -32,6 +32,11 @@ export async function POST(req) {
     }
 
     const from = message.from;
+    const { data: student } = await supabase
+      .from("students")
+      .select("*")
+      .eq("phone", from)
+      .single();
 
     const text =
       message.text?.body?.toLowerCase() ||
@@ -42,52 +47,91 @@ export async function POST(req) {
 
     // MENU BUTTONS
     if (text === "hi" || text === "hello") {
-      await fetch(
-        `https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            messaging_product: "whatsapp",
-            to: from,
-            type: "interactive",
-            interactive: {
-              type: "button",
-              body: {
-                text: "🚀 LogicLeap Coding Academy\n\nHow can I help you today?",
-              },
-              action: {
-                buttons: [
-                  {
-                    type: "reply",
-                    reply: {
-                      id: "slots",
-                      title: "View Classes",
-                    },
-                  },
-                  {
-                    type: "reply",
-                    reply: {
-                      id: "myclass",
-                      title: "My Classes",
-                    },
-                  },
-                  {
-                    type: "reply",
-                    reply: {
-                      id: "cancel",
-                      title: "Cancel Class",
-                    },
-                  },
-                ],
-              },
+      // NEW USER
+      if (!student) {
+        await fetch(
+          `https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${ACCESS_TOKEN}`,
+              "Content-Type": "application/json",
             },
-          }),
-        },
-      );
+            body: JSON.stringify({
+              messaging_product: "whatsapp",
+              to: from,
+              type: "interactive",
+              interactive: {
+                type: "button",
+                body: {
+                  text: "🚀 LogicLeap Coding Academy\n\nWelcome! Are you new here?",
+                },
+                action: {
+                  buttons: [
+                    {
+                      type: "reply",
+                      reply: {
+                        id: "register",
+                        title: "Register for Class",
+                      },
+                    },
+                  ],
+                },
+              },
+            }),
+          },
+        );
+      }
+
+      // REGISTERED STUDENT
+      else {
+        await fetch(
+          `https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${ACCESS_TOKEN}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              messaging_product: "whatsapp",
+              to: from,
+              type: "interactive",
+              interactive: {
+                type: "button",
+                body: {
+                  text: "🚀 LogicLeap Coding Academy\n\nHow can I help you today?",
+                },
+                action: {
+                  buttons: [
+                    {
+                      type: "reply",
+                      reply: {
+                        id: "slots",
+                        title: "View Classes",
+                      },
+                    },
+                    {
+                      type: "reply",
+                      reply: {
+                        id: "myclass",
+                        title: "My Classes",
+                      },
+                    },
+                    {
+                      type: "reply",
+                      reply: {
+                        id: "cancel",
+                        title: "Cancel Class",
+                      },
+                    },
+                  ],
+                },
+              },
+            }),
+          },
+        );
+      }
 
       return new Response("ok", { status: 200 });
     }
