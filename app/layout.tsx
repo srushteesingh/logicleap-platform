@@ -19,7 +19,10 @@ export const metadata: Metadata = {
     template: "%s | LogicLeap Coding Academy",
   },
   description:
-    "LogicLeap Coding Academy offers structured coding programs for kids aged 6–16. Learn Scratch, Python, AI, and build real projects through our competency-based learning approach.",
+    "LogicLeap Coding Academy offers structured coding programs for kids aged 6–16.",
+  icons: {
+    icon: "/icon.png",
+  },
 };
 
 export default function RootLayout({
