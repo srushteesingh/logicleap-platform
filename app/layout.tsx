@@ -25,7 +25,63 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="relative min-h-screen bg-gradient-to-br from-purple-100 via-white to-indigo-100 text-gray-900 antialiased overflow-x-hidden">
-        {children}
+        {/* HEADER */}
+        <header className="w-full bg-white shadow-sm">
+          <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            {/* Logo */}
+            <div className="text-xl font-bold text-purple-700">LogicLeap</div>
+
+            {/* Navigation */}
+            <nav className="flex gap-6 text-gray-700 font-medium">
+              <a href="/">Home</a>
+              <a href="/summer-camp">Summer Camp</a>
+              <a href="#">Programs</a>
+              <a href="#">About</a>
+              <a href="#">Contact</a>
+            </nav>
+
+            {/* CTA */}
+            <a
+              href="/summer-camp"
+              className="bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold"
+            >
+              Register
+            </a>
+          </div>
+        </header>
+
+        {/* PAGE CONTENT */}
+        <main>{children}</main>
+
+        <footer className="mt-20 bg-gray-900 text-white">
+          <div className="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-8">
+            <div>
+              <h3 className="text-xl font-semibold mb-3">LogicLeap</h3>
+              <p className="text-gray-400">
+                Building future innovators through structured coding education.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="font-semibold mb-3">Programs</h3>
+              <ul className="space-y-2 text-gray-400">
+                <li>Summer Bootcamp</li>
+                <li>Year Long Program</li>
+                <li>AI & Python Track</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-semibold mb-3">Contact</h3>
+              <p className="text-gray-400">Pune, India</p>
+              <p className="text-gray-400">hello@logicleapcoding.com</p>
+            </div>
+          </div>
+
+          <div className="text-center text-gray-500 py-4 border-t border-gray-800">
+            © 2026 LogicLeap Coding Academy
+          </div>
+        </footer>
       </body>
     </html>
   );
