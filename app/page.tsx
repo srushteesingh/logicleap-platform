@@ -119,40 +119,138 @@ export default function Home() {
         </div>
       </div>
 
-      <section className="max-w-7xl mx-auto mt-20 px-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-          Start Your Coding Journey
-        </h2>
+      <section className="relative py-24 px-6">
+        {/* Soft background glow */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-10 left-20 w-72 h-72 bg-purple-200 rounded-full blur-3xl opacity-40"></div>
+          <div className="absolute bottom-10 right-20 w-72 h-72 bg-indigo-200 rounded-full blur-3xl opacity-40"></div>
+        </div>
 
-        <p className="text-center text-gray-600 mb-12">
-          Flexible learning formats designed for every student.
-        </p>
-
-        <div className="grid md:grid-cols-4 gap-8">
-          <div className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-2xl transition border border-gray-100">
-            <span className="text-xs font-semibold text-purple-600 bg-purple-100 px-3 py-1 rounded-full">
-              Most Popular
-            </span>
-
-            <h3 className="text-xl font-bold mt-4 mb-2">Mastery Journey</h3>
-
-            <p className="text-gray-600 mb-6">
-              Complete coding pathway from Scratch to Python and AI through
-              structured levels.
+        <div className="max-w-7xl mx-auto">
+          {/* Section Title */}
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Start Your Coding Journey
+            </h2>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              Flexible learning formats designed for every student — from short
+              innovation bootcamps to complete coding mastery pathways.
             </p>
+          </div>
 
-            <ul className="text-sm text-gray-600 space-y-2 mb-6">
-              <li>• Small batches (max 4 students)</li>
-              <li>• Weekly 2 guided classes</li>
-              <li>• Project-based learning</li>
-            </ul>
+          {/* Cards Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Mastery Journey */}
+            <div className="relative bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition duration-300 border border-gray-100">
+              <span className="absolute -top-3 left-6 bg-purple-600 text-white text-xs px-3 py-1 rounded-full font-semibold">
+                Most Popular
+              </span>
 
-            <a
-              href="/programs/mastery"
-              className="inline-block bg-purple-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-purple-700 transition"
-            >
-              Explore Program
-            </a>
+              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-purple-100 text-purple-600 text-xl mb-5">
+                🧠
+              </div>
+
+              <h3 className="text-xl font-bold mb-3">Mastery Journey</h3>
+
+              <p className="text-gray-600 mb-6">
+                A complete coding pathway where students progress from Scratch
+                to Python and AI through structured competency levels.
+              </p>
+
+              <ul className="text-sm text-gray-600 space-y-2 mb-6">
+                <li>• Small batches (max 5 students)</li>
+                <li>• Weekly guided classes</li>
+                <li>• Project-based mastery progression</li>
+              </ul>
+
+              <a
+                href="#"
+                className="inline-block font-semibold text-purple-600 hover:text-purple-800"
+              >
+                Explore Program →
+              </a>
+            </div>
+
+            {/* Innovation Sprint */}
+            <div className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition duration-300 border border-gray-100">
+              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-indigo-100 text-indigo-600 text-xl mb-5">
+                🚀
+              </div>
+
+              <h3 className="text-xl font-bold mb-3">Innovation Sprint</h3>
+
+              <p className="text-gray-600 mb-6">
+                Short immersive bootcamps where students build exciting coding
+                projects in just a few days.
+              </p>
+
+              <ul className="text-sm text-gray-600 space-y-2 mb-6">
+                <li>• 5-day coding bootcamp</li>
+                <li>• Project showcase</li>
+                <li>• Perfect for beginners</li>
+              </ul>
+
+              <a
+                href="/summer-camp"
+                className="inline-block font-semibold text-indigo-600 hover:text-indigo-800"
+              >
+                View Bootcamp →
+              </a>
+            </div>
+
+            {/* Coding Club */}
+            <div className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition duration-300 border border-gray-100">
+              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-pink-100 text-pink-600 text-xl mb-5">
+                💡
+              </div>
+
+              <h3 className="text-xl font-bold mb-3">Coding Club</h3>
+
+              <p className="text-gray-600 mb-6">
+                Flexible monthly membership where students continuously explore
+                and build creative coding projects.
+              </p>
+
+              <ul className="text-sm text-gray-600 space-y-2 mb-6">
+                <li>• Monthly subscription</li>
+                <li>• Guided project sessions</li>
+                <li>• Learn at your own pace</li>
+              </ul>
+
+              <a
+                href="#"
+                className="inline-block font-semibold text-pink-600 hover:text-pink-800"
+              >
+                Join Club →
+              </a>
+            </div>
+
+            {/* Skill Accelerator */}
+            <div className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition duration-300 border border-gray-100">
+              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-green-100 text-green-600 text-xl mb-5">
+                ⚡
+              </div>
+
+              <h3 className="text-xl font-bold mb-3">Skill Accelerator</h3>
+
+              <p className="text-gray-600 mb-6">
+                Focused programs designed to master a specific coding technology
+                in structured learning tracks.
+              </p>
+
+              <ul className="text-sm text-gray-600 space-y-2 mb-6">
+                <li>• 12-week focused program</li>
+                <li>• Build advanced projects</li>
+                <li>• Ideal for skill mastery</li>
+              </ul>
+
+              <a
+                href="#"
+                className="inline-block font-semibold text-green-600 hover:text-green-800"
+              >
+                Explore Track →
+              </a>
+            </div>
           </div>
         </div>
       </section>
