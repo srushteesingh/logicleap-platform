@@ -128,7 +128,33 @@ export default function Home() {
           Flexible learning formats designed for every student.
         </p>
 
-        <div className="grid md:grid-cols-4 gap-8"></div>
+        <div className="grid md:grid-cols-4 gap-8">
+          <div className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-2xl transition border border-gray-100">
+            <span className="text-xs font-semibold text-purple-600 bg-purple-100 px-3 py-1 rounded-full">
+              Most Popular
+            </span>
+
+            <h3 className="text-xl font-bold mt-4 mb-2">Mastery Journey</h3>
+
+            <p className="text-gray-600 mb-6">
+              Complete coding pathway from Scratch to Python and AI through
+              structured levels.
+            </p>
+
+            <ul className="text-sm text-gray-600 space-y-2 mb-6">
+              <li>• Small batches (max 4 students)</li>
+              <li>• Weekly 2 guided classes</li>
+              <li>• Project-based learning</li>
+            </ul>
+
+            <a
+              href="/programs/mastery"
+              className="inline-block bg-purple-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-purple-700 transition"
+            >
+              Explore Program
+            </a>
+          </div>
+        </div>
       </section>
       {/* MASTERY ROADMAP */}
       <div className="mt-40 bg-white rounded-3xl shadow-xl px-10 py-20 max-w-6xl mx-auto">
