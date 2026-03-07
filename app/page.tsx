@@ -83,20 +83,18 @@ export default function Home() {
   return (
     <main className="min-h-screen text-gray-900 px-6 py-20">
       {/* HERO */}
-      <section className="relative py-24 px-6 overflow-hidden">
-        {/* Background gradient */}
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-indigo-100 via-purple-100 to-blue-100"></div>
+      <section className="relative w-full min-h-[80vh] flex items-center px-6 py-24 overflow-hidden">
+        {/* Gradient Background */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-purple-200 via-indigo-100 to-blue-200"></div>
 
-        {/* Glow effects */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-purple-300 blur-3xl opacity-40 rounded-full"></div>
-          <div className="absolute bottom-10 right-20 w-72 h-72 bg-indigo-300 blur-3xl opacity-40 rounded-full"></div>
-        </div>
+        {/* Soft Glow Blobs */}
+        <div className="absolute top-20 left-20 w-72 h-72 bg-purple-300 rounded-full blur-3xl opacity-40"></div>
+        <div className="absolute bottom-10 right-20 w-72 h-72 bg-indigo-300 rounded-full blur-3xl opacity-40"></div>
 
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-          {/* Left Content */}
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-20 items-center">
+          {/* LEFT CONTENT */}
           <div>
-            <h1 className="text-5xl md:text-6xl font-extrabold leading-tight mb-6">
+            <h1 className="text-5xl md:text-6xl font-extrabold leading-tight mb-6 text-gray-900">
               <span className="block">Choose Your Style.</span>
               <span className="block">Set Your Pace.</span>
               <span className="block text-purple-600">
@@ -107,11 +105,11 @@ export default function Home() {
             <p className="text-lg text-gray-700 mb-8 max-w-xl">
               Personalized coding education for kids aged 6–16. From interactive
               games to Python and AI — students build real projects while
-              learning the logic behind technology.
+              mastering the logic behind technology.
             </p>
 
-            {/* CTA Buttons */}
-            <div className="flex gap-4 flex-wrap">
+            {/* CTA BUTTONS */}
+            <div className="flex flex-wrap gap-4">
               <a
                 href="#learning-paths"
                 className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:scale-105 transition"
@@ -121,19 +119,19 @@ export default function Home() {
 
               <a
                 href="#roadmap"
-                className="border border-gray-300 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition"
+                className="bg-white px-8 py-4 rounded-xl font-semibold border border-gray-200 shadow hover:bg-gray-50 transition"
               >
                 Explore Roadmap
               </a>
             </div>
           </div>
 
-          {/* Right Illustration */}
+          {/* RIGHT IMAGE CARD */}
           <div className="relative">
-            <div className="bg-white/70 backdrop-blur-lg rounded-3xl shadow-2xl p-6 hover:scale-105 transition">
+            <div className="bg-white/70 backdrop-blur-md p-6 rounded-3xl shadow-2xl hover:scale-105 transition">
               <img
                 src="/hero-illustration.png"
-                alt="Kids learning coding"
+                alt="Coding illustration"
                 className="rounded-2xl"
               />
             </div>
