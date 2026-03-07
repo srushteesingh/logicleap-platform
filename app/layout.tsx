@@ -20,9 +20,6 @@ export const metadata: Metadata = {
   },
   description:
     "LogicLeap Coding Academy offers structured coding programs for kids aged 6–16.",
-  icons: {
-    icon: "/icon.png",
-  },
 };
 
 export default function RootLayout({
