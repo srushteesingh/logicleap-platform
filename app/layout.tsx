@@ -14,7 +14,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LogicLeap Coding Academy",
+  title: {
+    default: "LogicLeap Coding Academy",
+    template: "%s | LogicLeap Coding Academy",
+  },
   description:
     "LogicLeap Coding Academy offers structured coding programs for kids aged 6–16. Learn Scratch, Python, AI, and build real projects through our competency-based learning approach.",
 };
