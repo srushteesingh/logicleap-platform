@@ -82,16 +82,22 @@ export default function Home() {
 
   return (
     <main className="min-h-screen text-gray-900 px-6 py-20">
-      <section className="relative w-full min-h-[70vh] flex items-center px-6 bg-gradient-to-br from-purple-200 via-blue-200 to-indigo-300">
+      <section className="relative w-full min-h-[70vh] flex items-center px-6 bg-gradient-to-br from-purple-200 via-blue-200 to-indigo-300 overflow-hidden">
+        {/* Floating Glow Lights */}
+        <div className="absolute -top-32 -left-32 w-96 h-96 bg-purple-400 opacity-30 blur-[120px] rounded-full"></div>
+        <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-indigo-400 opacity-30 blur-[120px] rounded-full"></div>
+
         <div className="max-w-7xl mx-auto w-full bg-white/30 backdrop-blur-md rounded-3xl px-14 py-12 grid md:grid-cols-2 gap-12 items-center shadow-xl">
           {/* LEFT CONTENT */}
           <div>
-            <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight text-gray-900">
-              <span className="block whitespace-nowrap">
+            <h1 className="text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight">
+              <span className="block whitespace-nowrap text-indigo-900">
                 Choose Your Style.
               </span>
 
-              <span className="block whitespace-nowrap">Set Your Pace.</span>
+              <span className="block whitespace-nowrap text-purple-900">
+                Set Your Pace.
+              </span>
 
               <span className="block whitespace-nowrap mt-2 bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 bg-clip-text text-transparent drop-shadow-[0_6px_18px_rgba(168,85,247,0.45)]">
                 Master Future Skills.
@@ -127,7 +133,7 @@ export default function Home() {
             <div className="bg-white rounded-2xl p-5 shadow-2xl w-full max-w-md">
               <img
                 src="/hero-illustration.png"
-                alt="Coding illustration"
+                alt="Kids learning coding"
                 className="rounded-xl w-full"
               />
             </div>
