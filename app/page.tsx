@@ -83,41 +83,63 @@ export default function Home() {
   return (
     <main className="min-h-screen text-gray-900 px-6 py-20">
       {/* HERO */}
-      <div className="relative max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center py-20">
+      <section className="relative py-24 px-6 overflow-hidden">
+        {/* Background gradient */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-indigo-100 via-purple-100 to-blue-100"></div>
+
+        {/* Glow effects */}
         <div className="absolute inset-0 -z-10">
-          <div className="absolute top-10 left-10 w-72 h-72 bg-purple-200 rounded-full blur-3xl opacity-40"></div>
-          <div className="absolute bottom-10 right-10 w-72 h-72 bg-indigo-200 rounded-full blur-3xl opacity-40"></div>
+          <div className="absolute top-20 left-20 w-72 h-72 bg-purple-300 blur-3xl opacity-40 rounded-full"></div>
+          <div className="absolute bottom-10 right-20 w-72 h-72 bg-indigo-300 blur-3xl opacity-40 rounded-full"></div>
         </div>
 
-        <div>
-          <h1 className="text-5xl md:text-7xl font-extrabold leading-tight mb-6">
-            Build. <span className="text-purple-600">Create.</span> Innovate.
-          </h1>
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+          {/* Left Content */}
+          <div>
+            <h1 className="text-5xl md:text-6xl font-extrabold leading-tight mb-6">
+              <span className="block">Choose Your Style.</span>
+              <span className="block">Set Your Pace.</span>
+              <span className="block text-purple-600">
+                Master Next-Gen Skills.
+              </span>
+            </h1>
 
-          <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-xl">
-            A structured, competency-based coding program where kids build real
-            games, AI systems, and portfolio-ready projects — progressing only
-            after demonstrating true mastery.
-          </p>
+            <p className="text-lg text-gray-700 mb-8 max-w-xl">
+              Personalized coding education for kids aged 6–16. From interactive
+              games to Python and AI — students build real projects while
+              learning the logic behind technology.
+            </p>
 
-          <button className="bg-purple-600 hover:bg-purple-700 text-white px-10 py-5 rounded-full font-semibold text-lg transition duration-300 shadow-xl hover:shadow-purple-400/40">
-            Book Demo Class
-          </button>
-          <p className="mt-6 text-sm text-gray-600">
-            Structured • Assessment-Based • Personalized Learning
-          </p>
-        </div>
+            {/* CTA Buttons */}
+            <div className="flex gap-4 flex-wrap">
+              <a
+                href="#learning-paths"
+                className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:scale-105 transition"
+              >
+                Start Your Journey 🚀
+              </a>
 
-        <div className="relative">
-          <div className="bg-white p-6 rounded-3xl shadow-2xl">
-            <img
-              src="/projects-preview.png"
-              alt="Student Projects"
-              className="rounded-2xl"
-            />
+              <a
+                href="#roadmap"
+                className="border border-gray-300 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition"
+              >
+                Explore Roadmap
+              </a>
+            </div>
+          </div>
+
+          {/* Right Illustration */}
+          <div className="relative">
+            <div className="bg-white/70 backdrop-blur-lg rounded-3xl shadow-2xl p-6 hover:scale-105 transition">
+              <img
+                src="/hero-illustration.png"
+                alt="Kids learning coding"
+                className="rounded-2xl"
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
       <section className="relative py-24 px-6">
         {/* Soft background glow */}
