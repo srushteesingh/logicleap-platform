@@ -277,10 +277,7 @@ export default function Home() {
         </div>
       </section>
       {/* MASTERY ROADMAP */}
-      <div
-        id="roadmap"
-        className="mt-32 max-w-6xl border-t border-gray-200 pt-16"
-      >
+      <div id="roadmap" className="max-w-7xl mx-auto py-24 px-6">
         <h2 className="text-4xl font-bold text-center mb-12">
           The Mastery Roadmap
         </h2>
@@ -382,7 +379,7 @@ export default function Home() {
       </div>
 
       {/* HOW IT WORKS */}
-      <div className="mt-40 bg-purple-50 rounded-3xl px-10 py-20 max-w-6xl mx-auto text-center">
+      <div className="max-w-7xl mx-auto py-24 px-6">
         <h2 className="text-3xl md:text-4xl font-bold mb-12">How It Works</h2>
 
         <div className="grid md:grid-cols-3 gap-12 text-left">
@@ -419,7 +416,7 @@ export default function Home() {
       </div>
 
       {/* WHY */}
-      <div className="mt-40 bg-white rounded-3xl shadow-xl px-10 py-20 max-w-5xl mx-auto">
+      <div className="max-w-7xl mx-auto py-24 px-6">
         <h2 className="text-4xl font-bold mb-12 text-center">Why LogicLeap?</h2>
         <div className="mt-32 max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
