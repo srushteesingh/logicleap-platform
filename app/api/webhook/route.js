@@ -4,10 +4,9 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY,
 );
+const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID;
+const ACCESS_TOKEN = process.env.WHATSAPP_ACCESS_TOKEN;
 
-const PHONE_NUMBER_ID = "989684764235868";
-const ACCESS_TOKEN =
-  "EAAL83hjZBJGwBQ6TGzFm106NluGl6pQ9IsDXkdEEomgdPReYethFjzhidprrA6Ti6hyGParw59ZCukQLPSG2NB3XovVLkBznm7ANmiqtMiBD8J8reGbBM4HeO3s6rJmqbZCZChsIBNJ337NSRHt3sp6uVvvggYFwMLlpsotr5nAbZAJP2r0hBPy8r5cxmNAmBmOmdZC5PSuVgzf5ZBjzhXNjio9gFV8SmMGaPgD";
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
 
