@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,27 +27,30 @@ export default function RootLayout({
     <html lang="en">
       <body className="relative min-h-screen bg-gradient-to-br from-purple-100 via-white to-indigo-100 text-gray-900 antialiased overflow-x-hidden">
         {/* HEADER */}
-        <header className="w-full bg-white shadow-sm">
+        <header className="w-full bg-white shadow-sm sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             {/* Logo */}
             <div className="text-xl font-bold text-purple-700">LogicLeap</div>
 
             {/* Navigation */}
             <nav className="flex gap-6 text-gray-700 font-medium">
-              <a href="/">Home</a>
-              <a href="/summer-camp">Summer Camp</a>
-              <a href="#">Programs</a>
-              <a href="#">About</a>
-              <a href="#">Contact</a>
+              <Link href="/">Home</Link>
+              <Link href="/summer-camp">Summer Camp</Link>
+              <Link href="#">Programs</Link>
+              <Link href="#">About</Link>
+              <Link href="#">Contact</Link>
             </nav>
 
             {/* CTA */}
-            <a
+            <Link
               href="/summer-camp"
               className="bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold"
             >
               Register
-            </a>
+            </Link>
+            <Link href="/student-login" className="text-gray-700 font-medium">
+              Student Login
+            </Link>
           </div>
         </header>
 
