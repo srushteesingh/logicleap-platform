@@ -119,6 +119,17 @@ export default function Home() {
         </div>
       </div>
 
+      <section className="max-w-7xl mx-auto mt-20 px-6">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
+          Start Your Coding Journey
+        </h2>
+
+        <p className="text-center text-gray-600 mb-12">
+          Flexible learning formats designed for every student.
+        </p>
+
+        <div className="grid md:grid-cols-4 gap-8"></div>
+      </section>
       {/* MASTERY ROADMAP */}
       <div className="mt-40 bg-white rounded-3xl shadow-xl px-10 py-20 max-w-6xl mx-auto">
         <h2 className="text-4xl font-bold text-center mb-12">

@@ -113,7 +113,7 @@ export default function RootLayout({
             <div>
               <h3 className="font-semibold mb-3">Contact</h3>
               <p className="text-gray-400">Pune, India</p>
-              <p className="text-gray-400">hello@logicleapcoding.com</p>
+              <p className="text-gray-400">srushteesingh@logicleapcoding.com</p>
             </div>
           </div>
 
