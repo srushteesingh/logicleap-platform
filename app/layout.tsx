@@ -28,29 +28,60 @@ export default function RootLayout({
       <body className="relative min-h-screen bg-gradient-to-br from-purple-100 via-white to-indigo-100 text-gray-900 antialiased overflow-x-hidden">
         {/* HEADER */}
         <header className="w-full bg-white shadow-sm sticky top-0 z-50">
-          <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             {/* Logo */}
-            <div className="text-xl font-bold text-purple-700">LogicLeap</div>
+            <Link href="/" className="text-xl font-bold text-purple-700">
+              LogicLeap
+            </Link>
 
             {/* Navigation */}
-            <nav className="flex gap-6 text-gray-700 font-medium">
-              <Link href="/">Home</Link>
-              <Link href="/summer-camp">Summer Camp</Link>
-              <Link href="#">Programs</Link>
-              <Link href="#">About</Link>
-              <Link href="#">Contact</Link>
+            <nav className="hidden md:flex items-center gap-10 text-gray-700 font-medium">
+              <Link href="/" className="hover:text-purple-600 transition">
+                Home
+              </Link>
+
+              <Link
+                href="/summer-camp"
+                className="hover:text-purple-600 transition"
+              >
+                Summer Camp
+              </Link>
+
+              <Link
+                href="/programs"
+                className="hover:text-purple-600 transition"
+              >
+                Programs
+              </Link>
+
+              <Link href="/about" className="hover:text-purple-600 transition">
+                About
+              </Link>
+
+              <Link
+                href="/contact"
+                className="hover:text-purple-600 transition"
+              >
+                Contact
+              </Link>
             </nav>
 
-            {/* CTA */}
-            <Link
-              href="/summer-camp"
-              className="bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold"
-            >
-              Register
-            </Link>
-            <Link href="/student-login" className="text-gray-700 font-medium">
-              Student Login
-            </Link>
+            {/* Right Side Actions */}
+            <div className="flex items-center gap-6">
+              <Link
+                href="/student-login"
+                className="text-gray-700 font-medium hover:text-purple-600 transition"
+              >
+                Student Login
+              </Link>
+
+              <Link
+                href="/summer-camp"
+                className="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-lg font-semibold transition"
+              >
+                Register
+              </Link>
+            </div>
           </div>
         </header>
 
