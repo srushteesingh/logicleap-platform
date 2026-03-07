@@ -105,9 +105,8 @@ export default function Home() {
             </h1>
 
             <p className="mt-6 text-lg text-gray-700 max-w-lg">
-              Personalized coding education for kids aged 6–16. Students build
-              games, apps, and AI projects while learning the logic behind
-              technology.
+              Personalized coding education for kids aged 6–16. We teach logical
+              thinking, creativity, and problem solving — not just coding.
             </p>
 
             {/* CTA Buttons */}
@@ -278,141 +277,93 @@ export default function Home() {
       </section>
       {/* MASTERY ROADMAP */}
       <section id="roadmap" className="relative py-28 px-6 overflow-hidden">
-        {/* Background Gradient */}
+        {/* Background gradient */}
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-indigo-100 via-purple-100 to-blue-100"></div>
 
-        {/* Glow Lights */}
-        <div className="absolute top-20 left-20 w-96 h-96 bg-purple-400 opacity-25 blur-[140px] rounded-full"></div>
-        <div className="absolute bottom-10 right-20 w-96 h-96 bg-indigo-400 opacity-25 blur-[140px] rounded-full"></div>
+        {/* Glow lights */}
+        <div className="absolute top-20 left-20 w-96 h-96 bg-purple-400 opacity-20 blur-[140px] rounded-full"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-indigo-400 opacity-20 blur-[140px] rounded-full"></div>
 
         <div className="max-w-7xl mx-auto">
-          {/* Section Title */}
           <h2 className="text-4xl font-bold text-center mb-20">
             The Mastery Roadmap
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-16 items-start">
-            {/* LEFT TIMELINE */}
+          <div className="grid md:grid-cols-3 gap-16">
+            {/* Timeline */}
             <div className="space-y-10 relative">
-              {/* Vertical line */}
-              <div className="absolute left-3 top-2 bottom-2 w-[2px] bg-gradient-to-b from-purple-500 to-indigo-500"></div>
+              <div className="absolute left-3 top-0 bottom-0 w-[2px] bg-gradient-to-b from-purple-500 to-indigo-500"></div>
 
-              {/* Level 1 */}
-              <div className="flex gap-4 items-start">
-                <div className="relative z-10 w-4 h-4 bg-purple-600 rounded-full shadow-[0_0_12px_rgba(168,85,247,0.8)]"></div>
+              {levels.map((level) => (
+                <div
+                  key={level.id}
+                  onClick={() => setActiveLevel(level.id)}
+                  className="flex gap-4 cursor-pointer items-start group hover:translate-x-1 transition"
+                >
+                  <div
+                    className={`w-4 h-4 rounded-full transition-all ${
+                      activeLevel === level.id
+                        ? "bg-purple-600 shadow-[0_0_14px_rgba(168,85,247,0.8)]"
+                        : "border-2 border-gray-300 group-hover:border-purple-400"
+                    }`}
+                  ></div>
 
-                <div>
-                  <p className="font-semibold text-purple-700">Level 1</p>
-                  <p className="text-gray-600 text-sm">Digital Foundations</p>
+                  <div>
+                    <p
+                      className={`font-semibold ${
+                        activeLevel === level.id
+                          ? "text-purple-700"
+                          : "text-gray-800"
+                      }`}
+                    >
+                      Level {level.id}
+                    </p>
+
+                    <p className="text-sm text-gray-600">{level.title}</p>
+                  </div>
                 </div>
-              </div>
-
-              {/* Level 2 */}
-              <div className="flex gap-4 items-start">
-                <div className="w-4 h-4 border-2 border-gray-300 rounded-full"></div>
-
-                <div>
-                  <p className="font-semibold text-gray-800">Level 2</p>
-                  <p className="text-gray-600 text-sm">Logic & Game Design</p>
-                </div>
-              </div>
-
-              {/* Level 3 */}
-              <div className="flex gap-4 items-start">
-                <div className="w-4 h-4 border-2 border-gray-300 rounded-full"></div>
-
-                <div>
-                  <p className="font-semibold text-gray-800">Level 3</p>
-                  <p className="text-gray-600 text-sm">
-                    Real Coding with Python
-                  </p>
-                </div>
-              </div>
-
-              {/* Level 4 */}
-              <div className="flex gap-4 items-start">
-                <div className="w-4 h-4 border-2 border-gray-300 rounded-full"></div>
-
-                <div>
-                  <p className="font-semibold text-gray-800">Level 4</p>
-                  <p className="text-gray-600 text-sm">
-                    Advanced Game & App Development
-                  </p>
-                </div>
-              </div>
-
-              {/* Level 5 */}
-              <div className="flex gap-4 items-start">
-                <div className="w-4 h-4 border-2 border-gray-300 rounded-full"></div>
-
-                <div>
-                  <p className="font-semibold text-gray-800">Level 5</p>
-                  <p className="text-gray-600 text-sm">
-                    AI & Intelligent Systems
-                  </p>
-                </div>
-              </div>
-
-              {/* Level 6 */}
-              <div className="flex gap-4 items-start">
-                <div className="w-4 h-4 border-2 border-gray-300 rounded-full"></div>
-
-                <div>
-                  <p className="font-semibold text-gray-800">Level 6</p>
-                  <p className="text-gray-600 text-sm">
-                    Innovation & Capstone Engineering
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
 
-            {/* RIGHT CARD */}
+            {/* Right Card */}
             <div className="md:col-span-2 relative">
-              {/* Glow Behind Card */}
+              {/* Glow */}
               <div className="absolute inset-0 bg-gradient-to-r from-purple-300 via-indigo-300 to-blue-300 blur-3xl opacity-20 rounded-3xl"></div>
 
-              <div className="relative bg-white rounded-3xl p-10 shadow-2xl border border-purple-100">
-                {/* Badge */}
-                <span className="inline-block mb-6 px-4 py-1 text-xs font-semibold text-white bg-purple-600 rounded-full">
-                  LEVEL 1
-                </span>
+              {levels
+                .filter((level) => level.id === activeLevel)
+                .map((level) => (
+                  <div
+                    key={level.id}
+                    className="relative bg-white rounded-3xl p-10 shadow-2xl border border-purple-100"
+                  >
+                    <span className="inline-block mb-6 px-4 py-1 text-xs font-semibold text-white bg-purple-600 rounded-full">
+                      LEVEL {level.id}
+                    </span>
 
-                {/* Title */}
-                <h3 className="text-3xl font-bold mb-3">Digital Foundations</h3>
+                    <h3 className="text-3xl font-bold mb-3">{level.title}</h3>
 
-                <p className="text-gray-600 mb-8">
-                  Building computational thinking through creativity.
-                </p>
+                    <p className="text-gray-600 mb-8">{level.identity}</p>
 
-                {/* Competencies */}
-                <h4 className="font-semibold mb-4">Core Competencies</h4>
+                    <h4 className="font-semibold mb-4">Core Competencies</h4>
 
-                <div className="flex flex-wrap gap-3 mb-10">
-                  <span className="px-4 py-2 text-sm rounded-full bg-purple-100 text-purple-700 border border-purple-200">
-                    Sequencing & logical flow
-                  </span>
+                    <div className="flex flex-wrap gap-3 mb-10">
+                      {level.competencies.map((skill, index) => (
+                        <span
+                          key={index}
+                          className="px-4 py-2 text-sm rounded-full bg-purple-100 text-purple-700 border border-purple-200"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
 
-                  <span className="px-4 py-2 text-sm rounded-full bg-purple-100 text-purple-700 border border-purple-200">
-                    Events & interaction design
-                  </span>
-
-                  <span className="px-4 py-2 text-sm rounded-full bg-purple-100 text-purple-700 border border-purple-200">
-                    Creative problem solving
-                  </span>
-
-                  <span className="px-4 py-2 text-sm rounded-full bg-purple-100 text-purple-700 border border-purple-200">
-                    Basic debugging
-                  </span>
-                </div>
-
-                <div className="border-t pt-6 text-gray-700">
-                  <strong>Mastery Requirement:</strong>
-                  <span className="ml-2">
-                    Students demonstrate structured logic through mini-project
-                    evaluation.
-                  </span>
-                </div>
-              </div>
+                    <div className="border-t pt-6 text-gray-700">
+                      <strong>Mastery Requirement:</strong>
+                      <span className="ml-2">{level.outcome}</span>
+                    </div>
+                  </div>
+                ))}
             </div>
           </div>
         </div>
