@@ -141,7 +141,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative py-24 px-6">
+      <section id="learning-paths" className="relative py-24 px-6">
         {/* Soft background glow */}
         <div className="absolute inset-0 -z-10">
           <div className="absolute top-10 left-20 w-72 h-72 bg-purple-200 rounded-full blur-3xl opacity-40"></div>
@@ -180,7 +180,7 @@ export default function Home() {
               </p>
 
               <ul className="text-sm text-gray-600 space-y-2 mb-6">
-                <li>• Small batches (max 5 students)</li>
+                <li>• Small batches (max 4 students)</li>
                 <li>• Weekly guided classes</li>
                 <li>• Project-based mastery progression</li>
               </ul>
@@ -277,7 +277,10 @@ export default function Home() {
         </div>
       </section>
       {/* MASTERY ROADMAP */}
-      <div className="mt-40 bg-white rounded-3xl shadow-xl px-10 py-20 max-w-6xl mx-auto">
+      <div
+        id="roadmap"
+        className="mt-32 max-w-6xl border-t border-gray-200 pt-16"
+      >
         <h2 className="text-4xl font-bold text-center mb-12">
           The Mastery Roadmap
         </h2>
