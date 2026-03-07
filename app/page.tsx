@@ -413,43 +413,59 @@ export default function Home() {
       </section>
 
       {/* WHY */}
-      <div className="max-w-7xl mx-auto py-24 px-6">
-        <h2 className="text-4xl font-bold mb-12 text-center">Why LogicLeap?</h2>
-        <div className="mt-32 max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Not Just Coding Classes.
-          </h2>
-        </div>
-        <div className="grid md:grid-cols-3 gap-10 text-left">
-          <div className="bg-purple-50 p-6 rounded-2xl">
-            <h3 className="text-xl font-semibold mb-3">
-              Project-Based Learning
-            </h3>
-            <p className="text-gray-600">
-              Kids build real games, animations, and apps — not just watch
-              tutorials.
-            </p>
-          </div>
+      <section className="py-24 px-6">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-4xl font-bold mb-6">What Kids Actually Build</h2>
 
-          <div className="bg-purple-50 p-6 rounded-2xl">
-            <h3 className="text-xl font-semibold mb-3">
-              Personalized Curriculum
-            </h3>
-            <p className="text-gray-600">
-              Every student gets a learning path tailored to their interest and
-              pace.
-            </p>
-          </div>
+          <p className="text-gray-600 text-lg max-w-3xl mx-auto mb-16">
+            Students don't just learn coding concepts. They apply them by
+            building real projects that combine creativity, logic, and problem
+            solving.
+          </p>
 
-          <div className="bg-purple-50 p-6 rounded-2xl">
-            <h3 className="text-xl font-semibold mb-3">Future-Ready Skills</h3>
-            <p className="text-gray-600">
-              We teach logical thinking, creativity, and problem solving — not
-              just coding.
-            </p>
+          <div className="grid md:grid-cols-4 gap-8">
+            {/* Game Project */}
+            <div className="bg-white rounded-2xl p-8 shadow-md hover:shadow-xl transition border border-purple-100">
+              <div className="text-4xl mb-4">🎮</div>
+              <h3 className="text-xl font-semibold mb-3">Game Projects</h3>
+              <p className="text-gray-600 text-sm">
+                Students design playable games with levels, scoring systems, and
+                character mechanics.
+              </p>
+            </div>
+
+            {/* Apps */}
+            <div className="bg-white rounded-2xl p-8 shadow-md hover:shadow-xl transition border border-purple-100">
+              <div className="text-4xl mb-4">📱</div>
+              <h3 className="text-xl font-semibold mb-3">Mobile Apps</h3>
+              <p className="text-gray-600 text-sm">
+                Kids create simple mobile apps like quiz apps, habit trackers,
+                and productivity tools.
+              </p>
+            </div>
+
+            {/* AI */}
+            <div className="bg-white rounded-2xl p-8 shadow-md hover:shadow-xl transition border border-purple-100">
+              <div className="text-4xl mb-4">🤖</div>
+              <h3 className="text-xl font-semibold mb-3">AI Mini Projects</h3>
+              <p className="text-gray-600 text-sm">
+                Students explore how AI works by building small intelligent
+                tools and experiments.
+              </p>
+            </div>
+
+            {/* Creativity */}
+            <div className="bg-white rounded-2xl p-8 shadow-md hover:shadow-xl transition border border-purple-100">
+              <div className="text-4xl mb-4">🎨</div>
+              <h3 className="text-xl font-semibold mb-3">Creative Tech</h3>
+              <p className="text-gray-600 text-sm">
+                Interactive animations, digital stories, and creative
+                experiments combining art with logic.
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </main>
   );
 }
