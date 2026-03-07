@@ -292,7 +292,7 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-16">
             {/* Timeline */}
             <div className="space-y-10 relative">
-              <div className="absolute left-3 top-0 bottom-0 w-[2px] bg-gradient-to-b from-purple-500 to-indigo-500"></div>
+              <div className="absolute left-[6px] top-2 bottom-2 border-l-2 border-dashed border-purple-300"></div>
 
               {levels.map((level) => (
                 <div
