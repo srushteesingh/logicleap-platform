@@ -38,14 +38,8 @@ export default function RootLayout({
 
           <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4 relative">
             {/* Logo + Brand */}
-            <div className="flex items-center gap-3 text-xl font-bold">
-              <img
-                src="/logo.png"
-                alt="LogicLeap Rocket"
-                className="w-25 h-25 object-contain hover:scale-110 transition duration-200"
-              />
-
-              <span>LogicLeap</span>
+            <div className="text-2xl font-bold tracking-wide text-white">
+              LogicLeap
             </div>
 
             {/* Navigation */}
