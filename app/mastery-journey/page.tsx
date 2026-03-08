@@ -12,17 +12,17 @@ export default function MasteryJourney() {
         </h1>
 
         <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-10">
-          From creative coding to artificial intelligence — a structured pathway
-          where students gradually develop real technology skills through
-          hands-on projects.
+          A structured pathway where students progress from creative coding to
+          real programming and artificial intelligence through hands-on
+          projects.
         </p>
 
         <div className="flex justify-center gap-6">
           <a
             href="/summer-camp"
-            className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-xl font-semibold transition shadow-lg"
+            className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg transition"
           >
-            Start with a Trial Class
+            Book a Trial Class
           </a>
 
           <a
@@ -34,161 +34,139 @@ export default function MasteryJourney() {
         </div>
       </section>
 
-      {/* PROGRAM PROMISE */}
+      {/* WHY PROGRAM */}
       <section className="mb-28">
-        <h2 className="text-3xl font-bold mb-6 text-center">
-          A Complete Coding Pathway
+        <h2 className="text-3xl font-bold text-center mb-12">
+          Why Parents Choose This Program
         </h2>
 
-        <p className="text-gray-600 text-center max-w-3xl mx-auto mb-14">
-          Students follow a structured journey that gradually introduces new
-          technologies and deeper programming concepts.
-        </p>
-
         <div className="grid md:grid-cols-3 gap-8">
-          <div className="bg-white rounded-2xl p-7 shadow-lg border border-gray-100">
-            <h3 className="font-semibold mb-3">Creative Foundations</h3>
+          <div className="bg-white rounded-2xl p-7 shadow border border-gray-100">
+            <h3 className="font-semibold mb-3">Structured Learning Path</h3>
             <p className="text-sm text-gray-600">
-              Students start with games and animations that build computational
-              thinking.
+              Students move step-by-step from beginner coding to advanced
+              programming.
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl p-7 shadow-lg border border-gray-100">
-            <h3 className="font-semibold mb-3">Real Programming</h3>
+          <div className="bg-white rounded-2xl p-7 shadow border border-gray-100">
+            <h3 className="font-semibold mb-3">Project-Based Learning</h3>
             <p className="text-sm text-gray-600">
-              Students transition into real coding using structured programming
-              languages.
+              Concepts are learned by building real projects instead of passive
+              lessons.
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl p-7 shadow-lg border border-gray-100">
-            <h3 className="font-semibold mb-3">Future Technologies</h3>
+          <div className="bg-white rounded-2xl p-7 shadow border border-gray-100">
+            <h3 className="font-semibold mb-3">Small Personalised Batches</h3>
             <p className="text-sm text-gray-600">
-              Advanced learners explore AI, machine learning, and modern
-              technology tools.
+              Small groups ensure each student receives individual guidance.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* LEARNING PATH */}
+      <section className="mb-28 text-center">
+        <h2 className="text-3xl font-bold mb-10">Learning Journey</h2>
+
+        <div className="flex flex-wrap justify-center gap-6 text-sm font-semibold">
+          <div className="px-6 py-3 bg-purple-100 text-purple-700 rounded-full">
+            Scratch
+          </div>
+
+          <div className="px-6 py-3 bg-indigo-100 text-indigo-700 rounded-full">
+            App Development
+          </div>
+
+          <div className="px-6 py-3 bg-blue-100 text-blue-700 rounded-full">
+            Web Development
+          </div>
+
+          <div className="px-6 py-3 bg-green-100 text-green-700 rounded-full">
+            Python Programming
+          </div>
+
+          <div className="px-6 py-3 bg-orange-100 text-orange-700 rounded-full">
+            Artificial Intelligence
           </div>
         </div>
       </section>
 
       {/* TECHNOLOGY STACK */}
       <section id="tech" className="mb-28">
-        <h2 className="text-3xl font-bold mb-6 text-center">
-          Technologies Students Explore
+        <h2 className="text-3xl font-bold text-center mb-14">
+          Technologies Students Learn
         </h2>
 
-        <p className="text-gray-600 text-center max-w-3xl mx-auto mb-14">
-          Students gradually move from creative coding to modern software
-          development technologies used by real developers.
-        </p>
-
         <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-8">
-          <div className="bg-white rounded-2xl p-7 shadow-lg border border-gray-100 hover:shadow-xl transition">
-            <div className="text-3xl mb-3">🎮</div>
-            <h3 className="font-semibold mb-2">Scratch</h3>
-            <p className="text-sm text-gray-600">
-              Interactive games and animations.
-            </p>
+          <div className="bg-white rounded-2xl p-7 shadow border border-gray-100 text-center">
+            🎮 Scratch
           </div>
-
-          <div className="bg-white rounded-2xl p-7 shadow-lg border border-gray-100 hover:shadow-xl transition">
-            <div className="text-3xl mb-3">📱</div>
-            <h3 className="font-semibold mb-2">App Development</h3>
-            <p className="text-sm text-gray-600">
-              Build mobile apps using platforms like Thunkable.
-            </p>
+          <div className="bg-white rounded-2xl p-7 shadow border border-gray-100 text-center">
+            📱 Thunkable Apps
           </div>
-
-          <div className="bg-white rounded-2xl p-7 shadow-lg border border-gray-100 hover:shadow-xl transition">
-            <div className="text-3xl mb-3">🌐</div>
-            <h3 className="font-semibold mb-2">Web Development</h3>
-            <p className="text-sm text-gray-600">
-              Build websites using HTML, CSS and JavaScript.
-            </p>
+          <div className="bg-white rounded-2xl p-7 shadow border border-gray-100 text-center">
+            🌐 HTML CSS JavaScript
           </div>
-
-          <div className="bg-white rounded-2xl p-7 shadow-lg border border-gray-100 hover:shadow-xl transition">
-            <div className="text-3xl mb-3">🐍</div>
-            <h3 className="font-semibold mb-2">Python</h3>
-            <p className="text-sm text-gray-600">
-              Learn real programming logic.
-            </p>
+          <div className="bg-white rounded-2xl p-7 shadow border border-gray-100 text-center">
+            🐍 Python
           </div>
-
-          <div className="bg-white rounded-2xl p-7 shadow-lg border border-gray-100 hover:shadow-xl transition">
-            <div className="text-3xl mb-3">☕</div>
-            <h3 className="font-semibold mb-2">Java</h3>
-            <p className="text-sm text-gray-600">
-              Object oriented programming fundamentals.
-            </p>
+          <div className="bg-white rounded-2xl p-7 shadow border border-gray-100 text-center">
+            ☕ Java Fundamentals
           </div>
-
-          <div className="bg-white rounded-2xl p-7 shadow-lg border border-gray-100 hover:shadow-xl transition">
-            <div className="text-3xl mb-3">🧊</div>
-            <h3 className="font-semibold mb-2">3D Design</h3>
-            <p className="text-sm text-gray-600">
-              Explore 3D modelling and immersive experiences.
-            </p>
+          <div className="bg-white rounded-2xl p-7 shadow border border-gray-100 text-center">
+            🧊 3D Modelling
           </div>
-          <div className="bg-white rounded-2xl p-7 shadow-lg border border-gray-100 hover:shadow-xl transition">
-            <div className="text-3xl mb-3">🧠</div>
-            <h3 className="font-semibold mb-2">Machine Learning</h3>
-            <p className="text-sm text-gray-600">
-              Learn how machines learn using real data.
-            </p>
+          <div className="bg-white rounded-2xl p-7 shadow border border-gray-100 text-center">
+            🤖 Artificial Intelligence
           </div>
-          <div className="bg-white rounded-2xl p-7 shadow-lg border border-gray-100 hover:shadow-xl transition">
-            <div className="text-3xl mb-3">🤖</div>
-            <h3 className="font-semibold mb-2">Artificial Intelligence</h3>
-            <p className="text-sm text-gray-600">
-              Build intelligent applications using AI tools.
-            </p>
+          <div className="bg-white rounded-2xl p-7 shadow border border-gray-100 text-center">
+            🧠 Machine Learning
           </div>
         </div>
       </section>
 
       {/* PROJECTS */}
       <section className="mb-28">
-        <h2 className="text-3xl font-bold mb-6 text-center">
+        <h2 className="text-3xl font-bold text-center mb-12">
           Projects Students Build
         </h2>
 
-        <p className="text-gray-600 text-center max-w-3xl mx-auto mb-14">
-          Students apply their learning through real projects that combine
-          creativity and technology.
-        </p>
-
         <div className="grid md:grid-cols-4 gap-8">
-          <div className="bg-white p-6 rounded-2xl shadow border border-gray-100">
-            🎮 Game Projects
+          <div className="bg-white rounded-xl p-6 shadow border border-gray-100">
+            🎮 Interactive Games
           </div>
 
-          <div className="bg-white p-6 rounded-2xl shadow border border-gray-100">
+          <div className="bg-white rounded-xl p-6 shadow border border-gray-100">
             📱 Mobile Apps
           </div>
 
-          <div className="bg-white p-6 rounded-2xl shadow border border-gray-100">
+          <div className="bg-white rounded-xl p-6 shadow border border-gray-100">
             🌐 Websites
           </div>
 
-          <div className="bg-white p-6 rounded-2xl shadow border border-gray-100">
-            🤖 AI Experiments
+          <div className="bg-white rounded-xl p-6 shadow border border-gray-100">
+            🤖 AI Mini Projects
           </div>
         </div>
       </section>
 
       {/* CTA */}
       <section className="text-center">
-        <h2 className="text-2xl font-semibold mb-6">
-          Start Your Coding Journey
+        <h2 className="text-3xl font-bold mb-6">
+          Start Your Child's Coding Journey
         </h2>
+
+        <p className="text-gray-600 mb-8">
+          Book a trial class and discover the right starting point.
+        </p>
 
         <a
           href="/summer-camp"
           className="inline-block bg-purple-600 hover:bg-purple-700 text-white px-10 py-4 rounded-xl font-semibold transition"
         >
-          Book a Free Trial Class
+          Book Free Trial
         </a>
       </section>
     </div>
