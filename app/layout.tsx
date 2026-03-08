@@ -93,7 +93,8 @@ export default function RootLayout({
         <main>{children}</main>
 
         <footer className="mt-20 bg-gray-900 text-white">
-          <div className="relative bg-gradient-to-b from-indigo-100 via-purple-50 to-white border-t border-purple-200 mt-24">
+          <div className="relative bg-gradient-to-b from-indigo-900 via-purple-900 to-indigo-950 text-white mt-24">
+            <div className="absolute top-10 left-1/3 w-96 h-96 bg-purple-500 opacity-20 blur-3xl rounded-full"></div>
             <div className="absolute top-0 left-1/4 w-72 h-72 bg-purple-300 opacity-20 blur-3xl rounded-full"></div>
             <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-indigo-300 opacity-20 blur-3xl rounded-full"></div>
             <div className="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-4 gap-12">
@@ -103,7 +104,7 @@ export default function RootLayout({
                   LogicLeap
                 </h3>
 
-                <p className="text-gray-600 text-sm leading-relaxed">
+                <p className="text-indigo-200 text-sm leading-relaxed">
                   A competency-based coding academy helping kids build real
                   technology skills through creativity, logic, and project-based
                   learning.
@@ -114,7 +115,7 @@ export default function RootLayout({
               <div>
                 <h4 className="font-semibold mb-4">Quick Links</h4>
 
-                <ul className="space-y-2 text-gray-600 text-sm">
+                <ul className="space-y-2 text-indigo-200 text-sm">
                   <li>
                     <a href="#roadmap" className="hover:text-purple-600">
                       Curriculum
@@ -142,7 +143,7 @@ export default function RootLayout({
               <div>
                 <h4 className="font-semibold mb-4">Programs</h4>
 
-                <ul className="space-y-2 text-gray-600 text-sm">
+                <ul className="space-y-2 text-indigo-200 text-sm">
                   <li>🚀 Weekly Bootcamps</li>
                   <li>📅 Monthly Programs</li>
                   <li>🎯 12-Week Skill Tracks</li>
@@ -154,7 +155,7 @@ export default function RootLayout({
               <div>
                 <h4 className="font-semibold mb-4">Start Learning</h4>
 
-                <p className="text-gray-600 text-sm mb-4">
+                <p className="text-indigo-200 text-sm mb-4">
                   Book a free assessment to find the perfect starting point for
                   your child.
                 </p>
@@ -169,7 +170,7 @@ export default function RootLayout({
             </div>
 
             {/* Bottom */}
-            <div className="border-t border-purple-100 text-center py-6 text-sm text-gray-500">
+            <div className="border-t border-purple-100 text-center py-6 text-sm text-indigo-300">
               © {new Date().getFullYear()} LogicLeap Coding Academy
             </div>
           </div>
