@@ -32,18 +32,24 @@ export default function RootLayout({
       <body className="bg-gradient-to-br from-purple-100 via-blue-100 to-indigo-200">
         {/* HEADER */}
         <header className="relative sticky top-0 z-50 bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-950 text-white shadow-lg overflow-hidden">
+          {/* Glow Effects */}
           <div className="absolute -top-16 left-1/4 w-72 h-72 bg-purple-500 opacity-25 blur-3xl rounded-full"></div>
           <div className="absolute -bottom-16 right-1/4 w-72 h-72 bg-indigo-500 opacity-25 blur-3xl rounded-full"></div>
-          <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-            {/* Logo */}
-            <div className="flex items-center gap-3 font-bold text-xl">
-              <img src="/logo.png" alt="LogicLeap Logo" className="w-8 h-8" />
+
+          <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4 relative">
+            {/* Logo + Brand */}
+            <div className="flex items-center gap-3 text-xl font-bold">
+              <img
+                src="/logo.png"
+                alt="LogicLeap Rocket"
+                className="w-12 h-12 object-contain hover:scale-110 transition duration-200"
+              />
 
               <span>LogicLeap</span>
             </div>
 
             {/* Navigation */}
-            <nav className="flex gap-8 text-sm font-medium">
+            <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
               <a
                 href="#learning-paths"
                 className="hover:text-purple-300 transition"
@@ -67,7 +73,7 @@ export default function RootLayout({
               </a>
             </nav>
 
-            {/* CTA */}
+            {/* CTA Button */}
             <a
               href="/summer-camp"
               className="bg-purple-600 hover:bg-purple-700 px-5 py-2 rounded-lg text-sm font-semibold transition"
