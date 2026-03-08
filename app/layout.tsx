@@ -31,7 +31,9 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-gradient-to-br from-purple-100 via-blue-100 to-indigo-200">
         {/* HEADER */}
-        <header className="sticky top-0 z-50 bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-950 text-white shadow-lg">
+        <header className="relative sticky top-0 z-50 bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-950 text-white shadow-lg overflow-hidden">
+          <div className="absolute -top-16 left-1/4 w-72 h-72 bg-purple-500 opacity-25 blur-3xl rounded-full"></div>
+          <div className="absolute -bottom-16 right-1/4 w-72 h-72 bg-indigo-500 opacity-25 blur-3xl rounded-full"></div>
           <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
             {/* Logo */}
             <div className="text-xl font-bold tracking-wide">LogicLeap</div>
