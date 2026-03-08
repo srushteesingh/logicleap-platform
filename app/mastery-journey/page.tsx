@@ -45,53 +45,88 @@ export default function MasteryJourney() {
         </div>
       </section>
       {/* Technology Pathway */}
-      <section className="mb-20">
-        <h2 className="text-2xl font-semibold mb-8">Technology Pathway</h2>
+      {/* Technology Stack */}
+      <section className="mb-24">
+        <h2 className="text-3xl font-bold mb-8">
+          Technologies Students Explore
+        </h2>
 
-        <p className="text-gray-600 mb-10 max-w-3xl">
-          As students progress through the Mastery Journey, they work with
-          different technologies that gradually build their understanding of
-          real programming and modern digital tools.
+        <p className="text-gray-600 max-w-3xl mb-12">
+          The Mastery Journey introduces students to modern technologies used by
+          real developers. Each stage builds new skills while keeping learning
+          creative, engaging, and age-appropriate.
         </p>
 
-        <div className="grid md:grid-cols-5 gap-6">
-          <div className="bg-white rounded-xl p-6 shadow border border-gray-100 text-center">
-            <div className="text-3xl mb-3">🎨</div>
+        <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-8">
+          {/* Scratch */}
+          <div className="bg-white rounded-2xl p-6 shadow border border-gray-100">
+            <div className="text-3xl mb-3">🎮</div>
             <h3 className="font-semibold mb-2">Scratch</h3>
             <p className="text-sm text-gray-600">
-              Build interactive games and animations while learning logic.
+              Interactive games and animations that build logic and creativity.
             </p>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow border border-gray-100 text-center">
+          {/* App Development */}
+          <div className="bg-white rounded-2xl p-6 shadow border border-gray-100">
             <div className="text-3xl mb-3">📱</div>
-            <h3 className="font-semibold mb-2">Thunkable</h3>
+            <h3 className="font-semibold mb-2">App Development</h3>
             <p className="text-sm text-gray-600">
-              Create simple mobile apps and understand UI design.
+              Students design mobile apps using tools like Thunkable.
             </p>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow border border-gray-100 text-center">
-            <div className="text-3xl mb-3">🧊</div>
-            <h3 className="font-semibold mb-2">3D & AR/VR</h3>
+          {/* Web Development */}
+          <div className="bg-white rounded-2xl p-6 shadow border border-gray-100">
+            <div className="text-3xl mb-3">🌐</div>
+            <h3 className="font-semibold mb-2">Web Development</h3>
             <p className="text-sm text-gray-600">
-              Explore 3D environments and interactive immersive experiences.
+              Build real websites using HTML, CSS and JavaScript.
             </p>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow border border-gray-100 text-center">
+          {/* Python */}
+          <div className="bg-white rounded-2xl p-6 shadow border border-gray-100">
             <div className="text-3xl mb-3">🐍</div>
-            <h3 className="font-semibold mb-2">Python</h3>
+            <h3 className="font-semibold mb-2">Python Programming</h3>
             <p className="text-sm text-gray-600">
-              Learn real programming concepts and build applications.
+              Learn real programming logic used by professional developers.
             </p>
           </div>
 
-          <div className="bg-white rounded-xl p-6 shadow border border-gray-100 text-center">
-            <div className="text-3xl mb-3">🤖</div>
-            <h3 className="font-semibold mb-2">AI Projects</h3>
+          {/* Java */}
+          <div className="bg-white rounded-2xl p-6 shadow border border-gray-100">
+            <div className="text-3xl mb-3">☕</div>
+            <h3 className="font-semibold mb-2">Java Fundamentals</h3>
             <p className="text-sm text-gray-600">
-              Understand AI basics and build simple intelligent tools.
+              Understand object-oriented programming concepts.
+            </p>
+          </div>
+
+          {/* 3D */}
+          <div className="bg-white rounded-2xl p-6 shadow border border-gray-100">
+            <div className="text-3xl mb-3">🧊</div>
+            <h3 className="font-semibold mb-2">3D Design</h3>
+            <p className="text-sm text-gray-600">
+              Explore 3D modelling and immersive creative environments.
+            </p>
+          </div>
+
+          {/* AI */}
+          <div className="bg-white rounded-2xl p-6 shadow border border-gray-100">
+            <div className="text-3xl mb-3">🤖</div>
+            <h3 className="font-semibold mb-2">Artificial Intelligence</h3>
+            <p className="text-sm text-gray-600">
+              Build intelligent applications using AI tools and APIs.
+            </p>
+          </div>
+
+          {/* Machine Learning */}
+          <div className="bg-white rounded-2xl p-6 shadow border border-gray-100">
+            <div className="text-3xl mb-3">🧠</div>
+            <h3 className="font-semibold mb-2">Machine Learning</h3>
+            <p className="text-sm text-gray-600">
+              Learn how machines learn using real data experiments.
             </p>
           </div>
         </div>
