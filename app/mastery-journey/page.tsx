@@ -44,7 +44,58 @@ export default function MasteryJourney() {
           </div>
         </div>
       </section>
+      {/* Technology Pathway */}
+      <section className="mb-20">
+        <h2 className="text-2xl font-semibold mb-8">Technology Pathway</h2>
 
+        <p className="text-gray-600 mb-10 max-w-3xl">
+          As students progress through the Mastery Journey, they work with
+          different technologies that gradually build their understanding of
+          real programming and modern digital tools.
+        </p>
+
+        <div className="grid md:grid-cols-5 gap-6">
+          <div className="bg-white rounded-xl p-6 shadow border border-gray-100 text-center">
+            <div className="text-3xl mb-3">🎨</div>
+            <h3 className="font-semibold mb-2">Scratch</h3>
+            <p className="text-sm text-gray-600">
+              Build interactive games and animations while learning logic.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-xl p-6 shadow border border-gray-100 text-center">
+            <div className="text-3xl mb-3">📱</div>
+            <h3 className="font-semibold mb-2">Thunkable</h3>
+            <p className="text-sm text-gray-600">
+              Create simple mobile apps and understand UI design.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-xl p-6 shadow border border-gray-100 text-center">
+            <div className="text-3xl mb-3">🧊</div>
+            <h3 className="font-semibold mb-2">3D & AR/VR</h3>
+            <p className="text-sm text-gray-600">
+              Explore 3D environments and interactive immersive experiences.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-xl p-6 shadow border border-gray-100 text-center">
+            <div className="text-3xl mb-3">🐍</div>
+            <h3 className="font-semibold mb-2">Python</h3>
+            <p className="text-sm text-gray-600">
+              Learn real programming concepts and build applications.
+            </p>
+          </div>
+
+          <div className="bg-white rounded-xl p-6 shadow border border-gray-100 text-center">
+            <div className="text-3xl mb-3">🤖</div>
+            <h3 className="font-semibold mb-2">AI Projects</h3>
+            <p className="text-sm text-gray-600">
+              Understand AI basics and build simple intelligent tools.
+            </p>
+          </div>
+        </div>
+      </section>
       {/* Who It Is For */}
       <section className="mb-20">
         <h2 className="text-2xl font-semibold mb-6">Who This Program Is For</h2>
