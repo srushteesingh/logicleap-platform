@@ -36,7 +36,11 @@ export default function RootLayout({
           <div className="absolute -bottom-16 right-1/4 w-72 h-72 bg-indigo-500 opacity-25 blur-3xl rounded-full"></div>
           <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
             {/* Logo */}
-            <div className="text-xl font-bold tracking-wide">LogicLeap</div>
+            <div className="flex items-center gap-3 font-bold text-xl">
+              <img src="/logo.png" alt="LogicLeap Logo" className="w-8 h-8" />
+
+              <span>LogicLeap</span>
+            </div>
 
             {/* Navigation */}
             <nav className="flex gap-8 text-sm font-medium">
