@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 
 const levels = [
   {
@@ -185,7 +186,7 @@ export default function Home() {
               </ul>
 
               <a
-                href="#"
+                href="/mastery-journey"
                 className="inline-block font-semibold text-purple-600 hover:text-purple-800"
               >
                 Explore Program →
@@ -239,7 +240,7 @@ export default function Home() {
               </ul>
 
               <a
-                href="#"
+                href="/coding-club"
                 className="inline-block font-semibold text-pink-600 hover:text-pink-800"
               >
                 Join Club →
@@ -266,7 +267,7 @@ export default function Home() {
               </ul>
 
               <a
-                href="#"
+                href="/skill-accelerator"
                 className="inline-block font-semibold text-green-600 hover:text-green-800"
               >
                 Explore Track →
