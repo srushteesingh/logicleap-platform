@@ -66,33 +66,6 @@ export default function MasteryJourney() {
         </div>
       </section>
 
-      {/* LEARNING PATH */}
-      <section className="mb-28 text-center">
-        <h2 className="text-3xl font-bold mb-10">Learning Journey</h2>
-
-        <div className="flex flex-wrap justify-center gap-6 text-sm font-semibold">
-          <div className="px-6 py-3 bg-purple-100 text-purple-700 rounded-full">
-            Scratch
-          </div>
-
-          <div className="px-6 py-3 bg-indigo-100 text-indigo-700 rounded-full">
-            App Development
-          </div>
-
-          <div className="px-6 py-3 bg-blue-100 text-blue-700 rounded-full">
-            Web Development
-          </div>
-
-          <div className="px-6 py-3 bg-green-100 text-green-700 rounded-full">
-            Python Programming
-          </div>
-
-          <div className="px-6 py-3 bg-orange-100 text-orange-700 rounded-full">
-            Artificial Intelligence
-          </div>
-        </div>
-      </section>
-
       {/* TECHNOLOGY STACK */}
       <section id="tech" className="mb-28">
         <h2 className="text-3xl font-bold text-center mb-14">
