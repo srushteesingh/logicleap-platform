@@ -42,7 +42,7 @@ export default function RootLayout({
               <img
                 src="/logo.png"
                 alt="LogicLeap Rocket"
-                className="w-12 h-12 object-contain hover:scale-110 transition duration-200"
+                className="w-25 h-25 object-contain hover:scale-110 transition duration-200"
               />
 
               <span>LogicLeap</span>
