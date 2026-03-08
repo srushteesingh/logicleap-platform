@@ -92,10 +92,10 @@ export default function MasteryJourney() {
             🧊 3D Modelling
           </div>
           <div className="bg-white rounded-2xl p-7 shadow border border-gray-100 text-center">
-            🤖 Artificial Intelligence
+            🧠 Machine Learning
           </div>
           <div className="bg-white rounded-2xl p-7 shadow border border-gray-100 text-center">
-            🧠 Machine Learning
+            🤖 Artificial Intelligence
           </div>
         </div>
       </section>
