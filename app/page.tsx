@@ -111,19 +111,19 @@ export default function Home() {
             </p>
 
             {/* CTA Buttons */}
-            <div className="mt-8 flex gap-4 flex-wrap">
+            <div className="flex flex-wrap justify-center gap-6 mt-10">
               <a
-                href="#learning-paths"
-                className="px-8 py-3 rounded-xl font-semibold text-white shadow-lg bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 hover:scale-105 transition"
+                href="/register"
+                className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg transition"
               >
-                Start Your Journey 🚀
+                Register Now
               </a>
 
               <a
-                href="#roadmap"
-                className="px-8 py-3 rounded-xl font-semibold bg-white text-gray-800 shadow border border-gray-200 hover:bg-gray-50 transition"
+                href="/book-consultation"
+                className="px-8 py-4 rounded-xl border border-purple-300 text-purple-600 font-semibold hover:bg-purple-50 transition"
               >
-                Explore Roadmap
+                Book Consultation
               </a>
             </div>
           </div>
