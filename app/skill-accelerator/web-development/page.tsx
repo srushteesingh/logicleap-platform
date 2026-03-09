@@ -19,10 +19,17 @@ export default function WebDevelopmentTrack() {
 
       {/* SKILL PROGRESSION */}
       <section className="mb-28">
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-purple-50 to-transparent"></div>
         <h2 className="text-3xl font-bold text-center mb-4">
-          36 Weeks to Master Web Development
+          Master Web Development
         </h2>
-
+        <div className="flex justify-center items-center gap-3 mb-12 text-sm text-gray-400">
+          <span>Level 1</span>
+          <span>→</span>
+          <span>Level 2</span>
+          <span>→</span>
+          <span>Level 3</span>
+        </div>
         <p className="text-center text-gray-600 max-w-2xl mx-auto mb-16">
           The Skill Accelerator track is divided into three levels. Each level
           builds deeper skills and projects, helping students progress from
@@ -56,7 +63,7 @@ export default function WebDevelopmentTrack() {
           </div>
 
           {/* LEVEL 2 */}
-          <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 text-center hover:shadow-xl transition">
+          <div className="bg-white rounded-2xl p-8 shadow-xl border-2 border-purple-200 text-center hover:shadow-2xl transition scale-105">
             <div className="text-purple-600 font-bold mb-3 text-sm tracking-wide">
               LEVEL 2
             </div>
