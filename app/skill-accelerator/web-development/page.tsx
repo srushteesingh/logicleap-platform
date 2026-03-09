@@ -8,7 +8,7 @@ export default function WebDevelopmentTrack() {
       {/* HERO */}
       <section className="text-center mb-24">
         <h1 className="text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-purple-600 to-indigo-600 text-transparent bg-clip-text">
-          Web Development Track
+          36 Weeks to Web Development Track
         </h1>
 
         <p className="text-xl text-gray-600 max-w-3xl mx-auto">
