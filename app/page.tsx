@@ -114,7 +114,7 @@ export default function Home() {
             <div className="flex flex-wrap justify-center gap-6 mt-10">
               <a
                 href="/register"
-                className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg transition"
+                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:opacity-90 text-white px-8 py-4 rounded-xl font-semibold shadow-lg transition"
               >
                 Register Now
               </a>
