@@ -18,63 +18,93 @@ export default function WebDevelopmentTrack() {
       </section>
 
       {/* SKILL PROGRESSION */}
-      <section className="mb-24">
-        <h2 className="text-3xl font-bold text-center mb-10">
-          Web Development Mastery Path
+      <section className="mb-28">
+        <h2 className="text-3xl font-bold text-center mb-4">
+          36 Weeks to Master Web Development
         </h2>
 
-        <p className="text-center text-gray-600 max-w-2xl mx-auto mb-14">
-          Each technology track is divided into three levels. Completing all
-          three levels helps students become truly proficient.
+        <p className="text-center text-gray-600 max-w-2xl mx-auto mb-16">
+          The Skill Accelerator track is divided into three levels. Each level
+          builds deeper skills and projects, helping students progress from
+          beginner to confident developer.
         </p>
 
-        <div className="grid md:grid-cols-3 gap-10">
-          <div className="bg-white rounded-2xl p-8 shadow border border-gray-100 text-center">
-            <div className="text-purple-600 font-bold mb-3">Level 1</div>
+        <div className="grid md:grid-cols-3 gap-10 items-start">
+          {/* LEVEL 1 */}
+          <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 text-center hover:shadow-xl transition">
+            <div className="text-purple-600 font-bold mb-3 text-sm tracking-wide">
+              LEVEL 1
+            </div>
 
-            <h3 className="text-lg font-semibold mb-3">Foundations</h3>
+            <h3 className="text-lg font-semibold mb-4">Foundations</h3>
 
-            <p className="text-sm text-gray-600 mb-4">
-              Learn how websites are built.
+            <p className="text-sm text-gray-600 mb-5">
+              Learn how websites are structured and styled.
             </p>
 
-            <div className="text-sm text-gray-500">HTML • CSS</div>
+            <div className="flex justify-center gap-3 flex-wrap text-sm">
+              <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full">
+                HTML
+              </span>
 
-            <div className="mt-4 text-xs text-gray-400">Duration: 12 Weeks</div>
+              <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full">
+                CSS
+              </span>
+            </div>
+
+            <div className="mt-6 text-xs text-gray-400">12 Week Program</div>
           </div>
 
-          <div className="bg-white rounded-2xl p-8 shadow border border-gray-100 text-center">
-            <div className="text-purple-600 font-bold mb-3">Level 2</div>
+          {/* LEVEL 2 */}
+          <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 text-center hover:shadow-xl transition">
+            <div className="text-purple-600 font-bold mb-3 text-sm tracking-wide">
+              LEVEL 2
+            </div>
 
-            <h3 className="text-lg font-semibold mb-3">
+            <h3 className="text-lg font-semibold mb-4">
               Interactive Development
             </h3>
 
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-sm text-gray-600 mb-5">
               Build dynamic and responsive websites.
             </p>
 
-            <div className="text-sm text-gray-500">
-              JavaScript • Responsive Design
+            <div className="flex justify-center gap-3 flex-wrap text-sm">
+              <span className="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full">
+                JavaScript
+              </span>
+
+              <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full">
+                Responsive Design
+              </span>
             </div>
 
-            <div className="mt-4 text-xs text-gray-400">Duration: 12 Weeks</div>
+            <div className="mt-6 text-xs text-gray-400">12 Week Program</div>
           </div>
 
-          <div className="bg-white rounded-2xl p-8 shadow border border-gray-100 text-center">
-            <div className="text-purple-600 font-bold mb-3">Level 3</div>
-
-            <h3 className="text-lg font-semibold mb-3">Advanced Projects</h3>
-
-            <p className="text-sm text-gray-600 mb-4">
-              Build real web applications and portfolio projects.
-            </p>
-
-            <div className="text-sm text-gray-500">
-              Dynamic Websites • Advanced UI
+          {/* LEVEL 3 */}
+          <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 text-center hover:shadow-xl transition">
+            <div className="text-purple-600 font-bold mb-3 text-sm tracking-wide">
+              LEVEL 3
             </div>
 
-            <div className="mt-4 text-xs text-gray-400">Duration: 12 Weeks</div>
+            <h3 className="text-lg font-semibold mb-4">Advanced Projects</h3>
+
+            <p className="text-sm text-gray-600 mb-5">
+              Build complete web applications and portfolio projects.
+            </p>
+
+            <div className="flex justify-center gap-3 flex-wrap text-sm">
+              <span className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full">
+                Dynamic Apps
+              </span>
+
+              <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full">
+                Portfolio Projects
+              </span>
+            </div>
+
+            <div className="mt-6 text-xs text-gray-400">12 Week Program</div>
           </div>
         </div>
       </section>
