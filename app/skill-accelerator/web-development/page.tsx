@@ -17,6 +17,68 @@ export default function WebDevelopmentTrack() {
         </p>
       </section>
 
+      {/* SKILL PROGRESSION */}
+      <section className="mb-24">
+        <h2 className="text-3xl font-bold text-center mb-10">
+          Web Development Mastery Path
+        </h2>
+
+        <p className="text-center text-gray-600 max-w-2xl mx-auto mb-14">
+          Each technology track is divided into three levels. Completing all
+          three levels helps students become truly proficient.
+        </p>
+
+        <div className="grid md:grid-cols-3 gap-10">
+          <div className="bg-white rounded-2xl p-8 shadow border border-gray-100 text-center">
+            <div className="text-purple-600 font-bold mb-3">Level 1</div>
+
+            <h3 className="text-lg font-semibold mb-3">Foundations</h3>
+
+            <p className="text-sm text-gray-600 mb-4">
+              Learn how websites are built.
+            </p>
+
+            <div className="text-sm text-gray-500">HTML • CSS</div>
+
+            <div className="mt-4 text-xs text-gray-400">Duration: 12 Weeks</div>
+          </div>
+
+          <div className="bg-white rounded-2xl p-8 shadow border border-gray-100 text-center">
+            <div className="text-purple-600 font-bold mb-3">Level 2</div>
+
+            <h3 className="text-lg font-semibold mb-3">
+              Interactive Development
+            </h3>
+
+            <p className="text-sm text-gray-600 mb-4">
+              Build dynamic and responsive websites.
+            </p>
+
+            <div className="text-sm text-gray-500">
+              JavaScript • Responsive Design
+            </div>
+
+            <div className="mt-4 text-xs text-gray-400">Duration: 12 Weeks</div>
+          </div>
+
+          <div className="bg-white rounded-2xl p-8 shadow border border-gray-100 text-center">
+            <div className="text-purple-600 font-bold mb-3">Level 3</div>
+
+            <h3 className="text-lg font-semibold mb-3">Advanced Projects</h3>
+
+            <p className="text-sm text-gray-600 mb-4">
+              Build real web applications and portfolio projects.
+            </p>
+
+            <div className="text-sm text-gray-500">
+              Dynamic Websites • Advanced UI
+            </div>
+
+            <div className="mt-4 text-xs text-gray-400">Duration: 12 Weeks</div>
+          </div>
+        </div>
+      </section>
+
       {/* WHAT STUDENTS LEARN */}
       <section className="mb-24">
         <h2 className="text-3xl font-bold text-center mb-12">
