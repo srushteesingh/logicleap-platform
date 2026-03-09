@@ -44,6 +44,26 @@ export default function RootLayout({
 
             {/* Navigation */}
             <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
+              <nav className="flex items-center gap-6">
+                <a href="/">Home</a>
+                <a href="/summer-camp">Bootcamp</a>
+                <a href="/skill-accelerator">Skill Accelerator</a>
+                <a href="/coding-club">Coding Club</a>
+
+                <a
+                  href="/register"
+                  className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-5 py-2 rounded-lg font-semibold hover:opacity-90 transition"
+                >
+                  Register
+                </a>
+
+                <a
+                  href="/book-consultation"
+                  className="border border-purple-300 text-purple-600 px-5 py-2 rounded-lg font-semibold hover:bg-purple-50 transition"
+                >
+                  Consultation
+                </a>
+              </nav>
               <a
                 href="#learning-paths"
                 className="hover:text-purple-300 transition"

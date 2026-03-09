@@ -20,7 +20,7 @@ export default function AITrack() {
       {/* MASTERY PATH */}
       <section className="mb-28">
         <h2 className="text-3xl font-bold text-center mb-4">
-          36 Weeks to Master AI Foundations
+          Master AI Foundations
         </h2>
 
         <div className="flex justify-center items-center gap-3 mb-10 text-sm text-gray-400">

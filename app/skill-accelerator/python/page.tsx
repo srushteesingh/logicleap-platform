@@ -19,9 +19,7 @@ export default function PythonTrack() {
 
       {/* MASTERY PATH */}
       <section className="mb-28">
-        <h2 className="text-3xl font-bold text-center mb-4">
-          36 Weeks to Master Python
-        </h2>
+        <h2 className="text-3xl font-bold text-center mb-4">Master Python</h2>
 
         <div className="flex justify-center items-center gap-3 mb-10 text-sm text-gray-400">
           <span>Level 1</span>
