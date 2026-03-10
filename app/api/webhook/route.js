@@ -29,6 +29,13 @@ function formatDateTime(date, time) {
   return `${formattedDate}   ${formattedTime}`;
 }
 
+function hasStarted(date, time) {
+  const slotTime = new Date(`${date}T${time}`);
+  const now = new Date();
+
+  return now >= slotTime;
+}
+
 async function sendText(to, text) {
   await fetch(`https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`, {
     method: "POST",
@@ -239,6 +246,14 @@ export async function POST(req) {
         .order("start_time");
 
       const slot = data?.[index];
+      if (hasStarted(slot.date, slot.start_time)) {
+        await sendText(
+          from,
+          "⚠️ This class has already started and cannot be cancelled.",
+        );
+
+        return new Response("ok", { status: 200 });
+      }
 
       if (!slot) {
         await sendText(from, "Invalid class number.");
@@ -296,6 +311,15 @@ export async function POST(req) {
       if (state && state.stage === "select_slot") {
         const index = parseInt(text) - 1;
         const slot = state.slots[index];
+        if (hasStarted(slot.date, slot.start_time)) {
+          await sendText(
+            from,
+            "⚠️ This class has already started and can no longer be booked.",
+          );
+
+          delete userState[from];
+          return new Response("ok", { status: 200 });
+        }
 
         const today = new Date().toISOString().split("T")[0];
 
