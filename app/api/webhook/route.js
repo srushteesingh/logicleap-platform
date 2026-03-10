@@ -8,11 +8,7 @@ function formatDateTime(date, time) {
     day: "numeric",
   });
 
-  const [hour, minute] = time.split(":");
-
-  const t = new Date();
-  t.setHours(hour);
-  t.setMinutes(minute);
+  const t = new Date(`${date}T${time}`);
 
   const formattedTime = t.toLocaleTimeString("en-US", {
     hour: "numeric",
