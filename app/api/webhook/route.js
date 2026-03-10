@@ -309,11 +309,14 @@ export async function POST(req) {
         if (!slot) {
           reply = "Invalid slot selection.";
         } else {
+          const today = new Date().toISOString().split("T")[0];
+
           const { data: bookings } = await supabase
             .from("slots")
             .select("*")
             .eq("student_phone", from)
-            .eq("status", "booked");
+            .eq("status", "booked")
+            .gte("date", today);
 
           if (bookings && bookings.length >= 3) {
             reply =
