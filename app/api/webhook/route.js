@@ -139,34 +139,44 @@ export async function POST(req) {
     // VIEW AVAILABLE CLASSES
     // show next 7 days
     // show next 7 days
+    // show available days with slots
     else if (text === "slots") {
-      let message = "📅 Select a day\n\n";
+      const today = new Date().toISOString().split("T")[0];
 
-      const days = [];
+      const { data } = await supabase
+        .from("slots")
+        .select("*")
+        .gte("date", today)
+        .eq("status", "available")
+        .order("date", { ascending: true });
 
-      for (let i = 0; i < 7; i++) {
-        const date = new Date();
-        date.setDate(date.getDate() + i);
+      if (!data || data.length === 0) {
+        reply = "No classes available right now.";
+      } else {
+        const uniqueDays = [...new Set(data.map((slot) => slot.date))].slice(
+          0,
+          7,
+        );
 
-        const formatted = date.toISOString().split("T")[0];
+        let message = "📅 Select a day\n\n";
 
-        days.push(formatted);
+        uniqueDays.forEach((day, i) => {
+          const label = new Date(day).toLocaleDateString("en-US", {
+            weekday: "short",
+            day: "numeric",
+            month: "short",
+          });
 
-        const label = date.toLocaleDateString("en-US", {
-          weekday: "short",
-          day: "numeric",
-          month: "short",
+          message += `${i + 1}️⃣ ${label}\n`;
         });
 
-        message += `${i + 1}️⃣ ${label}\n`;
+        userState[from] = {
+          stage: "select_day",
+          days: uniqueDays,
+        };
+
+        reply = message;
       }
-
-      userState[from] = {
-        stage: "select_day",
-        days,
-      };
-
-      reply = message;
     }
 
     // MY CLASSES
