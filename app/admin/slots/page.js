@@ -20,9 +20,13 @@ export default function SlotsPage() {
     const slots = [];
 
     while (current < endTime) {
+      const end = new Date(current);
+      end.setHours(end.getHours() + 1);
+
       slots.push({
         date: date,
         start_time: current.toTimeString().slice(0, 8),
+        end_time: end.toTimeString().slice(0, 8),
         status: "available",
       });
 
