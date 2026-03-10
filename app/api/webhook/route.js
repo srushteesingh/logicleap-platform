@@ -261,27 +261,80 @@ export async function POST(req) {
 
     // BOOK CLASS
     else if (!isNaN(text)) {
-      const slotNumber = parseInt(text);
+      const state = userState[from];
 
-      const { data } = await supabase
-        .from("slots")
-        .select("*")
-        .eq("status", "available");
+      if (!state) {
+        reply = "Send *Hi* to start.";
+      }
 
-      const slot = data?.[slotNumber - 1];
+      // USER SELECTING DAY
+      else if (state.stage === "select_day") {
+        const index = parseInt(text) - 1;
+        const selectedDate = state.days[index];
 
-      if (!slot) {
-        reply = "Invalid class number.";
-      } else {
-        await supabase
-          .from("slots")
-          .update({
-            status: "booked",
-            student_phone: from,
-          })
-          .eq("id", slot.id);
+        if (!selectedDate) {
+          reply = "Invalid day selection.";
+        } else {
+          const { data } = await supabase
+            .from("slots")
+            .select("*")
+            .eq("date", selectedDate)
+            .eq("status", "available")
+            .order("start_time");
 
-        reply = `✅ Class booked!\n\nDate: ${slot.date}\nTime: ${slot.start_time}`;
+          if (!data || data.length === 0) {
+            reply = "No available slots for that day.";
+          } else {
+            let message = "Available slots\n\n";
+
+            data.forEach((slot, i) => {
+              message += `${i + 1}️⃣ ${slot.start_time}\n`;
+            });
+
+            userState[from] = {
+              stage: "select_slot",
+              slots: data,
+            };
+
+            reply = message;
+          }
+        }
+      }
+
+      // USER SELECTING SLOT
+      else if (state.stage === "select_slot") {
+        const index = parseInt(text) - 1;
+        const slot = state.slots[index];
+
+        if (!slot) {
+          reply = "Invalid slot selection.";
+        } else {
+          const { data: bookings } = await supabase
+            .from("slots")
+            .select("*")
+            .eq("student_phone", from)
+            .eq("status", "booked");
+
+          if (bookings && bookings.length >= 3) {
+            reply =
+              "⚠️ You already have 3 upcoming classes booked.\n\n" +
+              "Please cancel one before booking another.";
+
+            delete userState[from];
+          } else {
+            await supabase
+              .from("slots")
+              .update({
+                status: "booked",
+                student_phone: from,
+              })
+              .eq("id", slot.id);
+
+            reply = `✅ Class booked!\n\nDate: ${slot.date}\nTime: ${slot.start_time}`;
+
+            delete userState[from];
+          }
+        }
       }
     } else {
       reply = "Send *Hi* to see menu.";
