@@ -231,31 +231,23 @@ export async function POST(req) {
 
     // CANCEL CLASS
     else if (text.startsWith("cancel ")) {
-      const index = parseInt(text.split(" ")[1]);
+      const index = parseInt(text.split(" ")[1]) - 1;
+
+      const today = new Date().toISOString().split("T")[0];
 
       const { data } = await supabase
         .from("slots")
         .select("*")
         .eq("student_phone", from)
-        .eq("status", "booked");
+        .eq("status", "booked")
+        .gte("date", today)
+        .order("date", { ascending: true })
+        .order("start_time", { ascending: true });
 
-      const slot = data?.[index - 1];
+      const slot = data?.[index];
 
       if (!slot) {
         reply = "Invalid class number.";
-      } // check if student already has 3 upcoming bookings
-      const { data: bookings } = await supabase
-        .from("slots")
-        .select("*")
-        .eq("student_phone", from)
-        .eq("status", "booked");
-
-      if (bookings && bookings.length >= 3) {
-        reply =
-          "⚠️ You already have 3 upcoming classes booked.\n\n" +
-          "Please cancel or complete one before booking another.";
-
-        delete userState[from];
       } else {
         await supabase
           .from("slots")
@@ -265,7 +257,7 @@ export async function POST(req) {
           })
           .eq("id", slot.id);
 
-        reply = "✅ Class cancelled successfully.";
+        reply = `✅ Class cancelled.\n\nDate: ${slot.date}\nTime: ${slot.start_time}`;
       }
     }
 
