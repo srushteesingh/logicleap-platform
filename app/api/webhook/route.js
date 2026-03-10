@@ -29,11 +29,12 @@ function formatDateTime(date, time) {
   return `${formattedDate}   ${formattedTime}`;
 }
 
-function hasStarted(date, time) {
-  const slotTime = new Date(`${date}T${time}`);
+function isSlotStarted(date, startTime) {
   const now = new Date();
 
-  return now >= slotTime;
+  const slotStart = new Date(`${date}T${startTime}`);
+
+  return now >= slotStart;
 }
 
 async function sendText(to, text) {
@@ -246,7 +247,7 @@ export async function POST(req) {
         .order("start_time");
 
       const slot = data?.[index];
-      if (hasStarted(slot.date, slot.start_time)) {
+      if (isSlotStarted(slot.date, slot.start_time)) {
         await sendText(
           from,
           "⚠️ This class has already started and cannot be cancelled.",
@@ -254,7 +255,6 @@ export async function POST(req) {
 
         return new Response("ok", { status: 200 });
       }
-
       if (!slot) {
         await sendText(from, "Invalid class number.");
         return new Response("ok", { status: 200 });
@@ -311,10 +311,10 @@ export async function POST(req) {
       if (state && state.stage === "select_slot") {
         const index = parseInt(text) - 1;
         const slot = state.slots[index];
-        if (hasStarted(slot.date, slot.start_time)) {
+        if (isSlotStarted(slot.date, slot.start_time)) {
           await sendText(
             from,
-            "⚠️ This class has already started and can no longer be booked.",
+            "⚠️ This class has already started and cannot be booked.",
           );
 
           delete userState[from];
