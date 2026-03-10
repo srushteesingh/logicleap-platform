@@ -173,10 +173,9 @@ export async function POST(req) {
         .select("*")
         .eq("student_phone", from)
         .eq("status", "booked")
-        .gte("date", today)
+        .gt("date + start_time", "now()")
         .order("date")
         .order("start_time");
-
       const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
 
       if (!valid.length) {
@@ -203,9 +202,7 @@ export async function POST(req) {
         .select("*")
         .eq("student_phone", from)
         .eq("status", "booked")
-        .gte("date", today)
-        .order("date")
-        .order("start_time");
+        .gt("date + start_time", "now()");
 
       const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
 
