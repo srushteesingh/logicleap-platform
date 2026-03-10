@@ -233,6 +233,19 @@ export async function POST(req) {
 
       if (!slot) {
         reply = "Invalid class number.";
+      } // check if student already has 3 upcoming bookings
+      const { data: bookings } = await supabase
+        .from("slots")
+        .select("*")
+        .eq("student_phone", from)
+        .eq("status", "booked");
+
+      if (bookings && bookings.length >= 3) {
+        reply =
+          "⚠️ You already have 3 upcoming classes booked.\n\n" +
+          "Please cancel or complete one before booking another.";
+
+        delete userState[from];
       } else {
         await supabase
           .from("slots")
