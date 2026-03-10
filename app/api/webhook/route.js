@@ -29,6 +29,13 @@ function formatDateTime(date, time) {
   return `${formattedDate}   ${formattedTime}`;
 }
 
+function isFutureSlot(date, time) {
+  const now = new Date();
+  const slotStart = new Date(`${date}T${time}`);
+
+  return slotStart > now;
+}
+
 function isSlotStarted(date, startTime) {
   const now = new Date();
 
@@ -247,6 +254,14 @@ export async function POST(req) {
         .order("start_time");
 
       const slot = data?.[index];
+      if (!isFutureSlot(slot.date, slot.start_time)) {
+        await sendText(
+          from,
+          "⚠️ This class has already started and cannot be cancelled.",
+        );
+
+        return new Response("ok", { status: 200 });
+      }
       if (isSlotStarted(slot.date, slot.start_time)) {
         await sendText(
           from,
@@ -281,12 +296,14 @@ export async function POST(req) {
         const index = parseInt(text) - 1;
         const selectedDate = state.days[index];
 
-        const { data } = await supabase
+        let { data } = await supabase
           .from("slots")
           .select("*")
           .eq("date", selectedDate)
           .eq("status", "available")
           .order("start_time");
+
+        data = data.filter((slot) => isFutureSlot(slot.date, slot.start_time));
 
         if (!data || data.length === 0) {
           await sendText(from, "No slots available.");
@@ -311,6 +328,15 @@ export async function POST(req) {
       if (state && state.stage === "select_slot") {
         const index = parseInt(text) - 1;
         const slot = state.slots[index];
+        if (!isFutureSlot(slot.date, slot.start_time)) {
+          await sendText(
+            from,
+            "⚠️ This class has already started and cannot be booked.",
+          );
+
+          delete userState[from];
+          return new Response("ok", { status: 200 });
+        }
         if (isSlotStarted(slot.date, slot.start_time)) {
           await sendText(
             from,
