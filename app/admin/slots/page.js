@@ -22,7 +22,7 @@ export default function SlotsPage() {
     while (current < endTime) {
       slots.push({
         date: date,
-        start_time: current.toTimeString().slice(0, 5),
+        start_time: current.toTimeString().slice(0, 8),
         status: "available",
       });
 
