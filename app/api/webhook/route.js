@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-
+const userState = {};
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY,
@@ -137,23 +137,33 @@ export async function POST(req) {
     }
 
     // VIEW AVAILABLE CLASSES
+    // show next 7 days
     else if (text === "slots") {
-      const { data } = await supabase
-        .from("slots")
-        .select("*")
-        .eq("status", "available");
+      let reply = "📅 Select a day\n\n";
 
-      if (!data || data.length === 0) {
-        reply = "No classes available right now.";
-      } else {
-        reply = "📅 Available Classes\n\n";
+      const days = [];
 
-        data.forEach((slot, index) => {
-          reply += `${index + 1}️⃣ ${slot.date} ${slot.start_time}\n`;
+      for (let i = 0; i < 7; i++) {
+        const date = new Date();
+        date.setDate(date.getDate() + i);
+
+        const formatted = date.toISOString().split("T")[0];
+
+        days.push(formatted);
+
+        const label = date.toLocaleDateString("en-US", {
+          weekday: "short",
+          day: "numeric",
+          month: "short",
         });
 
-        reply += "\nReply with class number to book.";
+        reply += `${i + 1}️⃣ ${label}\n`;
       }
+
+      userState[from] = {
+        stage: "select_day",
+        days,
+      };
     }
 
     // MY CLASSES
