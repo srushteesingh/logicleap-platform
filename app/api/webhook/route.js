@@ -138,8 +138,9 @@ export async function POST(req) {
 
     // VIEW AVAILABLE CLASSES
     // show next 7 days
+    // show next 7 days
     else if (text === "slots") {
-      let reply = "📅 Select a day\n\n";
+      let message = "📅 Select a day\n\n";
 
       const days = [];
 
@@ -157,13 +158,15 @@ export async function POST(req) {
           month: "short",
         });
 
-        reply += `${i + 1}️⃣ ${label}\n`;
+        message += `${i + 1}️⃣ ${label}\n`;
       }
 
       userState[from] = {
         stage: "select_day",
         days,
       };
+
+      reply = message;
     }
 
     // MY CLASSES
