@@ -10,38 +10,18 @@ const ACCESS_TOKEN = process.env.WHATSAPP_ACCESS_TOKEN;
 
 const userState = {};
 
-function formatDateTime(date, time) {
-  const d = new Date(date);
-
-  const formattedDate = d.toLocaleDateString("en-US", {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-  });
-
-  const t = new Date(`${date}T${time}`);
-
-  const formattedTime = t.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-  });
-
-  return `${formattedDate}   ${formattedTime}`;
-}
-
-function isFutureSlot(date, time) {
-  const now = new Date();
-  const slotStart = new Date(`${date}T${time}`);
-
-  return slotStart > now;
-}
-
-function isSlotStarted(date, startTime) {
+function slotAlreadyStarted(date, startTime) {
   const now = new Date();
 
-  const slotStart = new Date(`${date}T${startTime}`);
+  const [year, month, day] = date.split("-").map(Number);
 
-  return now >= slotStart;
+  const parts = startTime.split(":");
+  const hour = parseInt(parts[0], 10);
+  const minute = parseInt(parts[1], 10);
+
+  const slotStart = new Date(year, month - 1, day, hour, minute, 0);
+
+  return now.getTime() >= slotStart.getTime();
 }
 
 async function sendText(to, text) {
@@ -254,15 +234,7 @@ export async function POST(req) {
         .order("start_time");
 
       const slot = data?.[index];
-      if (!isFutureSlot(slot.date, slot.start_time)) {
-        await sendText(
-          from,
-          "⚠️ This class has already started and cannot be cancelled.",
-        );
-
-        return new Response("ok", { status: 200 });
-      }
-      if (isSlotStarted(slot.date, slot.start_time)) {
+      if (slotAlreadyStarted(slot.date, slot.start_time)) {
         await sendText(
           from,
           "⚠️ This class has already started and cannot be cancelled.",
@@ -303,8 +275,9 @@ export async function POST(req) {
           .eq("status", "available")
           .order("start_time");
 
-        data = data.filter((slot) => isFutureSlot(slot.date, slot.start_time));
-
+        data = data.filter(
+          (slot) => !slotAlreadyStarted(slot.date, slot.start_time),
+        );
         if (!data || data.length === 0) {
           await sendText(from, "No slots available.");
         } else {
@@ -328,16 +301,8 @@ export async function POST(req) {
       if (state && state.stage === "select_slot") {
         const index = parseInt(text) - 1;
         const slot = state.slots[index];
-        if (!isFutureSlot(slot.date, slot.start_time)) {
-          await sendText(
-            from,
-            "⚠️ This class has already started and cannot be booked.",
-          );
 
-          delete userState[from];
-          return new Response("ok", { status: 200 });
-        }
-        if (isSlotStarted(slot.date, slot.start_time)) {
+        if (slotAlreadyStarted(slot.date, slot.start_time)) {
           await sendText(
             from,
             "⚠️ This class has already started and cannot be booked.",
