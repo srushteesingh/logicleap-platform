@@ -10,18 +10,27 @@ const ACCESS_TOKEN = process.env.WHATSAPP_ACCESS_TOKEN;
 
 const userState = {};
 
-function slotAlreadyStarted(date, startTime) {
+function formatDateTime(date, time) {
+  const d = new Date(`${date}T${time}`);
+
+  const formattedDate = d.toLocaleDateString("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  });
+
+  const formattedTime = d.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+
+  return `${formattedDate}   ${formattedTime}`;
+}
+
+function slotStarted(date, time) {
+  const slotStart = new Date(`${date}T${time}`);
   const now = new Date();
-
-  const [year, month, day] = date.split("-").map(Number);
-
-  const parts = startTime.split(":");
-  const hour = parseInt(parts[0], 10);
-  const minute = parseInt(parts[1], 10);
-
-  const slotStart = new Date(year, month - 1, day, hour, minute, 0);
-
-  return now.getTime() >= slotStart.getTime();
+  return now >= slotStart;
 }
 
 async function sendText(to, text) {
@@ -109,9 +118,8 @@ export async function POST(req) {
       if (!student) {
         await sendText(
           from,
-          "🚀 LogicLeap Coding Academy\n\nPlease register here:\nhttps://logicleapcoding.com/register",
+          "🚀 LogicLeap Coding Academy\n\nPlease register:\nhttps://logicleapcoding.com/register",
         );
-
         return new Response("ok", { status: 200 });
       }
 
@@ -119,7 +127,6 @@ export async function POST(req) {
       return new Response("ok", { status: 200 });
     }
 
-    // VIEW CLASSES BUTTON
     if (text === "slots") {
       const today = new Date().toISOString().split("T")[0];
 
@@ -130,35 +137,34 @@ export async function POST(req) {
         .gte("date", today)
         .order("date");
 
-      if (!data || data.length === 0) {
-        await sendText(from, "No classes available right now.");
+      const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
+
+      if (!valid.length) {
+        await sendText(from, "No classes available.");
         return new Response("ok", { status: 200 });
       }
 
-      const uniqueDays = [...new Set(data.map((s) => s.date))].slice(0, 7);
+      const days = [...new Set(valid.map((s) => s.date))];
 
-      let messageText = "📅 Select a day\n\n";
+      let msg = "📅 Select a day\n\n";
 
-      uniqueDays.forEach((day, i) => {
-        const d = new Date(day);
-
-        const label = d.toLocaleDateString("en-US", {
+      days.forEach((d, i) => {
+        const label = new Date(d).toLocaleDateString("en-US", {
           weekday: "short",
           month: "short",
           day: "numeric",
         });
 
-        messageText += `${i + 1}️⃣ ${label}\n`;
+        msg += `${i + 1}️⃣ ${label}\n`;
       });
 
-      userState[from] = { stage: "select_day", days: uniqueDays };
+      userState[from] = { stage: "select_day", days };
 
-      await sendText(from, messageText);
+      await sendText(from, msg);
 
       return new Response("ok", { status: 200 });
     }
 
-    // MY CLASSES
     if (text === "myclass") {
       const today = new Date().toISOString().split("T")[0];
 
@@ -171,14 +177,16 @@ export async function POST(req) {
         .order("date")
         .order("start_time");
 
-      if (!data || data.length === 0) {
+      const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
+
+      if (!valid.length) {
         await sendText(from, "You have no upcoming classes.");
         return new Response("ok", { status: 200 });
       }
 
       let msg = "📚 Your Upcoming Classes\n\n";
 
-      data.forEach((slot, i) => {
+      valid.forEach((slot, i) => {
         msg += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
       });
 
@@ -187,7 +195,6 @@ export async function POST(req) {
       return new Response("ok", { status: 200 });
     }
 
-    // CANCEL MENU
     if (text === "cancel") {
       const today = new Date().toISOString().split("T")[0];
 
@@ -200,14 +207,16 @@ export async function POST(req) {
         .order("date")
         .order("start_time");
 
-      if (!data || data.length === 0) {
+      const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
+
+      if (!valid.length) {
         await sendText(from, "You have no upcoming classes.");
         return new Response("ok", { status: 200 });
       }
 
       let msg = "❌ Which class do you want to cancel?\n\n";
 
-      data.forEach((slot, i) => {
+      valid.forEach((slot, i) => {
         msg += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
       });
 
@@ -218,7 +227,6 @@ export async function POST(req) {
       return new Response("ok", { status: 200 });
     }
 
-    // CANCEL CLASS
     if (text.startsWith("cancel ")) {
       const index = parseInt(text.split(" ")[1]) - 1;
 
@@ -233,15 +241,10 @@ export async function POST(req) {
         .order("date")
         .order("start_time");
 
-      const slot = data?.[index];
-      if (slotAlreadyStarted(slot.date, slot.start_time)) {
-        await sendText(
-          from,
-          "⚠️ This class has already started and cannot be cancelled.",
-        );
+      const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
 
-        return new Response("ok", { status: 200 });
-      }
+      const slot = valid[index];
+
       if (!slot) {
         await sendText(from, "Invalid class number.");
         return new Response("ok", { status: 200 });
@@ -260,55 +263,44 @@ export async function POST(req) {
       return new Response("ok", { status: 200 });
     }
 
-    // DAY OR SLOT SELECTION
     if (!isNaN(text)) {
       const state = userState[from];
 
-      if (state && state.stage === "select_day") {
-        const index = parseInt(text) - 1;
-        const selectedDate = state.days[index];
+      if (!state) {
+        await sendText(from, "Send Hi to start.");
+        return new Response("ok", { status: 200 });
+      }
 
-        let { data } = await supabase
+      if (state.stage === "select_day") {
+        const date = state.days[parseInt(text) - 1];
+
+        const { data } = await supabase
           .from("slots")
           .select("*")
-          .eq("date", selectedDate)
+          .eq("date", date)
           .eq("status", "available")
           .order("start_time");
 
-        data = data.filter(
-          (slot) => !slotAlreadyStarted(slot.date, slot.start_time),
-        );
-        if (!data || data.length === 0) {
-          await sendText(from, "No slots available.");
-        } else {
-          let msg = "Available slots\n\n";
+        const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
 
-          data.forEach((slot, i) => {
-            msg += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
-          });
+        let msg = "Available slots\n\n";
 
-          userState[from] = {
-            stage: "select_slot",
-            slots: data,
-          };
+        valid.forEach((slot, i) => {
+          msg += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
+        });
 
-          await sendText(from, msg);
-        }
+        userState[from] = { stage: "select_slot", slots: valid };
+
+        await sendText(from, msg);
 
         return new Response("ok", { status: 200 });
       }
 
-      if (state && state.stage === "select_slot") {
-        const index = parseInt(text) - 1;
-        const slot = state.slots[index];
+      if (state.stage === "select_slot") {
+        const slot = state.slots[parseInt(text) - 1];
 
-        if (slotAlreadyStarted(slot.date, slot.start_time)) {
-          await sendText(
-            from,
-            "⚠️ This class has already started and cannot be booked.",
-          );
-
-          delete userState[from];
+        if (slotStarted(slot.date, slot.start_time)) {
+          await sendText(from, "⚠️ This class has already started.");
           return new Response("ok", { status: 200 });
         }
 
@@ -321,29 +313,28 @@ export async function POST(req) {
           .eq("status", "booked")
           .gte("date", today);
 
-        if (bookings && bookings.length >= 3) {
+        if (bookings.length >= 3) {
           await sendText(
             from,
-            "⚠️ You already have 3 upcoming classes booked.\n\nPlease cancel one before booking another.",
+            "⚠️ You already have 3 upcoming classes booked.",
           );
-
-          delete userState[from];
-        } else {
-          await supabase
-            .from("slots")
-            .update({
-              status: "booked",
-              student_phone: from,
-            })
-            .eq("id", slot.id);
-
-          await sendText(
-            from,
-            `✅ Class booked!\n\n${formatDateTime(slot.date, slot.start_time)}`,
-          );
-
-          delete userState[from];
+          return new Response("ok", { status: 200 });
         }
+
+        await supabase
+          .from("slots")
+          .update({
+            status: "booked",
+            student_phone: from,
+          })
+          .eq("id", slot.id);
+
+        await sendText(
+          from,
+          `✅ Class booked\n\n${formatDateTime(slot.date, slot.start_time)}`,
+        );
+
+        delete userState[from];
 
         return new Response("ok", { status: 200 });
       }
