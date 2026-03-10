@@ -262,13 +262,7 @@ export async function POST(req) {
     if (!isNaN(text)) {
       const state = userState[from];
 
-      if (!state) {
-        await sendText(from, "Send Hi to start.");
-        return new Response("ok", { status: 200 });
-      }
-
-      // USER SELECTING DAY
-      if (state.stage === "select_day") {
+      if (state && state.stage === "select_day") {
         const index = parseInt(text) - 1;
         const selectedDate = state.days[index];
 
@@ -281,24 +275,25 @@ export async function POST(req) {
 
         if (!data || data.length === 0) {
           await sendText(from, "No slots available.");
-          return new Response("ok", { status: 200 });
+        } else {
+          let msg = "Available slots\n\n";
+
+          data.forEach((slot, i) => {
+            msg += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
+          });
+
+          userState[from] = {
+            stage: "select_slot",
+            slots: data,
+          };
+
+          await sendText(from, msg);
         }
-
-        let msg = "Available slots\n\n";
-
-        data.forEach((slot, i) => {
-          msg += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
-        });
-
-        userState[from] = { stage: "select_slot", slots: data };
-
-        await sendText(from, msg);
 
         return new Response("ok", { status: 200 });
       }
 
-      // USER SELECTING SLOT
-      if (state.stage === "select_slot") {
+      if (state && state.stage === "select_slot") {
         const index = parseInt(text) - 1;
         const slot = state.slots[index];
 
@@ -318,20 +313,22 @@ export async function POST(req) {
           );
 
           delete userState[from];
-          return new Response("ok", { status: 200 });
+        } else {
+          await supabase
+            .from("slots")
+            .update({
+              status: "booked",
+              student_phone: from,
+            })
+            .eq("id", slot.id);
+
+          await sendText(
+            from,
+            `✅ Class booked!\n\n${formatDateTime(slot.date, slot.start_time)}`,
+          );
+
+          delete userState[from];
         }
-
-        await supabase
-          .from("slots")
-          .update({ status: "booked", student_phone: from })
-          .eq("id", slot.id);
-
-        await sendText(
-          from,
-          `✅ Class booked!\n\n${formatDateTime(slot.date, slot.start_time)}`,
-        );
-
-        delete userState[from];
 
         return new Response("ok", { status: 200 });
       }
