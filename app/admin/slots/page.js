@@ -29,7 +29,15 @@ export default function SlotsPage() {
       current.setHours(current.getHours() + 1);
     }
 
-    await supabase.from("slots").insert(slots);
+    const { data, error } = await supabase.from("slots").insert(slots);
+
+    console.log("Insert result:", data, error);
+
+    if (error) {
+      alert("Error creating slots: " + error.message);
+    } else {
+      alert("Slots created!");
+    }
 
     alert("Slots created!");
   };
