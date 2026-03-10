@@ -29,6 +29,50 @@ function formatDateTime(date, time) {
   return `${formattedDate}   ${formattedTime}`;
 }
 
+async function sendText(to, text) {
+  await fetch(`https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${ACCESS_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      messaging_product: "whatsapp",
+      to,
+      type: "text",
+      text: { body: text },
+    }),
+  });
+}
+
+async function sendMenu(to) {
+  await fetch(`https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${ACCESS_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      messaging_product: "whatsapp",
+      to,
+      type: "interactive",
+      interactive: {
+        type: "button",
+        body: {
+          text: "🚀 LogicLeap Coding Academy\n\nHow can I help you today?",
+        },
+        action: {
+          buttons: [
+            { type: "reply", reply: { id: "slots", title: "View Classes" } },
+            { type: "reply", reply: { id: "myclass", title: "My Classes" } },
+            { type: "reply", reply: { id: "cancel", title: "Cancel Class" } },
+          ],
+        },
+      },
+    }),
+  });
+}
+
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
 
@@ -60,18 +104,15 @@ export async function POST(req) {
       message.interactive?.button_reply?.id ||
       "";
 
-    let reply = "";
-
     const { data: student } = await supabase
       .from("students")
       .select("*")
       .eq("phone", from)
       .single();
 
-    // MENU
     if (text === "hi" || text === "hello") {
       if (!student) {
-        await sendMessage(
+        await sendText(
           from,
           "🚀 LogicLeap Coding Academy\n\nPlease register here:\nhttps://logicleapcoding.com/register",
         );
@@ -79,54 +120,51 @@ export async function POST(req) {
         return new Response("ok", { status: 200 });
       }
 
-      reply =
-        "🚀 LogicLeap Coding Academy\n\n" +
-        "1️⃣ View Classes\n" +
-        "2️⃣ My Classes\n" +
-        "3️⃣ Cancel Class";
+      await sendMenu(from);
+      return new Response("ok", { status: 200 });
     }
 
-    // VIEW CLASSES
-    else if (text === "1" || text === "slots") {
+    // VIEW CLASSES BUTTON
+    if (text === "slots") {
       const today = new Date().toISOString().split("T")[0];
 
       const { data } = await supabase
         .from("slots")
         .select("*")
-        .gte("date", today)
         .eq("status", "available")
-        .order("date", { ascending: true });
+        .gte("date", today)
+        .order("date");
 
       if (!data || data.length === 0) {
-        reply = "No classes available.";
-      } else {
-        const uniqueDays = [...new Set(data.map((s) => s.date))].slice(0, 7);
+        await sendText(from, "No classes available right now.");
+        return new Response("ok", { status: 200 });
+      }
 
-        let message = "📅 Select a day\n\n";
+      const uniqueDays = [...new Set(data.map((s) => s.date))].slice(0, 7);
 
-        uniqueDays.forEach((day, i) => {
-          const d = new Date(day);
+      let messageText = "📅 Select a day\n\n";
 
-          const label = d.toLocaleDateString("en-US", {
-            weekday: "short",
-            month: "short",
-            day: "numeric",
-          });
+      uniqueDays.forEach((day, i) => {
+        const d = new Date(day);
 
-          message += `${i + 1}️⃣ ${label}\n`;
+        const label = d.toLocaleDateString("en-US", {
+          weekday: "short",
+          month: "short",
+          day: "numeric",
         });
 
-        userState[from] = {
-          stage: "select_day",
-          days: uniqueDays,
-        };
+        messageText += `${i + 1}️⃣ ${label}\n`;
+      });
 
-        reply = message;
-      }
+      userState[from] = { stage: "select_day", days: uniqueDays };
+
+      await sendText(from, messageText);
+
+      return new Response("ok", { status: 200 });
     }
 
     // MY CLASSES
-    else if (text === "2" || text === "myclass") {
+    if (text === "myclass") {
       const today = new Date().toISOString().split("T")[0];
 
       const { data } = await supabase
@@ -135,22 +173,27 @@ export async function POST(req) {
         .eq("student_phone", from)
         .eq("status", "booked")
         .gte("date", today)
-        .order("date", { ascending: true })
-        .order("start_time", { ascending: true });
+        .order("date")
+        .order("start_time");
 
       if (!data || data.length === 0) {
-        reply = "You have no upcoming classes.";
-      } else {
-        reply = "📚 Your Upcoming Classes\n\n";
-
-        data.forEach((slot, i) => {
-          reply += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
-        });
+        await sendText(from, "You have no upcoming classes.");
+        return new Response("ok", { status: 200 });
       }
+
+      let msg = "📚 Your Upcoming Classes\n\n";
+
+      data.forEach((slot, i) => {
+        msg += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
+      });
+
+      await sendText(from, msg);
+
+      return new Response("ok", { status: 200 });
     }
 
     // CANCEL MENU
-    else if (text === "3" || text === "cancel") {
+    if (text === "cancel") {
       const today = new Date().toISOString().split("T")[0];
 
       const { data } = await supabase
@@ -159,24 +202,29 @@ export async function POST(req) {
         .eq("student_phone", from)
         .eq("status", "booked")
         .gte("date", today)
-        .order("date", { ascending: true })
-        .order("start_time", { ascending: true });
+        .order("date")
+        .order("start_time");
 
       if (!data || data.length === 0) {
-        reply = "You have no upcoming classes.";
-      } else {
-        reply = "❌ Which class do you want to cancel?\n\n";
-
-        data.forEach((slot, i) => {
-          reply += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
-        });
-
-        reply += "\nReply: cancel 1";
+        await sendText(from, "You have no upcoming classes.");
+        return new Response("ok", { status: 200 });
       }
+
+      let msg = "❌ Which class do you want to cancel?\n\n";
+
+      data.forEach((slot, i) => {
+        msg += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
+      });
+
+      msg += "\nReply: cancel 1";
+
+      await sendText(from, msg);
+
+      return new Response("ok", { status: 200 });
     }
 
     // CANCEL CLASS
-    else if (text.startsWith("cancel ")) {
+    if (text.startsWith("cancel ")) {
       const index = parseInt(text.split(" ")[1]) - 1;
 
       const today = new Date().toISOString().split("T")[0];
@@ -187,33 +235,40 @@ export async function POST(req) {
         .eq("student_phone", from)
         .eq("status", "booked")
         .gte("date", today)
-        .order("date", { ascending: true })
-        .order("start_time", { ascending: true });
+        .order("date")
+        .order("start_time");
 
       const slot = data?.[index];
 
       if (!slot) {
-        reply = "Invalid class number.";
-      } else {
-        await supabase
-          .from("slots")
-          .update({
-            status: "available",
-            student_phone: null,
-          })
-          .eq("id", slot.id);
-
-        reply = `✅ Class cancelled\n\n${formatDateTime(slot.date, slot.start_time)}`;
+        await sendText(from, "Invalid class number.");
+        return new Response("ok", { status: 200 });
       }
+
+      await supabase
+        .from("slots")
+        .update({ status: "available", student_phone: null })
+        .eq("id", slot.id);
+
+      await sendText(
+        from,
+        `✅ Class cancelled\n\n${formatDateTime(slot.date, slot.start_time)}`,
+      );
+
+      return new Response("ok", { status: 200 });
     }
 
-    // NUMBER INPUT (DAY OR SLOT)
-    else if (!isNaN(text)) {
+    // DAY OR SLOT SELECTION
+    if (!isNaN(text)) {
       const state = userState[from];
 
       if (!state) {
-        reply = "Send *Hi* to start.";
-      } else if (state.stage === "select_day") {
+        await sendText(from, "Send Hi to start.");
+        return new Response("ok", { status: 200 });
+      }
+
+      // USER SELECTING DAY
+      if (state.stage === "select_day") {
         const index = parseInt(text) - 1;
         const selectedDate = state.days[index];
 
@@ -225,22 +280,25 @@ export async function POST(req) {
           .order("start_time");
 
         if (!data || data.length === 0) {
-          reply = "No slots available.";
-        } else {
-          let message = "Available slots\n\n";
-
-          data.forEach((slot, i) => {
-            message += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
-          });
-
-          userState[from] = {
-            stage: "select_slot",
-            slots: data,
-          };
-
-          reply = message;
+          await sendText(from, "No slots available.");
+          return new Response("ok", { status: 200 });
         }
-      } else if (state.stage === "select_slot") {
+
+        let msg = "Available slots\n\n";
+
+        data.forEach((slot, i) => {
+          msg += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
+        });
+
+        userState[from] = { stage: "select_slot", slots: data };
+
+        await sendText(from, msg);
+
+        return new Response("ok", { status: 200 });
+      }
+
+      // USER SELECTING SLOT
+      if (state.stage === "select_slot") {
         const index = parseInt(text) - 1;
         const slot = state.slots[index];
 
@@ -254,49 +312,35 @@ export async function POST(req) {
           .gte("date", today);
 
         if (bookings && bookings.length >= 3) {
-          reply =
-            "⚠️ You already have 3 upcoming classes booked.\n\n" +
-            "Please cancel one before booking another.";
+          await sendText(
+            from,
+            "⚠️ You already have 3 upcoming classes booked.\n\nPlease cancel one before booking another.",
+          );
 
           delete userState[from];
-        } else {
-          await supabase
-            .from("slots")
-            .update({
-              status: "booked",
-              student_phone: from,
-            })
-            .eq("id", slot.id);
-
-          reply = `✅ Class booked!\n\n${formatDateTime(slot.date, slot.start_time)}`;
-
-          delete userState[from];
+          return new Response("ok", { status: 200 });
         }
+
+        await supabase
+          .from("slots")
+          .update({ status: "booked", student_phone: from })
+          .eq("id", slot.id);
+
+        await sendText(
+          from,
+          `✅ Class booked!\n\n${formatDateTime(slot.date, slot.start_time)}`,
+        );
+
+        delete userState[from];
+
+        return new Response("ok", { status: 200 });
       }
-    } else {
-      reply = "Send *Hi* to start.";
     }
 
-    await sendMessage(from, reply);
+    await sendText(from, "Send Hi to start.");
   } catch (err) {
     console.log(err);
   }
 
   return new Response("ok", { status: 200 });
-}
-
-async function sendMessage(to, text) {
-  await fetch(`https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      messaging_product: "whatsapp",
-      to,
-      type: "text",
-      text: { body: text },
-    }),
-  });
 }
