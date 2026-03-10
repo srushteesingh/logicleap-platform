@@ -205,11 +205,16 @@ export async function POST(req) {
 
     // CANCEL MENU
     else if (text === "cancel") {
+      const today = new Date().toISOString().split("T")[0];
+
       const { data } = await supabase
         .from("slots")
         .select("*")
         .eq("student_phone", from)
-        .eq("status", "booked");
+        .eq("status", "booked")
+        .gte("date", today)
+        .order("date", { ascending: true })
+        .order("start_time", { ascending: true });
 
       if (!data || data.length === 0) {
         reply = "You do not have any booked classes.";
