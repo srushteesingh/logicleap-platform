@@ -1,4 +1,15 @@
 import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY,
+);
+
+const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID;
+const ACCESS_TOKEN = process.env.WHATSAPP_ACCESS_TOKEN;
+
+const userState = {};
+
 function formatDateTime(date, time) {
   const d = new Date(date);
 
@@ -17,13 +28,6 @@ function formatDateTime(date, time) {
 
   return `${formattedDate}   ${formattedTime}`;
 }
-const userState = {};
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY,
-);
-const PHONE_NUMBER_ID = process.env.WHATSAPP_PHONE_NUMBER_ID;
-const ACCESS_TOKEN = process.env.WHATSAPP_ACCESS_TOKEN;
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
@@ -50,11 +54,6 @@ export async function POST(req) {
     }
 
     const from = message.from;
-    const { data: student } = await supabase
-      .from("students")
-      .select("*")
-      .eq("phone", from)
-      .single();
 
     const text =
       message.text?.body?.toLowerCase() ||
@@ -63,102 +62,32 @@ export async function POST(req) {
 
     let reply = "";
 
-    // MENU BUTTONS
+    const { data: student } = await supabase
+      .from("students")
+      .select("*")
+      .eq("phone", from)
+      .single();
+
+    // MENU
     if (text === "hi" || text === "hello") {
-      // NEW USER
       if (!student) {
-        await fetch(
-          `https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${ACCESS_TOKEN}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              messaging_product: "whatsapp",
-              to: from,
-              type: "interactive",
-              interactive: {
-                type: "button",
-                body: {
-                  text: "🚀 LogicLeap Coding Academy\n\nWelcome! Are you new here?",
-                },
-                action: {
-                  buttons: [
-                    {
-                      type: "reply",
-                      reply: {
-                        id: "register",
-                        title: "Register for Class",
-                      },
-                    },
-                  ],
-                },
-              },
-            }),
-          },
+        await sendMessage(
+          from,
+          "🚀 LogicLeap Coding Academy\n\nPlease register here:\nhttps://logicleapcoding.com/register",
         );
+
+        return new Response("ok", { status: 200 });
       }
 
-      // REGISTERED STUDENT
-      else {
-        await fetch(
-          `https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${ACCESS_TOKEN}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              messaging_product: "whatsapp",
-              to: from,
-              type: "interactive",
-              interactive: {
-                type: "button",
-                body: {
-                  text: "🚀 LogicLeap Coding Academy\n\nHow can I help you today?",
-                },
-                action: {
-                  buttons: [
-                    {
-                      type: "reply",
-                      reply: {
-                        id: "slots",
-                        title: "View Classes",
-                      },
-                    },
-                    {
-                      type: "reply",
-                      reply: {
-                        id: "myclass",
-                        title: "My Classes",
-                      },
-                    },
-                    {
-                      type: "reply",
-                      reply: {
-                        id: "cancel",
-                        title: "Cancel Class",
-                      },
-                    },
-                  ],
-                },
-              },
-            }),
-          },
-        );
-      }
-
-      return new Response("ok", { status: 200 });
+      reply =
+        "🚀 LogicLeap Coding Academy\n\n" +
+        "1️⃣ View Classes\n" +
+        "2️⃣ My Classes\n" +
+        "3️⃣ Cancel Class";
     }
 
-    // VIEW AVAILABLE CLASSES
-    // show next 7 days
-    // show next 7 days
-    // show available days with slots
-    else if (text === "slots") {
+    // VIEW CLASSES
+    else if (text === "1" || text === "slots") {
       const today = new Date().toISOString().split("T")[0];
 
       const { data } = await supabase
@@ -169,23 +98,22 @@ export async function POST(req) {
         .order("date", { ascending: true });
 
       if (!data || data.length === 0) {
-        reply = "No classes available right now.";
+        reply = "No classes available.";
       } else {
-        const uniqueDays = [...new Set(data.map((slot) => slot.date))].slice(
-          0,
-          7,
-        );
+        const uniqueDays = [...new Set(data.map((s) => s.date))].slice(0, 7);
 
         let message = "📅 Select a day\n\n";
 
         uniqueDays.forEach((day, i) => {
-          const label = new Date(day).toLocaleDateString("en-US", {
+          const d = new Date(day);
+
+          const label = d.toLocaleDateString("en-US", {
             weekday: "short",
-            day: "numeric",
             month: "short",
+            day: "numeric",
           });
 
-          message += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
+          message += `${i + 1}️⃣ ${label}\n`;
         });
 
         userState[from] = {
@@ -198,7 +126,7 @@ export async function POST(req) {
     }
 
     // MY CLASSES
-    else if (text === "myclass") {
+    else if (text === "2" || text === "myclass") {
       const today = new Date().toISOString().split("T")[0];
 
       const { data } = await supabase
@@ -211,18 +139,18 @@ export async function POST(req) {
         .order("start_time", { ascending: true });
 
       if (!data || data.length === 0) {
-        reply = "You do not have any booked classes.";
+        reply = "You have no upcoming classes.";
       } else {
-        reply = "📚 Your Classes\n\n";
+        reply = "📚 Your Upcoming Classes\n\n";
 
-        data.forEach((slot, index) => {
-          reply += `${index + 1}️⃣ ${slot.date} ${slot.start_time}\n`;
+        data.forEach((slot, i) => {
+          reply += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
         });
       }
     }
 
     // CANCEL MENU
-    else if (text === "cancel") {
+    else if (text === "3" || text === "cancel") {
       const today = new Date().toISOString().split("T")[0];
 
       const { data } = await supabase
@@ -235,12 +163,12 @@ export async function POST(req) {
         .order("start_time", { ascending: true });
 
       if (!data || data.length === 0) {
-        reply = "You do not have any booked classes.";
+        reply = "You have no upcoming classes.";
       } else {
         reply = "❌ Which class do you want to cancel?\n\n";
 
-        data.forEach((slot, index) => {
-          reply += `${index + 1}️⃣ ${slot.date} ${slot.start_time}\n`;
+        data.forEach((slot, i) => {
+          reply += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
         });
 
         reply += "\nReply: cancel 1";
@@ -275,115 +203,100 @@ export async function POST(req) {
           })
           .eq("id", slot.id);
 
-        reply = `✅ Class cancelled.\n\nDate: ${slot.date}\nTime: ${slot.start_time}`;
+        reply = `✅ Class cancelled\n\n${formatDateTime(slot.date, slot.start_time)}`;
       }
     }
 
-    // BOOK CLASS
+    // NUMBER INPUT (DAY OR SLOT)
     else if (!isNaN(text)) {
       const state = userState[from];
 
       if (!state) {
         reply = "Send *Hi* to start.";
-      }
-
-      // USER SELECTING DAY
-      else if (state.stage === "select_day") {
+      } else if (state.stage === "select_day") {
         const index = parseInt(text) - 1;
         const selectedDate = state.days[index];
 
-        if (!selectedDate) {
-          reply = "Invalid day selection.";
+        const { data } = await supabase
+          .from("slots")
+          .select("*")
+          .eq("date", selectedDate)
+          .eq("status", "available")
+          .order("start_time");
+
+        if (!data || data.length === 0) {
+          reply = "No slots available.";
         } else {
-          const { data } = await supabase
-            .from("slots")
-            .select("*")
-            .eq("date", selectedDate)
-            .eq("status", "available")
-            .order("start_time");
+          let message = "Available slots\n\n";
 
-          if (!data || data.length === 0) {
-            reply = "No available slots for that day.";
-          } else {
-            let message = "Available slots\n\n";
+          data.forEach((slot, i) => {
+            message += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
+          });
 
-            data.forEach((slot, i) => {
-              message += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
-            });
+          userState[from] = {
+            stage: "select_slot",
+            slots: data,
+          };
 
-            userState[from] = {
-              stage: "select_slot",
-              slots: data,
-            };
-
-            reply = message;
-          }
+          reply = message;
         }
-      }
-
-      // USER SELECTING SLOT
-      else if (state.stage === "select_slot") {
+      } else if (state.stage === "select_slot") {
         const index = parseInt(text) - 1;
         const slot = state.slots[index];
 
-        if (!slot) {
-          reply = "Invalid slot selection.";
+        const today = new Date().toISOString().split("T")[0];
+
+        const { data: bookings } = await supabase
+          .from("slots")
+          .select("*")
+          .eq("student_phone", from)
+          .eq("status", "booked")
+          .gte("date", today);
+
+        if (bookings && bookings.length >= 3) {
+          reply =
+            "⚠️ You already have 3 upcoming classes booked.\n\n" +
+            "Please cancel one before booking another.";
+
+          delete userState[from];
         } else {
-          const today = new Date().toISOString().split("T")[0];
-
-          const { data: bookings } = await supabase
+          await supabase
             .from("slots")
-            .select("*")
-            .eq("student_phone", from)
-            .eq("status", "booked")
-            .gte("date", today);
+            .update({
+              status: "booked",
+              student_phone: from,
+            })
+            .eq("id", slot.id);
 
-          if (bookings && bookings.length >= 3) {
-            reply =
-              "⚠️ You already have 3 upcoming classes booked.\n\n" +
-              "Please cancel one before booking another.";
+          reply = `✅ Class booked!\n\n${formatDateTime(slot.date, slot.start_time)}`;
 
-            delete userState[from];
-          } else {
-            await supabase
-              .from("slots")
-              .update({
-                status: "booked",
-                student_phone: from,
-              })
-              .eq("id", slot.id);
-
-            reply = `✅ Class booked!
-
-${formatDateTime(slot.date, slot.start_time)}`;
-
-            delete userState[from];
-          }
+          delete userState[from];
         }
       }
     } else {
-      reply = "Send *Hi* to see menu.";
+      reply = "Send *Hi* to start.";
     }
 
-    await fetch(
-      `https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          messaging_product: "whatsapp",
-          to: from,
-          type: "text",
-          text: { body: reply },
-        }),
-      },
-    );
+    await sendMessage(from, reply);
   } catch (err) {
-    console.error(err);
+    console.log(err);
   }
 
   return new Response("ok", { status: 200 });
+}
+
+async function sendMessage(to, text) {
+  await fetch(`https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${ACCESS_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      messaging_product: "whatsapp",
+      to,
+      type: "text",
+      text: { body: text },
+    }),
+  });
 }
