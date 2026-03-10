@@ -1,4 +1,26 @@
 import { createClient } from "@supabase/supabase-js";
+function formatDateTime(date, time) {
+  const d = new Date(date);
+
+  const formattedDate = d.toLocaleDateString("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  });
+
+  const [hour, minute] = time.split(":");
+
+  const t = new Date();
+  t.setHours(hour);
+  t.setMinutes(minute);
+
+  const formattedTime = t.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+
+  return `${formattedDate}   ${formattedTime}`;
+}
 const userState = {};
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -167,7 +189,7 @@ export async function POST(req) {
             month: "short",
           });
 
-          message += `${i + 1}️⃣ ${label}\n`;
+          message += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
         });
 
         userState[from] = {
@@ -290,7 +312,7 @@ export async function POST(req) {
             let message = "Available slots\n\n";
 
             data.forEach((slot, i) => {
-              message += `${i + 1}️⃣ ${slot.start_time}\n`;
+              message += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
             });
 
             userState[from] = {
@@ -335,7 +357,9 @@ export async function POST(req) {
               })
               .eq("id", slot.id);
 
-            reply = `✅ Class booked!\n\nDate: ${slot.date}\nTime: ${slot.start_time}`;
+            reply = `✅ Class booked!
+
+${formatDateTime(slot.date, slot.start_time)}`;
 
             delete userState[from];
           }
