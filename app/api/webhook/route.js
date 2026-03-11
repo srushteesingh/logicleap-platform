@@ -10,7 +10,6 @@ const ACCESS_TOKEN = process.env.WHATSAPP_ACCESS_TOKEN;
 
 const userState = {};
 
-// format readable time
 function formatDateTime(date, time) {
   const d = new Date(`${date}T${time}`);
 
@@ -28,14 +27,12 @@ function formatDateTime(date, time) {
   return `${formattedDate}   ${formattedTime}`;
 }
 
-// check if slot already started
 function slotStarted(date, time) {
   const slot = new Date(`${date}T${time}`);
   const now = new Date();
   return now >= slot;
 }
 
-// send text message
 async function sendText(to, text) {
   await fetch(`https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`, {
     method: "POST",
@@ -52,7 +49,6 @@ async function sendText(to, text) {
   });
 }
 
-// send button menu
 async function sendMenu(to) {
   await fetch(`https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`, {
     method: "POST",
@@ -66,7 +62,9 @@ async function sendMenu(to) {
       type: "interactive",
       interactive: {
         type: "button",
-        body: { text: "🚀 LogicLeap Coding Academy\n\nChoose an option:" },
+        body: {
+          text: "🚀 *LogicLeap Coding Academy*\n\nWelcome back!\n\nPlease choose an option:",
+        },
         action: {
           buttons: [
             { type: "reply", reply: { id: "slots", title: "View Classes" } },
@@ -79,7 +77,30 @@ async function sendMenu(to) {
   });
 }
 
-// webhook verification
+async function sendBackMenu(to, text) {
+  await fetch(`https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${ACCESS_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      messaging_product: "whatsapp",
+      to,
+      type: "interactive",
+      interactive: {
+        type: "button",
+        body: { text: text },
+        action: {
+          buttons: [
+            { type: "reply", reply: { id: "menu", title: "⬅️ Main Menu" } },
+          ],
+        },
+      },
+    }),
+  });
+}
+
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
 
@@ -114,12 +135,16 @@ export async function POST(req) {
       .eq("phone", from)
       .single();
 
-    // greeting
+    if (text === "menu") {
+      await sendMenu(from);
+      return new Response("ok", { status: 200 });
+    }
+
     if (text === "hi" || text === "hello") {
       if (!student) {
         await sendText(
           from,
-          "🚀 LogicLeap Coding Academy\n\nPlease register:\nhttps://logicleapcoding.com/register",
+          "🚀 LogicLeap Coding Academy\n\nPlease register here:\nhttps://logicleapcoding.com/register",
         );
         return new Response("ok", { status: 200 });
       }
@@ -128,7 +153,6 @@ export async function POST(req) {
       return new Response("ok", { status: 200 });
     }
 
-    // view classes
     if (text === "slots") {
       const today = new Date().toISOString().split("T")[0];
 
@@ -144,11 +168,12 @@ export async function POST(req) {
       const days = [...new Set(valid.map((s) => s.date))];
 
       if (!days.length) {
-        await sendText(from, "No classes available.");
+        await sendBackMenu(from, "No upcoming classes available right now.");
         return new Response("ok", { status: 200 });
       }
 
-      let msg = "📅 Select a day\n\n";
+      let msg =
+        "📅 *Choose a Day*\n\nHere are the upcoming class days available:\n\n";
 
       days.forEach((d, i) => {
         const label = new Date(d).toLocaleDateString("en-US", {
@@ -162,12 +187,11 @@ export async function POST(req) {
 
       userState[from] = { stage: "select_day", days };
 
-      await sendText(from, msg);
+      await sendBackMenu(from, msg);
 
       return new Response("ok", { status: 200 });
     }
 
-    // my classes
     if (text === "myclass") {
       const today = new Date().toISOString().split("T")[0];
 
@@ -183,22 +207,21 @@ export async function POST(req) {
       const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
 
       if (!valid.length) {
-        await sendText(from, "You have no upcoming classes.");
+        await sendBackMenu(from, "📚 You have no upcoming classes.");
         return new Response("ok", { status: 200 });
       }
 
-      let msg = "📚 Your Upcoming Classes\n\n";
+      let msg = "📚 *Your Upcoming Classes*\n\n";
 
       valid.forEach((slot, i) => {
         msg += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
       });
 
-      await sendText(from, msg);
+      await sendBackMenu(from, msg);
 
       return new Response("ok", { status: 200 });
     }
 
-    // cancel menu
     if (text === "cancel") {
       const today = new Date().toISOString().split("T")[0];
 
@@ -214,24 +237,24 @@ export async function POST(req) {
       const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
 
       if (!valid.length) {
-        await sendText(from, "You have no upcoming classes.");
+        await sendBackMenu(from, "You have no classes available to cancel.");
         return new Response("ok", { status: 200 });
       }
 
-      let msg = "❌ Which class do you want to cancel?\n\n";
+      let msg =
+        "❌ *Cancel a Class*\n\nReply with the class number you'd like to cancel.\n\n";
 
       valid.forEach((slot, i) => {
         msg += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
       });
 
-      msg += "\nReply: cancel 1";
+      msg += "\nExample: cancel 1";
 
-      await sendText(from, msg);
+      await sendBackMenu(from, msg);
 
       return new Response("ok", { status: 200 });
     }
 
-    // cancel command
     if (text.startsWith("cancel ")) {
       const index = parseInt(text.split(" ")[1]) - 1;
 
@@ -248,7 +271,7 @@ export async function POST(req) {
       const slot = valid[index];
 
       if (!slot) {
-        await sendText(from, "Invalid class number.");
+        await sendBackMenu(from, "Invalid class number.");
         return new Response("ok", { status: 200 });
       }
 
@@ -257,20 +280,22 @@ export async function POST(req) {
         .update({ status: "available", student_phone: null })
         .eq("id", slot.id);
 
-      await sendText(
+      await sendBackMenu(
         from,
-        `✅ Class cancelled\n\n${formatDateTime(slot.date, slot.start_time)}`,
+        `✅ *Class Cancelled*\n\nYour booking has been removed.\n\n${formatDateTime(
+          slot.date,
+          slot.start_time,
+        )}`,
       );
 
       return new Response("ok", { status: 200 });
     }
 
-    // numeric selections
     if (!isNaN(text)) {
       const state = userState[from];
 
       if (!state) {
-        await sendText(from, "Send Hi to start.");
+        await sendBackMenu(from, "Please start again from the main menu.");
         return new Response("ok", { status: 200 });
       }
 
@@ -286,7 +311,8 @@ export async function POST(req) {
 
         const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
 
-        let msg = "Available slots\n\n";
+        let msg =
+          "⏰ *Available Class Slots*\n\nSelect the number of your preferred time:\n\n";
 
         valid.forEach((slot, i) => {
           msg += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
@@ -294,7 +320,7 @@ export async function POST(req) {
 
         userState[from] = { stage: "select_slot", slots: valid };
 
-        await sendText(from, msg);
+        await sendBackMenu(from, msg);
 
         return new Response("ok", { status: 200 });
       }
@@ -303,7 +329,7 @@ export async function POST(req) {
         const slot = state.slots[parseInt(text) - 1];
 
         if (slotStarted(slot.date, slot.start_time)) {
-          await sendText(from, "⚠️ This class has already started.");
+          await sendBackMenu(from, "⚠️ This class has already started.");
           return new Response("ok", { status: 200 });
         }
 
@@ -317,7 +343,7 @@ export async function POST(req) {
           .gte("date", today);
 
         if (bookings.length >= 3) {
-          await sendText(
+          await sendBackMenu(
             from,
             "⚠️ You already have 3 upcoming classes booked.",
           );
@@ -332,9 +358,12 @@ export async function POST(req) {
           })
           .eq("id", slot.id);
 
-        await sendText(
+        await sendBackMenu(
           from,
-          `✅ Class booked\n\n${formatDateTime(slot.date, slot.start_time)}`,
+          `✅ *Class Booked Successfully!*\n\nYour session is scheduled for:\n\n${formatDateTime(
+            slot.date,
+            slot.start_time,
+          )}\n\nWe look forward to seeing you in class 🚀`,
         );
 
         delete userState[from];
@@ -343,7 +372,7 @@ export async function POST(req) {
       }
     }
 
-    await sendText(from, "Send Hi to start.");
+    await sendBackMenu(from, "Please choose an option from the menu.");
   } catch (err) {
     console.log(err);
   }
