@@ -29,22 +29,6 @@ function slotStarted(date, time) {
   return new Date(`${date}T${time}`) <= new Date();
 }
 
-async function sendText(to, text) {
-  await fetch(`https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      messaging_product: "whatsapp",
-      to,
-      type: "text",
-      text: { body: text },
-    }),
-  });
-}
-
 async function sendMenu(to) {
   await fetch(`https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`, {
     method: "POST",
@@ -59,7 +43,7 @@ async function sendMenu(to) {
       interactive: {
         type: "button",
         body: {
-          text: "🚀 *LogicLeap Coding Academy*\n\nWelcome back!\n\nChoose an option:",
+          text: "🚀 *LogicLeap Coding Academy*\n\nWelcome back!\n\nPlease choose an option:",
         },
         action: {
           buttons: [
@@ -92,7 +76,7 @@ async function sendList(to, title, body, rows) {
           sections: [
             {
               title: "Options",
-              rows: rows,
+              rows,
             },
           ],
         },
@@ -114,10 +98,13 @@ async function sendBackMenu(to, text) {
       type: "interactive",
       interactive: {
         type: "button",
-        body: { text: text },
+        body: { text },
         action: {
           buttons: [
-            { type: "reply", reply: { id: "menu", title: "⬅️ Main Menu" } },
+            {
+              type: "reply",
+              reply: { id: "menu", title: "⬅️ Main Menu" },
+            },
           ],
         },
       },
@@ -167,11 +154,10 @@ export async function POST(req) {
 
     if (text === "hi" || text === "hello") {
       if (!student) {
-        await sendText(
+        await sendBackMenu(
           from,
-          "🚀 LogicLeap Coding Academy\n\nPlease register first:\nhttps://logicleapcoding.com/register",
+          "🚀 LogicLeap Coding Academy\n\nPlease register here:\nhttps://logicleapcoding.com/register",
         );
-
         return new Response("ok", { status: 200 });
       }
 
@@ -179,6 +165,7 @@ export async function POST(req) {
       return new Response("ok", { status: 200 });
     }
 
+    // VIEW CLASSES
     if (text === "slots") {
       const today = new Date().toISOString().split("T")[0];
 
@@ -191,14 +178,14 @@ export async function POST(req) {
 
       const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
 
-      if (!valid.length) {
+      const days = [...new Set(valid.map((s) => s.date))];
+
+      if (!days.length) {
         await sendBackMenu(from, "No upcoming classes available.");
         return new Response("ok", { status: 200 });
       }
 
-      const days = [...new Set(valid.map((s) => s.date))];
-
-      const rows = days.map((d, i) => ({
+      const rows = days.map((d) => ({
         id: `day_${d}`,
         title: new Date(d).toLocaleDateString("en-US", {
           weekday: "short",
@@ -212,6 +199,7 @@ export async function POST(req) {
       return new Response("ok", { status: 200 });
     }
 
+    // DAY SELECTED → SHOW SLOTS
     if (text.startsWith("day_")) {
       const date = text.replace("day_", "");
 
@@ -224,16 +212,22 @@ export async function POST(req) {
 
       const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
 
+      if (!valid.length) {
+        await sendBackMenu(from, "No slots available for this day.");
+        return new Response("ok", { status: 200 });
+      }
+
       const rows = valid.map((slot) => ({
         id: `slot_${slot.id}`,
         title: formatDateTime(slot.date, slot.start_time),
       }));
 
-      await sendList(from, "Choose Time", "⏰ *Select a class slot*", rows);
+      await sendList(from, "Choose Slot", "⏰ *Select a class time*", rows);
 
       return new Response("ok", { status: 200 });
     }
 
+    // SLOT SELECTED → BOOK
     if (text.startsWith("slot_")) {
       const id = text.replace("slot_", "");
 
@@ -272,80 +266,11 @@ export async function POST(req) {
 
       await sendBackMenu(
         from,
-        `✅ *Class Booked Successfully!*\n\n${formatDateTime(slot.date, slot.start_time)}\n\nSee you in class 🚀`,
+        `✅ *Class Booked Successfully!*\n\n${formatDateTime(
+          slot.date,
+          slot.start_time,
+        )}`,
       );
-
-      return new Response("ok", { status: 200 });
-    }
-
-    if (text === "myclass") {
-      const today = new Date().toISOString().split("T")[0];
-
-      const { data } = await supabase
-        .from("slots")
-        .select("*")
-        .eq("student_phone", from)
-        .eq("status", "booked")
-        .gte("date", today)
-        .order("date")
-        .order("start_time");
-
-      const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
-
-      if (!valid.length) {
-        await sendBackMenu(from, "📚 You have no upcoming classes.");
-        return new Response("ok", { status: 200 });
-      }
-
-      let msg = "📚 *Your Upcoming Classes*\n\n";
-
-      valid.forEach((slot, i) => {
-        msg += `${i + 1}️⃣ ${formatDateTime(slot.date, slot.start_time)}\n`;
-      });
-
-      await sendBackMenu(from, msg);
-
-      return new Response("ok", { status: 200 });
-    }
-
-    if (text === "cancel") {
-      const today = new Date().toISOString().split("T")[0];
-
-      const { data } = await supabase
-        .from("slots")
-        .select("*")
-        .eq("student_phone", from)
-        .eq("status", "booked")
-        .gte("date", today)
-        .order("date")
-        .order("start_time");
-
-      const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
-
-      if (!valid.length) {
-        await sendBackMenu(from, "You have no classes to cancel.");
-        return new Response("ok", { status: 200 });
-      }
-
-      const rows = valid.map((slot) => ({
-        id: `cancel_${slot.id}`,
-        title: formatDateTime(slot.date, slot.start_time),
-      }));
-
-      await sendList(from, "Cancel Class", "❌ Select a class to cancel", rows);
-
-      return new Response("ok", { status: 200 });
-    }
-
-    if (text.startsWith("cancel_")) {
-      const id = text.replace("cancel_", "");
-
-      await supabase
-        .from("slots")
-        .update({ status: "available", student_phone: null })
-        .eq("id", id);
-
-      await sendBackMenu(from, "✅ Class cancelled successfully.");
 
       return new Response("ok", { status: 200 });
     }
