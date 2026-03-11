@@ -148,11 +148,15 @@ export async function POST(req) {
 
     const from = message.from;
 
-    const text =
-      message.text?.body?.toLowerCase() ||
-      message.interactive?.button_reply?.id ||
-      message.interactive?.list_reply?.id ||
-      "";
+    let text = "";
+
+    if (message.interactive?.list_reply) {
+      text = message.interactive.list_reply.id;
+    } else if (message.interactive?.button_reply) {
+      text = message.interactive.button_reply.id;
+    } else {
+      text = message.text?.body?.toLowerCase() || "";
+    }
 
     const { data: student } = await supabase
       .from("students")
