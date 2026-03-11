@@ -173,9 +173,8 @@ export async function POST(req) {
         .select("*")
         .eq("student_phone", from)
         .eq("status", "booked")
-        .gt("date + start_time", "now()")
-        .order("date")
-        .order("start_time");
+        .gt("slot_start", new Date().toISOString())
+        .order("slot_start");
       const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
 
       if (!valid.length) {
@@ -202,8 +201,8 @@ export async function POST(req) {
         .select("*")
         .eq("student_phone", from)
         .eq("status", "booked")
-        .gt("date + start_time", "now()");
-
+        .gt("slot_start", new Date().toISOString())
+        .order("slot_start");
       const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
 
       if (!valid.length) {
@@ -274,8 +273,9 @@ export async function POST(req) {
         const { data } = await supabase
           .from("slots")
           .select("*")
-          .eq("date", date)
+          .eq("date", selectedDate)
           .eq("status", "available")
+          .gt("slot_start", new Date().toISOString())
           .order("start_time");
 
         const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
@@ -295,9 +295,12 @@ export async function POST(req) {
 
       if (state.stage === "select_slot") {
         const slot = state.slots[parseInt(text) - 1];
+        if (new Date(slot.slot_start) <= new Date()) {
+          await sendText(
+            from,
+            "⚠️ This class has already started and cannot be booked.",
+          );
 
-        if (slotStarted(slot.date, slot.start_time)) {
-          await sendText(from, "⚠️ This class has already started.");
           return new Response("ok", { status: 200 });
         }
 
@@ -308,8 +311,7 @@ export async function POST(req) {
           .select("*")
           .eq("student_phone", from)
           .eq("status", "booked")
-          .gte("date", today);
-
+          .gt("slot_start", new Date().toISOString());
         if (bookings.length >= 3) {
           await sendText(
             from,
