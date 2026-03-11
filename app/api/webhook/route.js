@@ -66,6 +66,7 @@ async function sendMenu(to) {
             { type: "reply", reply: { id: "slots", title: "View Classes" } },
             { type: "reply", reply: { id: "myclass", title: "My Classes" } },
             { type: "reply", reply: { id: "cancel", title: "Cancel Class" } },
+            { type: "reply", reply: { id: "credits", title: "My Credits" } },
           ],
         },
       },
@@ -310,6 +311,21 @@ export async function POST(req) {
       });
 
       await sendBackMenu(from, msg);
+
+      return new Response("ok", { status: 200 });
+    }
+
+    if (text === "credits") {
+      const { data: student } = await supabase
+        .from("students")
+        .select("credits")
+        .eq("phone", from)
+        .single();
+
+      await sendBackMenu(
+        from,
+        `💳 *Your Available Class Credits*\n\nYou currently have *${student.credits || 0}* classes remaining.`,
+      );
 
       return new Response("ok", { status: 200 });
     }
