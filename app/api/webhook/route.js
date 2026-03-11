@@ -222,10 +222,12 @@ export async function POST(req) {
       const { data } = await supabase
         .from("slots")
         .select("*")
-        .eq("date", date)
         .eq("status", "available")
+        .eq("date", date)
         .order("start_time");
 
+      console.log("Selected date:", date);
+      console.log("Slots returned:", data);
       const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
 
       const rows = valid.map((slot) => ({
