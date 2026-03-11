@@ -10,6 +10,7 @@ const ACCESS_TOKEN = process.env.WHATSAPP_ACCESS_TOKEN;
 
 const userState = {};
 
+// format readable time
 function formatDateTime(date, time) {
   const d = new Date(`${date}T${time}`);
 
@@ -27,12 +28,14 @@ function formatDateTime(date, time) {
   return `${formattedDate}   ${formattedTime}`;
 }
 
+// check if slot already started
 function slotStarted(date, time) {
-  const slotStart = new Date(`${date}T${time}`);
+  const slot = new Date(`${date}T${time}`);
   const now = new Date();
-  return now >= slotStart;
+  return now >= slot;
 }
 
+// send text message
 async function sendText(to, text) {
   await fetch(`https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`, {
     method: "POST",
@@ -49,6 +52,7 @@ async function sendText(to, text) {
   });
 }
 
+// send button menu
 async function sendMenu(to) {
   await fetch(`https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`, {
     method: "POST",
@@ -62,9 +66,7 @@ async function sendMenu(to) {
       type: "interactive",
       interactive: {
         type: "button",
-        body: {
-          text: "🚀 LogicLeap Coding Academy\n\nHow can I help you today?",
-        },
+        body: { text: "🚀 LogicLeap Coding Academy\n\nChoose an option:" },
         action: {
           buttons: [
             { type: "reply", reply: { id: "slots", title: "View Classes" } },
@@ -77,6 +79,7 @@ async function sendMenu(to) {
   });
 }
 
+// webhook verification
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
 
@@ -96,10 +99,7 @@ export async function POST(req) {
 
   try {
     const message = body.entry?.[0]?.changes?.[0]?.value?.messages?.[0];
-
-    if (!message) {
-      return new Response("ok", { status: 200 });
-    }
+    if (!message) return new Response("ok", { status: 200 });
 
     const from = message.from;
 
@@ -114,6 +114,7 @@ export async function POST(req) {
       .eq("phone", from)
       .single();
 
+    // greeting
     if (text === "hi" || text === "hello") {
       if (!student) {
         await sendText(
@@ -127,6 +128,7 @@ export async function POST(req) {
       return new Response("ok", { status: 200 });
     }
 
+    // view classes
     if (text === "slots") {
       const today = new Date().toISOString().split("T")[0];
 
@@ -139,12 +141,12 @@ export async function POST(req) {
 
       const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
 
-      if (!valid.length) {
+      const days = [...new Set(valid.map((s) => s.date))];
+
+      if (!days.length) {
         await sendText(from, "No classes available.");
         return new Response("ok", { status: 200 });
       }
-
-      const days = [...new Set(valid.map((s) => s.date))];
 
       let msg = "📅 Select a day\n\n";
 
@@ -165,6 +167,7 @@ export async function POST(req) {
       return new Response("ok", { status: 200 });
     }
 
+    // my classes
     if (text === "myclass") {
       const today = new Date().toISOString().split("T")[0];
 
@@ -173,8 +176,10 @@ export async function POST(req) {
         .select("*")
         .eq("student_phone", from)
         .eq("status", "booked")
-        .gt("slot_start", new Date().toISOString())
-        .order("slot_start");
+        .gte("date", today)
+        .order("date")
+        .order("start_time");
+
       const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
 
       if (!valid.length) {
@@ -193,6 +198,7 @@ export async function POST(req) {
       return new Response("ok", { status: 200 });
     }
 
+    // cancel menu
     if (text === "cancel") {
       const today = new Date().toISOString().split("T")[0];
 
@@ -201,8 +207,10 @@ export async function POST(req) {
         .select("*")
         .eq("student_phone", from)
         .eq("status", "booked")
-        .gt("slot_start", new Date().toISOString())
-        .order("slot_start");
+        .gte("date", today)
+        .order("date")
+        .order("start_time");
+
       const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
 
       if (!valid.length) {
@@ -223,17 +231,15 @@ export async function POST(req) {
       return new Response("ok", { status: 200 });
     }
 
+    // cancel command
     if (text.startsWith("cancel ")) {
       const index = parseInt(text.split(" ")[1]) - 1;
-
-      const today = new Date().toISOString().split("T")[0];
 
       const { data } = await supabase
         .from("slots")
         .select("*")
         .eq("student_phone", from)
         .eq("status", "booked")
-        .gte("date", today)
         .order("date")
         .order("start_time");
 
@@ -259,6 +265,7 @@ export async function POST(req) {
       return new Response("ok", { status: 200 });
     }
 
+    // numeric selections
     if (!isNaN(text)) {
       const state = userState[from];
 
@@ -273,9 +280,8 @@ export async function POST(req) {
         const { data } = await supabase
           .from("slots")
           .select("*")
-          .eq("date", selectedDate)
+          .eq("date", date)
           .eq("status", "available")
-          .gt("slot_start", new Date().toISOString())
           .order("start_time");
 
         const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
@@ -295,12 +301,9 @@ export async function POST(req) {
 
       if (state.stage === "select_slot") {
         const slot = state.slots[parseInt(text) - 1];
-        if (new Date(slot.slot_start) <= new Date()) {
-          await sendText(
-            from,
-            "⚠️ This class has already started and cannot be booked.",
-          );
 
+        if (slotStarted(slot.date, slot.start_time)) {
+          await sendText(from, "⚠️ This class has already started.");
           return new Response("ok", { status: 200 });
         }
 
@@ -311,7 +314,8 @@ export async function POST(req) {
           .select("*")
           .eq("student_phone", from)
           .eq("status", "booked")
-          .gt("slot_start", new Date().toISOString());
+          .gte("date", today);
+
         if (bookings.length >= 3) {
           await sendText(
             from,
