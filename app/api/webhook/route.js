@@ -61,14 +61,13 @@ async function sendMenu(to) {
         interactive: {
           type: "button",
           body: {
-            text: "🚀 LogicLeap Coding Academy\n\nChoose an option:",
+            text: "🚀 LogicLeap Coding Academy\n\nChoose an option:\n\n💳 Type *credits* to check your remaining classes",
           },
           action: {
             buttons: [
               { type: "reply", reply: { id: "slots", title: "View Classes" } },
               { type: "reply", reply: { id: "myclass", title: "My Classes" } },
               { type: "reply", reply: { id: "cancel", title: "Cancel Class" } },
-              { type: "reply", reply: { id: "credits", title: "My Credits" } },
             ],
           },
         },
