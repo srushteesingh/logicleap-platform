@@ -314,33 +314,7 @@ export async function POST(req) {
 
       return new Response("ok", { status: 200 });
     }
-    if (text === "credits") {
-      try {
-        const { data, error } = await supabase
-          .from("students")
-          .select("credits")
-          .eq("phone", from)
-          .single();
 
-        if (error) {
-          console.log("Credits error:", error);
-          await sendBackMenu(from, "Unable to fetch credits right now.");
-          return new Response("ok", { status: 200 });
-        }
-
-        await sendBackMenu(
-          from,
-          `💳 *Your Credits*\n\nYou have *${data?.credits ?? 0}* classes remaining.`,
-        );
-
-        return new Response("ok", { status: 200 });
-      } catch (err) {
-        console.log("Credits crash:", err);
-
-        await sendBackMenu(from, "Something went wrong.");
-        return new Response("ok", { status: 200 });
-      }
-    }
     if (text === "cancel") {
       const today = new Date().toISOString().split("T")[0];
 
