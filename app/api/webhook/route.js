@@ -162,7 +162,7 @@ export async function POST(req) {
       .from("students")
       .select("*")
       .eq("phone", from)
-      .maybeSingle();
+      .single();
 
     if (text === "menu") {
       await sendMenu(from);
