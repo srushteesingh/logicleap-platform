@@ -66,6 +66,7 @@ async function sendMenu(to) {
             { type: "reply", reply: { id: "slots", title: "View Classes" } },
             { type: "reply", reply: { id: "myclass", title: "My Classes" } },
             { type: "reply", reply: { id: "cancel", title: "Cancel Class" } },
+            { type: "reply", reply: { id: "credits", title: "My Credits" } },
           ],
         },
       },
@@ -352,6 +353,30 @@ export async function POST(req) {
         .eq("id", id);
 
       await sendBackMenu(from, "✅ Class cancelled successfully.");
+
+      return new Response("ok", { status: 200 });
+    }
+
+    if (text === "credits") {
+      try {
+        const { data } = await supabase
+          .from("students")
+          .select("credits")
+          .eq("phone", from)
+          .maybeSingle();
+
+        await sendBackMenu(
+          from,
+          `💳 *Your Credits*\n\nYou have *${data?.credits ?? 0}* classes remaining.`,
+        );
+      } catch (err) {
+        console.log("Credits error:", err);
+
+        await sendBackMenu(
+          from,
+          "Unable to fetch credits right now. Please try again later.",
+        );
+      }
 
       return new Response("ok", { status: 200 });
     }
