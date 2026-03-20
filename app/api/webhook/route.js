@@ -372,10 +372,7 @@ export async function POST(req) {
       } catch (err) {
         console.log("Credits error:", err);
 
-        await sendBackMenu(
-          from,
-          "Unable to fetch credits right now. Please try again later.",
-        );
+        await sendBackMenu(from, "Unable to fetch credits right now.");
       }
 
       return new Response("ok", { status: 200 });
