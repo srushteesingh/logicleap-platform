@@ -66,7 +66,6 @@ async function sendMenu(to) {
             { type: "reply", reply: { id: "slots", title: "View Classes" } },
             { type: "reply", reply: { id: "myclass", title: "My Classes" } },
             { type: "reply", reply: { id: "cancel", title: "Cancel Class" } },
-            { type: "reply", reply: { id: "credits", title: "My Credits" } },
           ],
         },
       },
