@@ -46,32 +46,38 @@ async function sendText(to, text) {
 }
 
 async function sendMenu(to) {
-  await fetch(`https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      messaging_product: "whatsapp",
-      to,
-      type: "interactive",
-      interactive: {
-        type: "button",
-        body: {
-          text: "🚀 *LogicLeap Coding Academy*\n\nWelcome back!\n\nChoose an option:",
-        },
-        action: {
-          buttons: [
-            { type: "reply", reply: { id: "slots", title: "View Classes" } },
-            { type: "reply", reply: { id: "myclass", title: "My Classes" } },
-            { type: "reply", reply: { id: "cancel", title: "Cancel Class" } },
-            { type: "reply", reply: { id: "credits", title: "My Credits" } },
-          ],
-        },
+  const res = await fetch(
+    `https://graph.facebook.com/v18.0/${PHONE_NUMBER_ID}/messages`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        "Content-Type": "application/json",
       },
-    }),
-  });
+      body: JSON.stringify({
+        messaging_product: "whatsapp",
+        to,
+        type: "interactive",
+        interactive: {
+          type: "button",
+          body: {
+            text: "🚀 LogicLeap Coding Academy\n\nChoose an option:",
+          },
+          action: {
+            buttons: [
+              { type: "reply", reply: { id: "slots", title: "View Classes" } },
+              { type: "reply", reply: { id: "myclass", title: "My Classes" } },
+              { type: "reply", reply: { id: "cancel", title: "Cancel Class" } },
+              { type: "reply", reply: { id: "credits", title: "My Credits" } },
+            ],
+          },
+        },
+      }),
+    },
+  );
+
+  const data = await res.json();
+  console.log("WHATSAPP RESPONSE:", data);
 }
 
 async function sendList(to, title, body, rows) {
