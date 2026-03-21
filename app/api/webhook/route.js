@@ -235,16 +235,23 @@ export async function POST(req) {
         .eq("date", date)
         .order("start_time");
 
-      // 🔴 Convert current time to IST
       const now = new Date();
-      const nowIST = new Date(
-        now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }),
-      );
 
-      // 🔴 Filter only future slots
       const filtered = data.filter((slot) => {
-        const slotDateTime = new Date(`${slot.date}T${slot.start_time}+05:30`);
-        return slotDateTime > nowIST;
+        const [year, month, day] = slot.date.split("-").map(Number);
+        const [hour, minute, second] = slot.start_time.split(":").map(Number);
+
+        // Create date in LOCAL (server) but using exact values
+        const slotDateTime = new Date(
+          year,
+          month - 1,
+          day,
+          hour,
+          minute,
+          second || 0,
+        );
+
+        return slotDateTime.getTime() > now.getTime();
       });
 
       // 🔴 Handle no slots case
