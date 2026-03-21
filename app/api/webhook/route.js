@@ -248,12 +248,12 @@ export async function POST(req) {
       console.log("Selected date:", date);
       console.log("Slots returned:", data);
 
-      if (!valid.length) {
+      if (!data.length) {
         await sendBackMenu(from, "No available slots for this day.");
         return new Response("ok", { status: 200 });
       }
 
-      const rows = valid.slice(0, 10).map((slot) => ({
+      const rows = data.slice(0, 10).map((slot) => ({
         id: `slot_${slot.id}`,
         title: new Date(slot.date + " " + slot.start_time).toLocaleTimeString(
           "en-US",
