@@ -244,9 +244,12 @@ export async function POST(req) {
         return new Response("ok", { status: 200 });
       }
 
-      const rows = valid.map((slot) => ({
+      const rows = valid.slice(0, 10).map((slot) => ({
         id: `slot_${slot.id}`,
-        title: formatDateTime(slot.date, slot.start_time),
+        title: new Date(slot.date + " " + slot.start_time).toLocaleTimeString(
+          "en-US",
+          { hour: "numeric", minute: "2-digit" },
+        ),
       }));
 
       await sendList(from, "Choose Time", "⏰ *Select a class slot*", rows);
