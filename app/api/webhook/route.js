@@ -229,21 +229,18 @@ export async function POST(req) {
       const date = text.replace("day_", "");
 
       const now = new Date();
-      const today = now.toISOString().split("T")[0];
-      const nowTime = now.toTimeString().split(" ")[0];
 
-      let query = supabase
+      const { data } = await supabase
         .from("slots")
         .select("*")
         .eq("status", "available")
         .eq("date", date)
         .order("start_time");
 
-      if (date === today) {
-        query = query.gt("start_time", nowTime);
-      }
-
-      const { data } = await query;
+      const filtered = data.filter((slot) => {
+        const slotDateTime = new Date(slot.date + " " + slot.start_time);
+        return slotDateTime > now;
+      });
 
       console.log("Selected date:", date);
       console.log("Slots returned:", data);
@@ -253,7 +250,7 @@ export async function POST(req) {
         return new Response("ok", { status: 200 });
       }
 
-      const rows = data.slice(0, 10).map((slot) => ({
+      const rows = filtered.slice(0, 10).map((slot) => ({
         id: `slot_${slot.id}`,
         title: new Date(slot.date + " " + slot.start_time).toLocaleTimeString(
           "en-US",
