@@ -236,6 +236,11 @@ export async function POST(req) {
       console.log("Slots returned:", data);
       const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
 
+      if (!valid.length) {
+        await sendBackMenu(from, "No available slots for this day.");
+        return new Response("ok", { status: 200 });
+      }
+
       const rows = valid.map((slot) => ({
         id: `slot_${slot.id}`,
         title: formatDateTime(slot.date, slot.start_time),
