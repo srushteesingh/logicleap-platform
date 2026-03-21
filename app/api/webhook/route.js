@@ -228,8 +228,6 @@ export async function POST(req) {
     if (text.startsWith("day_")) {
       const date = text.replace("day_", "");
 
-      const now = new Date();
-
       const { data } = await supabase
         .from("slots")
         .select("*")
@@ -237,23 +235,29 @@ export async function POST(req) {
         .eq("date", date)
         .order("start_time");
 
+      // 🔴 Convert current time to IST
+      const now = new Date();
+      const nowIST = new Date(
+        now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }),
+      );
+
+      // 🔴 Filter only future slots
       const filtered = data.filter((slot) => {
-        const slotDateTime = new Date(slot.date + " " + slot.start_time);
-        return slotDateTime > now;
+        const slotDateTime = new Date(`${slot.date}T${slot.start_time}+05:30`);
+        return slotDateTime > nowIST;
       });
 
-      console.log("Selected date:", date);
-      console.log("Slots returned:", data);
-
-      if (!data.length) {
+      // 🔴 Handle no slots case
+      if (!filtered.length) {
         await sendBackMenu(from, "No available slots for this day.");
         return new Response("ok", { status: 200 });
       }
 
+      // 🔴 WhatsApp list (max 10)
       const rows = filtered.slice(0, 10).map((slot) => ({
         id: `slot_${slot.id}`,
-        title: new Date(slot.date + " " + slot.start_time).toLocaleTimeString(
-          "en-US",
+        title: new Date(`${slot.date}T${slot.start_time}`).toLocaleTimeString(
+          "en-IN",
           { hour: "numeric", minute: "2-digit" },
         ),
       }));
