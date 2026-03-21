@@ -228,16 +228,25 @@ export async function POST(req) {
     if (text.startsWith("day_")) {
       const date = text.replace("day_", "");
 
-      const { data } = await supabase
+      const now = new Date();
+      const today = now.toISOString().split("T")[0];
+      const nowTime = now.toTimeString().split(" ")[0];
+
+      let query = supabase
         .from("slots")
         .select("*")
         .eq("status", "available")
         .eq("date", date)
         .order("start_time");
 
+      if (date === today) {
+        query = query.gt("start_time", nowTime);
+      }
+
+      const { data } = await query;
+
       console.log("Selected date:", date);
       console.log("Slots returned:", data);
-      const valid = data.filter((s) => !slotStarted(s.date, s.start_time));
 
       if (!valid.length) {
         await sendBackMenu(from, "No available slots for this day.");
