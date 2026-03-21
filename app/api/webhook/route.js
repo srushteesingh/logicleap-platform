@@ -228,44 +228,31 @@ export async function POST(req) {
     if (text.startsWith("day_")) {
       const date = text.replace("day_", "");
 
+      const nowISO = new Date().toISOString();
+
       const { data } = await supabase
         .from("slots")
         .select("*")
         .eq("status", "available")
         .eq("date", date)
+        .gt("slot_time", nowISO) // 🔴 key fix
         .order("start_time");
 
-      const now = new Date();
-
-      const filtered = data.filter((slot) => {
-        const [year, month, day] = slot.date.split("-").map(Number);
-        const [hour, minute, second] = slot.start_time.split(":").map(Number);
-
-        // Create date in LOCAL (server) but using exact values
-        const slotDateTime = new Date(
-          year,
-          month - 1,
-          day,
-          hour,
-          minute,
-          second || 0,
-        );
-
-        return slotDateTime.getTime() > now.getTime();
-      });
-
-      // 🔴 Handle no slots case
-      if (!filtered.length) {
+      // 🔴 Handle no slots
+      if (!data || data.length === 0) {
         await sendBackMenu(from, "No available slots for this day.");
         return new Response("ok", { status: 200 });
       }
 
       // 🔴 WhatsApp list (max 10)
-      const rows = filtered.slice(0, 10).map((slot) => ({
+      const rows = data.slice(0, 10).map((slot) => ({
         id: `slot_${slot.id}`,
         title: new Date(`${slot.date}T${slot.start_time}`).toLocaleTimeString(
           "en-IN",
-          { hour: "numeric", minute: "2-digit" },
+          {
+            hour: "numeric",
+            minute: "2-digit",
+          },
         ),
       }));
 
