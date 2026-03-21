@@ -26,7 +26,10 @@ function formatDateTime(date, time) {
 }
 
 function slotStarted(date, time) {
-  return new Date(`${date}T${time}`) <= new Date();
+  const slotTime = new Date(date + " " + time);
+  const now = new Date();
+
+  return slotTime.getTime() <= now.getTime();
 }
 
 async function sendText(to, text) {
