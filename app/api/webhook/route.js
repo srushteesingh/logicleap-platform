@@ -239,15 +239,23 @@ export async function POST(req) {
         return new Response("ok", { status: 200 });
       }
 
-      const now = new Date();
+      // Convert current time to IST
+      const nowIST = new Date(
+        new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }),
+      );
 
       const filtered = data.filter((slot) => {
         const [year, month, day] = slot.date.split("-").map(Number);
         const [hour, minute] = slot.start_time.split(":").map(Number);
 
-        const slotDateTime = new Date(year, month - 1, day, hour, minute);
+        // Create slot time in IST
+        const slotDateTimeIST = new Date(
+          new Date(year, month - 1, day, hour, minute).toLocaleString("en-US", {
+            timeZone: "Asia/Kolkata",
+          }),
+        );
 
-        return slotDateTime > now;
+        return slotDateTimeIST > nowIST;
       });
 
       if (!filtered.length) {
