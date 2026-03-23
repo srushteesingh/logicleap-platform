@@ -224,38 +224,25 @@ export async function POST(req) {
 
       return new Response("ok", { status: 200 });
     }
+
     if (text.startsWith("day_")) {
-      const date = text.replace("day_", "");
+      const selectedDate = text.replace("day_", "");
 
       const { data } = await supabase
         .from("slots")
         .select("*")
         .eq("status", "available")
-        .eq("date", date)
+        .order("date")
         .order("start_time");
 
-      if (!data || data.length === 0) {
-        await sendBackMenu(from, "No slots available for this day.");
-        return new Response("ok", { status: 200 });
-      }
-
-      // Convert current time to IST
-      const nowIST = new Date(
-        new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }),
-      );
+      // 🔴 Strict filtering (date + time together)
+      const now = new Date();
 
       const filtered = data.filter((slot) => {
-        const [year, month, day] = slot.date.split("-").map(Number);
-        const [hour, minute] = slot.start_time.split(":").map(Number);
+        const slotDateTime = new Date(`${slot.date}T${slot.start_time}`);
 
-        // Create slot time in IST
-        const slotDateTimeIST = new Date(
-          new Date(year, month - 1, day, hour, minute).toLocaleString("en-US", {
-            timeZone: "Asia/Kolkata",
-          }),
-        );
-
-        return slotDateTimeIST > nowIST;
+        // only same date AND future time
+        return slot.date === selectedDate && slotDateTime > now;
       });
 
       if (!filtered.length) {
