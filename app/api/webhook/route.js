@@ -238,11 +238,23 @@ export async function POST(req) {
       // 🔴 Strict filtering (date + time together)
       const now = new Date();
 
-      const filtered = data.filter((slot) => {
-        const slotDateTime = new Date(`${slot.date}T${slot.start_time}`);
+      // convert current time to IST milliseconds
+      const nowISTms = new Date(
+        now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }),
+      ).getTime();
 
-        // only same date AND future time
-        return slot.date === selectedDate && slotDateTime > now;
+      const filtered = data.filter((slot) => {
+        const [year, month, day] = slot.date.split("-").map(Number);
+        const [hour, minute] = slot.start_time.split(":").map(Number);
+
+        // create slot time in IST explicitly
+        const slotIST = new Date(
+          new Date(year, month - 1, day, hour, minute).toLocaleString("en-US", {
+            timeZone: "Asia/Kolkata",
+          }),
+        ).getTime();
+
+        return slotIST > nowISTms;
       });
 
       if (!filtered.length) {
