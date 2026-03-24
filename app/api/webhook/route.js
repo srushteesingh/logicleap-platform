@@ -224,10 +224,10 @@ export async function POST(req) {
 
       return new Response("ok", { status: 200 });
     }
-
     if (text.startsWith("day_")) {
       const date = text.replace("day_", "");
 
+      // fetch slots using DB function (already handles past filtering)
       const { data } = await supabase.rpc("get_available_slots", {
         selected_date: date,
       });
@@ -237,11 +237,18 @@ export async function POST(req) {
         return new Response("ok", { status: 200 });
       }
 
+      // get student's timezone
+      const userTimezone = student?.timezone || "Asia/Kolkata";
+
       const rows = data.slice(0, 10).map((slot) => ({
         id: `slot_${slot.id}`,
-        title: new Date(`${slot.date}T${slot.start_time}`).toLocaleTimeString(
-          "en-IN",
+        title: new Date(`${slot.date}T${slot.start_time}`).toLocaleString(
+          "en-US",
           {
+            timeZone: userTimezone,
+            weekday: "short",
+            month: "short",
+            day: "numeric",
             hour: "numeric",
             minute: "2-digit",
           },
