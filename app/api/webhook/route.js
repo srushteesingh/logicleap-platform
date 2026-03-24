@@ -226,43 +226,18 @@ export async function POST(req) {
     }
 
     if (text.startsWith("day_")) {
-      const selectedDate = text.replace("day_", "");
+      const date = text.replace("day_", "");
 
-      const { data } = await supabase
-        .from("slots")
-        .select("*")
-        .eq("status", "available")
-        .order("date")
-        .order("start_time");
-
-      // 🔴 Strict filtering (date + time together)
-      const now = new Date();
-
-      // convert current time to IST milliseconds
-      const nowISTms = new Date(
-        now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }),
-      ).getTime();
-
-      const filtered = data.filter((slot) => {
-        const [year, month, day] = slot.date.split("-").map(Number);
-        const [hour, minute] = slot.start_time.split(":").map(Number);
-
-        // create slot time in IST explicitly
-        const slotIST = new Date(
-          new Date(year, month - 1, day, hour, minute).toLocaleString("en-US", {
-            timeZone: "Asia/Kolkata",
-          }),
-        ).getTime();
-
-        return slotIST > nowISTms;
+      const { data } = await supabase.rpc("get_available_slots", {
+        selected_date: date,
       });
 
-      if (!filtered.length) {
+      if (!data || data.length === 0) {
         await sendBackMenu(from, "No available slots for this day.");
         return new Response("ok", { status: 200 });
       }
 
-      const rows = filtered.slice(0, 10).map((slot) => ({
+      const rows = data.slice(0, 10).map((slot) => ({
         id: `slot_${slot.id}`,
         title: new Date(`${slot.date}T${slot.start_time}`).toLocaleTimeString(
           "en-IN",
