@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "@/app/lib/supabase";
+import { supabase } from "@/lib/supabase";
 
 function generateTimeSlots() {
   const slots = [];
@@ -22,8 +22,25 @@ export default function Sessions() {
     slot: string;
   } | null>(null);
   const [loading, setLoading] = useState(false);
+  const [bookedSlots, setBookedSlots] = useState<string[]>([]);
 
   const timeSlots = generateTimeSlots();
+
+  // Fetch booked slots for selected date
+  async function fetchBookedSlots(date: string) {
+    const { data, error } = await supabase
+      .from("sessions")
+      .select("time")
+      .eq("date", date);
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    const times = data.map((item) => item.time);
+    setBookedSlots(times);
+  }
 
   return (
     <div className="bg-white p-6 rounded-2xl shadow">
@@ -69,25 +86,36 @@ export default function Sessions() {
               type="date"
               className="w-full mb-4 border p-2 rounded-lg"
               value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
+              onChange={(e) => {
+                const date = e.target.value;
+                setSelectedDate(date);
+                fetchBookedSlots(date);
+              }}
             />
 
             {/* Time Slots */}
             <div className="grid grid-cols-2 gap-3">
-              {timeSlots.map((slot) => (
-                <button
-                  key={slot}
-                  onClick={() => setSelectedSlot(slot)}
-                  className={`p-2 rounded-lg border transition
-                    ${selectedSlot === slot
-                      ? "bg-blue-600 text-white"
-                      : "hover:bg-blue-100"
-                    }
-                  `}
-                >
-                  {slot}
-                </button>
-              ))}
+              {timeSlots.map((slot) => {
+                const isBooked = bookedSlots.includes(slot);
+
+                return (
+                  <button
+                    key={slot}
+                    disabled={isBooked}
+                    onClick={() => setSelectedSlot(slot)}
+                    className={`p-2 rounded-lg border transition
+                      ${isBooked
+                        ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                        : selectedSlot === slot
+                          ? "bg-blue-600 text-white"
+                          : "hover:bg-blue-100"
+                      }
+                    `}
+                  >
+                    {slot}
+                  </button>
+                );
+              })}
             </div>
 
             {/* Confirm Button */}
@@ -105,8 +133,8 @@ export default function Sessions() {
                 ]);
 
                 if (error) {
-                  console.error(error);
-                  alert("Error booking session");
+                  console.error("Supabase error:", error);
+                  alert(error.message);
                   setLoading(false);
                   return;
                 }
