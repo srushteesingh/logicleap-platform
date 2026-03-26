@@ -2,29 +2,37 @@
 
 import { useState } from "react";
 
-const timeSlots = [
-  "4:00 PM",
-  "5:00 PM",
-  "6:00 PM",
-  "7:00 PM",
-  "8:00 PM",
-];
+function generateTimeSlots() {
+  const slots = [];
+  for (let hour = 16; hour <= 20; hour++) {
+    const displayHour = hour > 12 ? hour - 12 : hour;
+    const suffix = hour >= 12 ? "PM" : "AM";
+    slots.push(`${displayHour}:00 ${suffix}`);
+  }
+  return slots;
+}
 
 export default function Sessions() {
   const [open, setOpen] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
-  const [bookedSlot, setBookedSlot] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [booked, setBooked] = useState<{
+    date: string;
+    slot: string;
+  } | null>(null);
+
+  const timeSlots = generateTimeSlots();
 
   return (
     <div className="bg-white p-6 rounded-2xl shadow">
       <h2 className="text-xl font-semibold mb-4">My Sessions</h2>
 
-      {/* Upcoming Session */}
-      {bookedSlot ? (
+      {/* Upcoming */}
+      {booked ? (
         <div className="mb-6 p-4 bg-blue-50 rounded-xl">
           <p className="font-medium">Next Class</p>
           <p className="text-sm text-gray-600">
-            Tomorrow • {bookedSlot}
+            {booked.date} • {booked.slot}
           </p>
 
           <button className="mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg">
@@ -37,7 +45,7 @@ export default function Sessions() {
         </p>
       )}
 
-      {/* Schedule Button */}
+      {/* Button */}
       <button
         onClick={() => setOpen(true)}
         className="w-full mb-4 bg-green-500 text-white py-2 rounded-lg"
@@ -51,8 +59,16 @@ export default function Sessions() {
           <div className="bg-white p-6 rounded-2xl w-96">
 
             <h3 className="text-lg font-semibold mb-4">
-              Select Time Slot
+              Book Your Session
             </h3>
+
+            {/* Date Picker */}
+            <input
+              type="date"
+              className="w-full mb-4 border p-2 rounded-lg"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+            />
 
             {/* Slots */}
             <div className="grid grid-cols-2 gap-3">
@@ -72,16 +88,20 @@ export default function Sessions() {
               ))}
             </div>
 
-            {/* Confirm Button */}
+            {/* Confirm */}
             <button
-              disabled={!selectedSlot}
+              disabled={!selectedSlot || !selectedDate}
               onClick={() => {
-                setBookedSlot(selectedSlot);
+                setBooked({
+                  date: selectedDate,
+                  slot: selectedSlot,
+                });
                 setOpen(false);
                 setSelectedSlot(null);
+                setSelectedDate("");
               }}
               className={`mt-4 w-full py-2 rounded-lg
-                ${selectedSlot
+                ${selectedSlot && selectedDate
                   ? "bg-blue-600 text-white"
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
                 }
@@ -90,7 +110,7 @@ export default function Sessions() {
               Confirm Booking
             </button>
 
-            {/* Close */}
+            {/* Cancel */}
             <button
               onClick={() => setOpen(false)}
               className="mt-2 w-full text-gray-500"
