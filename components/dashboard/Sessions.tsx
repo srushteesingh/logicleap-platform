@@ -125,13 +125,16 @@ export default function Sessions() {
               onClick={async () => {
                 console.log("Booking started");
 
-                const { data, error } = await supabase.from("sessions").insert([
-                  {
-                    student_id: "test_user",
-                    date: selectedDate,
-                    time: selectedSlot!,
-                  },
-                ]);
+                const { data, error } = await supabase
+                  .from("sessions")
+                  .insert([
+                    {
+                      student_id: "test_user",
+                      date: selectedDate,
+                      time: selectedSlot!,
+                    },
+                  ])
+                  .select();
 
                 console.log("Response:", data, error);
 
