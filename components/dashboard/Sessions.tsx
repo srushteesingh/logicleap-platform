@@ -94,7 +94,7 @@ export default function Sessions() {
               onClick={() => {
                 setBooked({
                   date: selectedDate,
-                  slot: selectedSlot,
+                  slot: selectedSlot!,
                 });
                 setOpen(false);
                 setSelectedSlot(null);
