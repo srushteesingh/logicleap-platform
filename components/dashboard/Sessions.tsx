@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { supabase } from "@/app/lib/supabase";
 
 function generateTimeSlots() {
   const slots = [];
@@ -20,6 +21,7 @@ export default function Sessions() {
     date: string;
     slot: string;
   } | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const timeSlots = generateTimeSlots();
 
@@ -27,7 +29,7 @@ export default function Sessions() {
     <div className="bg-white p-6 rounded-2xl shadow">
       <h2 className="text-xl font-semibold mb-4">My Sessions</h2>
 
-      {/* Upcoming */}
+      {/* Upcoming Session */}
       {booked ? (
         <div className="mb-6 p-4 bg-blue-50 rounded-xl">
           <p className="font-medium">Next Class</p>
@@ -45,7 +47,7 @@ export default function Sessions() {
         </p>
       )}
 
-      {/* Button */}
+      {/* Schedule Button */}
       <button
         onClick={() => setOpen(true)}
         className="w-full mb-4 bg-green-500 text-white py-2 rounded-lg"
@@ -55,8 +57,8 @@ export default function Sessions() {
 
       {/* Modal */}
       {open && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-2xl w-96">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-2xl w-96 shadow-lg">
 
             <h3 className="text-lg font-semibold mb-4">
               Book Your Session
@@ -70,7 +72,7 @@ export default function Sessions() {
               onChange={(e) => setSelectedDate(e.target.value)}
             />
 
-            {/* Slots */}
+            {/* Time Slots */}
             <div className="grid grid-cols-2 gap-3">
               {timeSlots.map((slot) => (
                 <button
@@ -88,17 +90,36 @@ export default function Sessions() {
               ))}
             </div>
 
-            {/* Confirm */}
+            {/* Confirm Button */}
             <button
-              disabled={!selectedSlot || !selectedDate}
-              onClick={() => {
+              disabled={!selectedSlot || !selectedDate || loading}
+              onClick={async () => {
+                setLoading(true);
+
+                const { error } = await supabase.from("sessions").insert([
+                  {
+                    student_id: "test_user",
+                    date: selectedDate,
+                    time: selectedSlot!,
+                  },
+                ]);
+
+                if (error) {
+                  console.error(error);
+                  alert("Error booking session");
+                  setLoading(false);
+                  return;
+                }
+
                 setBooked({
                   date: selectedDate,
                   slot: selectedSlot!,
                 });
+
                 setOpen(false);
                 setSelectedSlot(null);
                 setSelectedDate("");
+                setLoading(false);
               }}
               className={`mt-4 w-full py-2 rounded-lg
                 ${selectedSlot && selectedDate
@@ -107,7 +128,7 @@ export default function Sessions() {
                 }
               `}
             >
-              Confirm Booking
+              {loading ? "Booking..." : "Confirm Booking"}
             </button>
 
             {/* Cancel */}
