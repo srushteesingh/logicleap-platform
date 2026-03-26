@@ -12,24 +12,30 @@ const timeSlots = [
 
 export default function Sessions() {
   const [open, setOpen] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+  const [bookedSlot, setBookedSlot] = useState<string | null>(null);
 
   return (
     <div className="bg-white p-6 rounded-2xl shadow">
-      <h2 className="text-xl font-semibold mb-4">
-        My Sessions
-      </h2>
+      <h2 className="text-xl font-semibold mb-4">My Sessions</h2>
 
-      {/* Upcoming */}
-      <div className="mb-6 p-4 bg-blue-50 rounded-xl">
-        <p className="font-medium">Next Class</p>
-        <p className="text-sm text-gray-600">
-          28 March • 5:00 PM
+      {/* Upcoming Session */}
+      {bookedSlot ? (
+        <div className="mb-6 p-4 bg-blue-50 rounded-xl">
+          <p className="font-medium">Next Class</p>
+          <p className="text-sm text-gray-600">
+            Tomorrow • {bookedSlot}
+          </p>
+
+          <button className="mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg">
+            Join Class
+          </button>
+        </div>
+      ) : (
+        <p className="mb-6 text-gray-500 text-sm">
+          No upcoming session booked
         </p>
-
-        <button className="mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg">
-          Join Class
-        </button>
-      </div>
+      )}
 
       {/* Schedule Button */}
       <button
@@ -48,22 +54,48 @@ export default function Sessions() {
               Select Time Slot
             </h3>
 
+            {/* Slots */}
             <div className="grid grid-cols-2 gap-3">
               {timeSlots.map((slot) => (
                 <button
                   key={slot}
-                  className="border p-2 rounded-lg hover:bg-blue-100"
+                  onClick={() => setSelectedSlot(slot)}
+                  className={`p-2 rounded-lg border transition
+                    ${selectedSlot === slot
+                      ? "bg-blue-600 text-white"
+                      : "hover:bg-blue-100"
+                    }
+                  `}
                 >
                   {slot}
                 </button>
               ))}
             </div>
 
+            {/* Confirm Button */}
+            <button
+              disabled={!selectedSlot}
+              onClick={() => {
+                setBookedSlot(selectedSlot);
+                setOpen(false);
+                setSelectedSlot(null);
+              }}
+              className={`mt-4 w-full py-2 rounded-lg
+                ${selectedSlot
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }
+              `}
+            >
+              Confirm Booking
+            </button>
+
+            {/* Close */}
             <button
               onClick={() => setOpen(false)}
-              className="mt-4 w-full text-gray-500"
+              className="mt-2 w-full text-gray-500"
             >
-              Close
+              Cancel
             </button>
 
           </div>
