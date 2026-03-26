@@ -1,7 +1,9 @@
+"use client";
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,135 +26,66 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const pathname = usePathname();
+  const isDashboard = pathname.startsWith("/dashboard");
+
   return (
     <html lang="en">
       <body className="bg-gradient-to-br from-purple-100 via-blue-100 to-indigo-200">
-        {/* HEADER */}
-        <header className="relative sticky top-0 z-50 bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-950 text-white shadow-lg overflow-hidden">
-          {/* Glow Effects */}
-          <div className="absolute -top-16 left-1/4 w-72 h-72 bg-purple-500 opacity-25 blur-3xl rounded-full"></div>
-          <div className="absolute -bottom-16 right-1/4 w-72 h-72 bg-indigo-500 opacity-25 blur-3xl rounded-full"></div>
 
-          <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4 relative">
-            {/* Logo + Brand */}
-            <div className="text-2xl font-bold tracking-wide text-white">
-              LogicLeap
+        {/* HEADER (hidden in dashboard) */}
+        {!isDashboard && (
+          <header className="sticky top-0 z-50 bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-950 text-white shadow-lg">
+            <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+
+              {/* Logo */}
+              <div className="text-2xl font-bold tracking-wide">
+                LogicLeap
+              </div>
+
+              {/* Simple Navigation */}
+              <nav className="flex items-center gap-6 text-sm font-medium">
+                <a href="/" className="hover:text-purple-300 transition">
+                  Home
+                </a>
+
+                <a href="/#roadmap" className="hover:text-purple-300 transition">
+                  Curriculum
+                </a>
+
+                <a
+                  href="/register"
+                  className="bg-gradient-to-r from-purple-600 to-indigo-600 px-4 py-2 rounded-lg hover:opacity-90 transition"
+                >
+                  Register
+                </a>
+
+                <a
+                  href="/login"
+                  className="border border-purple-300 px-4 py-2 rounded-lg hover:bg-purple-800 transition"
+                >
+                  Login
+                </a>
+              </nav>
             </div>
-
-            {/* Navigation */}
-
-            <nav className="flex items-center gap-6">
-              <a href="/">Home</a>
-              <a href="/summer-camp">Bootcamp</a>
-              <a href="/skill-accelerator">Skill Accelerator</a>
-              <a href="/coding-club">Coding Club</a>
-
-              <a
-                href="/register"
-                className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-5 py-2 rounded-lg font-semibold hover:opacity-90 transition"
-              >
-                Register
-              </a>
-
-              <a
-                href="/book-consultation"
-                className="border border-purple-300 text-purple-600 px-5 py-2 rounded-lg font-semibold hover:bg-purple-50 transition"
-              >
-                Consultation
-              </a>
-            </nav>
-          </div>
-        </header>
+          </header>
+        )}
 
         {/* PAGE CONTENT */}
         <main>{children}</main>
 
-        <footer className="mt-20 bg-gray-900 text-white">
-          <div className="relative bg-gradient-to-b from-indigo-900 via-purple-900 to-indigo-950 text-white mt-24">
-            <div className="absolute top-10 left-1/3 w-96 h-96 bg-purple-500 opacity-20 blur-3xl rounded-full"></div>
-            <div className="absolute top-0 left-1/4 w-72 h-72 bg-purple-300 opacity-20 blur-3xl rounded-full"></div>
-            <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-indigo-300 opacity-20 blur-3xl rounded-full"></div>
-            <div className="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-4 gap-12">
-              {/* Brand */}
-              <div>
-                <h3 className="text-2xl font-bold text-purple-700 mb-4">
-                  LogicLeap
-                </h3>
-
-                <p className="text-indigo-200 text-sm leading-relaxed">
-                  A competency-based coding academy helping kids build real
-                  technology skills through creativity, logic, and project-based
-                  learning.
-                </p>
-              </div>
-
-              {/* Quick Links */}
-              <div>
-                <h4 className="font-semibold mb-4">Quick Links</h4>
-
-                <ul className="space-y-2 text-indigo-200 text-sm">
-                  <li>
-                    <a href="#roadmap" className="hover:text-purple-600">
-                      Curriculum
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/summer-camp" className="hover:text-purple-600">
-                      Summer Camp
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:text-purple-600">
-                      Student Login
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:text-purple-600">
-                      About
-                    </a>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Programs */}
-              <div>
-                <h4 className="font-semibold mb-4">Programs</h4>
-
-                <ul className="space-y-2 text-indigo-200 text-sm">
-                  <li>🚀 Weekly Bootcamps</li>
-                  <li>📅 Monthly Programs</li>
-                  <li>🎯 12-Week Skill Tracks</li>
-                  <li>🏆 Year-Long Mastery Program</li>
-                </ul>
-              </div>
-
-              {/* CTA */}
-              <div>
-                <h4 className="font-semibold mb-4">Start Learning</h4>
-
-                <p className="text-indigo-200 text-sm mb-4">
-                  Book a free assessment to find the perfect starting point for
-                  your child.
-                </p>
-
-                <a
-                  href="/summer-camp"
-                  className="inline-block bg-purple-600 hover:bg-purple-700 text-white px-5 py-3 rounded-lg text-sm font-semibold transition"
-                >
-                  Book Free Trial
-                </a>
-              </div>
-            </div>
-
-            {/* Bottom */}
-            <div className="border-t border-purple-100 text-center py-6 text-sm text-indigo-300">
+        {/* FOOTER (hidden in dashboard) */}
+        {!isDashboard && (
+          <footer className="mt-20 bg-gray-900 text-white">
+            <div className="max-w-7xl mx-auto px-6 py-10 text-center text-sm text-gray-400">
               © {new Date().getFullYear()} LogicLeap Coding Academy
             </div>
-          </div>
-        </footer>
+          </footer>
+        )}
+
       </body>
     </html>
   );
