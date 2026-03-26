@@ -33,6 +33,7 @@ export default function Sessions() {
       .select("time")
       .eq("date", date);
 
+    console.log("Fetched slots:", data);
     if (error) {
       console.error(error);
       return;
@@ -122,9 +123,9 @@ export default function Sessions() {
             <button
               disabled={!selectedSlot || !selectedDate || loading}
               onClick={async () => {
-                setLoading(true);
+                console.log("Booking started");
 
-                const { error } = await supabase.from("sessions").insert([
+                const { data, error } = await supabase.from("sessions").insert([
                   {
                     student_id: "test_user",
                     date: selectedDate,
@@ -132,22 +133,14 @@ export default function Sessions() {
                   },
                 ]);
 
+                console.log("Response:", data, error);
+
                 if (error) {
-                  console.error("Supabase error:", error);
                   alert(error.message);
-                  setLoading(false);
                   return;
                 }
 
-                setBooked({
-                  date: selectedDate,
-                  slot: selectedSlot!,
-                });
-
-                setOpen(false);
-                setSelectedSlot(null);
-                setSelectedDate("");
-                setLoading(false);
+                alert("Booking success");
               }}
               className={`mt-4 w-full py-2 rounded-lg
                 ${selectedSlot && selectedDate
